@@ -8,6 +8,6 @@ public class PlayerStats : MonoBehaviour, IDamageable
     public int Strength { get; set; }
     public void TakeDamage()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Ouchie");
     }
 }

@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5d74a4a7-8f33-4df6-90ec-8d62caf44a81" name="Changes" comment="" />
+    <list default="true" id="5d74a4a7-8f33-4df6-90ec-8d62caf44a81" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Monobehaviors/PlayerStats.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Monobehaviors/PlayerStats.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
