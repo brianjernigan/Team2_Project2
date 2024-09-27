@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Search;
 using UnityEngine;
+using System;
 
 public class ShootingController : MonoBehaviour
 {
@@ -9,15 +10,18 @@ public class ShootingController : MonoBehaviour
     [SerializeField] private Transform _muzzlePosition;
 
     private ShotType _currentShotType;
+    
+    private const float FireballSpeed = 20f;
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         _currentShotType = ShotType.Default;
     }
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))
         {
             Shoot(_currentShotType);
         }
@@ -63,61 +67,60 @@ public class ShootingController : MonoBehaviour
 
     private void ShootTracking()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     private void ShootSpread()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     private void ShootPiercing()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     private void ShootLarge()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     private void ShootHeavy()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     private void ShootFast()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     private void ShootExplode()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     private void ShootCircle()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     private void ShootBounce()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     private void ShootDefault()
     {
-        const float fireballSpeed = 20f;
-
         var fireball = Instantiate(_fireballPrefab, _muzzlePosition.position, _muzzlePosition.rotation);
         var fireballRb = fireball.GetComponent<Rigidbody>();
 
-        fireballRb?.AddForce(_muzzlePosition.forward * fireballSpeed, ForceMode.Impulse);
+        fireballRb?.AddForce(_muzzlePosition.forward * FireballSpeed, ForceMode.Impulse);
     }
 
     public void SetShotType(ShotType newShot)
     {
         _currentShotType = newShot;
+        Debug.Log(_currentShotType);
     }
 }

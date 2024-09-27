@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private Camera _mainCamera;
+    
     private float _moveSpeed = 10f;
     private float _rotationSpeed = 720f;
 
@@ -46,9 +48,21 @@ public class PlayerController : MonoBehaviour
 
     private void RotatePlayer()
     {
-        if (_moveDirection == Vector3.zero) return;
-        var targetAngle = Mathf.Atan2(_moveDirection.x, _moveDirection.z) * Mathf.Rad2Deg;
-        var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _rotationSpeed, 0.1f);
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        var mousePosition = Input.mousePosition;
+        var ray = _mainCamera.ScreenPointToRay(mousePosition);
+
+        var groundPlane = new Plane(Vector3.up, Vector3.zero);
+
+        if (groundPlane.Raycast(ray, out var enter))
+        {
+            var hitPoint = ray.GetPoint(enter);
+
+            var direction = (hitPoint - transform.position).normalized;
+            direction.y = 0;
+
+            var targetRotation = Quaternion.LookRotation(direction);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+        }
     }
 }
