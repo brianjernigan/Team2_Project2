@@ -12,12 +12,13 @@ public class ShootingController : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         _currentShotType = ShotType.Default;
     }
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))
         {
             Shoot(_currentShotType);
         }
