@@ -3,18 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour, IDamageable
-{
+public class PlayerCollisions : MonoBehaviour
+{ 
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            TakeDamage();
+            StatManager.Instance.TakeDamage(10);
         }
-    }
-
-    public void TakeDamage()
-    {
-        Debug.Log("Player takes damage");
     }
 }

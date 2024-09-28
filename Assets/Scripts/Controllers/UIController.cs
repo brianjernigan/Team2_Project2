@@ -1,18 +1,31 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private TMP_Text _healthText;
+    [SerializeField] private GameObject _player;
+
+    private void OnEnable()
     {
-        
+        StatManager.Instance.OnPlayerDamaged += UpdateHealthText;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        StatManager.Instance.OnPlayerDamaged -= UpdateHealthText;
+    }
+
+    private void Start()
+    {
+        _healthText.text = "Health: 100";
+    }
+
+    private void UpdateHealthText(int playerHealth)
+    {
+        _healthText.text = $"Health: {playerHealth}";
     }
 }
