@@ -5,12 +5,23 @@ using UnityEngine;
 
 public class FireballController : MonoBehaviour
 {
+    private void Awake()
+    {
+        StartCoroutine(FireballLifespan());
+    }
+    
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Hit");
+            other.gameObject.GetComponent<IDamageable>().TakeDamage();
             Destroy(gameObject);
         }
+    }
+
+    private IEnumerator FireballLifespan()
+    {
+        yield return new WaitForSeconds(5f);
+        Destroy(gameObject);
     }
 }
