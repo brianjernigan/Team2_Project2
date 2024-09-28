@@ -19,6 +19,11 @@ public class FireballController : MonoBehaviour
             
             Destroy(gameObject);
         }
+
+        if (other.gameObject.CompareTag("Environment"))
+        {
+            Destroy(gameObject);
+        }
     }
 
     private IEnumerator FireballLifespan()

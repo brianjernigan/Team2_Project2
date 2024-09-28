@@ -7,11 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject _enemyPrefab;
-    [SerializeField] private Transform _playerTransform;
+    [SerializeField] private List<GameObject> _enemyPrefabs;
 
     private int _initialPoolSize;
-
     private ObjectPool<GameObject> _enemyPool;
 
     private float _spawnInterval = 3f;
@@ -43,7 +41,9 @@ public class EnemySpawner : MonoBehaviour
 
     private GameObject CreatePooledEnemy()
     {
-        var enemy = Instantiate(_enemyPrefab);
+        var enemyIndex = Random.Range(0, _enemyPrefabs.Count);
+        
+        var enemy = Instantiate(_enemyPrefabs[enemyIndex]);
         enemy.SetActive(false);
         return enemy;
     }
@@ -54,15 +54,6 @@ public class EnemySpawner : MonoBehaviour
 
         spawnPoint.y += 1.045f;
         enemy.transform.position = spawnPoint;
-
-        var playerDirection = _playerTransform.position - spawnPoint;
-        playerDirection.y = 0;
-
-        if (playerDirection != Vector3.zero)
-        {
-            enemy.transform.rotation = Quaternion.LookRotation(playerDirection);
-        }
-        
         enemy.SetActive(true);
     }
 
@@ -105,10 +96,10 @@ public class EnemySpawner : MonoBehaviour
     {
         return SceneManager.GetActiveScene().name switch
         {
-            "L1" => 40,
-            "L2" => 60,
-            "L3" => 80,
-            _ => 1
+            "L1" => 100,
+            "L2" => 200,
+            "L3" => 300,
+            _ => 50
         };
     }
 }

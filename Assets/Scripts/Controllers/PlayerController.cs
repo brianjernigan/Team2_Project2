@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerController : MonoBehaviour, IDamageable
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Camera _mainCamera;
     
@@ -62,10 +62,5 @@ public class PlayerController : MonoBehaviour, IDamageable
         var targetRotation = Quaternion.LookRotation(direction);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
-    }
-
-    public void TakeDamage()
-    {
-        Debug.Log("Player takes damage");
     }
 }

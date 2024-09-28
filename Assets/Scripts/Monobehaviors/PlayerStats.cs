@@ -1,13 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : MonoBehaviour, IDamageable
 {
-    public int Health { get; set; }
-    public int Strength { get; set; }
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            TakeDamage();
+        }
+    }
+
     public void TakeDamage()
     {
-        Debug.Log("Hurt");
+        Debug.Log("Player takes damage");
     }
 }

@@ -7,6 +7,7 @@ public enum EnemyType
     Normal,
     Heavy,
     Ranged,
+    Fast,
     Miniboss,
     RangedMiniboss,
     Boss,
