@@ -14,7 +14,9 @@ public class FireballController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<IDamageable>().TakeDamage();
+            var damageableComponent = other.gameObject.GetComponent<IDamageable>();
+            damageableComponent?.TakeDamage();
+            
             Destroy(gameObject);
         }
     }
