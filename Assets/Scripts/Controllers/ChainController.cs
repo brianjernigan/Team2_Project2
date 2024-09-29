@@ -75,8 +75,8 @@ public class ChainController : MonoBehaviour
         }
 
         // Stun enemy again for double the initial stun duration
-        StunEnemy(_stunDuration * 2, enemyController);
-        yield return new WaitForSeconds(_stunDuration * 2);
+        // StunEnemy(_stunDuration * 2, enemyController);
+        // yield return new WaitForSeconds(_stunDuration * 2);
 
         // Kill (destroy) the enemy after the second stun duration
         enemyController.KillEnemy();
