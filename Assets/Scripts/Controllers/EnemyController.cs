@@ -10,12 +10,14 @@ public class EnemyController : MonoBehaviour
 
     private NavMeshAgent _navMeshAgent;
     private Transform _playerTransform;
+    private bool _isStunned;
 
     public int Health { get; set; }
     public int Damage { get; set; }
 
     private void InitializeEnemy()
     {
+        _isStunned = false;
         Health = _data.health;
         Damage = _data.damage;
         _navMeshAgent.speed = _data.speed;
@@ -48,6 +50,24 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void Stun(float duration)
+    {
+        if (!_isStunned)
+        {
+            _isStunned = true;
+            // Add stun logic here (e.g., disable movement)
+            StartCoroutine(RemoveStun(duration));
+            RemoveNavMeshAgent();
+        }
+    }
+
+    private IEnumerator RemoveStun(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        _isStunned = false;
+        // Re-enable movement or other effects
+    }
+
     public void DamageEnemy(int amount)
     {
         Health -= amount;
@@ -63,5 +83,14 @@ public class EnemyController : MonoBehaviour
     {
         StatManager.Instance.EnemyDied();
         Destroy(gameObject);
+    }
+
+    void RemoveNavMeshAgent()
+    {
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        if (agent != null)
+        {
+            Destroy(agent);
+        }
     }
 }
