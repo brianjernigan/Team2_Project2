@@ -6,27 +6,28 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private EnemyData _data;
+    [SerializeField] private EnemyData _enemyData;
 
-    private NavMeshAgent _navMeshAgent;
+    public NavMeshAgent NavMeshAgent { get; set; }
     private Transform _playerTransform;
+    public bool IsStunned { get; set; }
 
     public int Health { get; set; }
     public int Damage { get; set; }
 
     private void InitializeEnemy()
     {
-        Health = _data.health;
-        Damage = _data.damage;
-        _navMeshAgent.speed = _data.speed;
-        _navMeshAgent.angularSpeed = _data.angularSpeed;
-        _navMeshAgent.stoppingDistance = _data.stoppingDistance;
-        _navMeshAgent.acceleration = _data.acceleration;
+        Health = _enemyData.health;
+        Damage = _enemyData.damage;
+        NavMeshAgent.speed = _enemyData.speed;
+        NavMeshAgent.angularSpeed = _enemyData.angularSpeed;
+        NavMeshAgent.stoppingDistance = _enemyData.stoppingDistance;
+        NavMeshAgent.acceleration = _enemyData.acceleration;
     }
     
     private void Start()
     {
-        _navMeshAgent = GetComponent<NavMeshAgent>();
+        NavMeshAgent = GetComponent<NavMeshAgent>();
         InitializeEnemy();
     }
 
@@ -42,9 +43,9 @@ public class EnemyController : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(playerDirection);
         }
         
-        if (_playerTransform is not null && _navMeshAgent is not null)
+        if (_playerTransform is not null && NavMeshAgent is not null && !IsStunned)
         {
-            _navMeshAgent.SetDestination(_playerTransform.position);
+            NavMeshAgent.SetDestination(_playerTransform.position);
         }
     }
 
@@ -59,7 +60,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void KillEnemy()
+    public void KillEnemy()
     {
         StatManager.Instance.EnemyDied();
         Destroy(gameObject);
