@@ -6,20 +6,23 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _killedText;
     [SerializeField] private TMP_Text _healthText;
+    [SerializeField] private TMP_Text _killedText;
+    [SerializeField] private TMP_Text _ammoText;
     [SerializeField] private GameObject _player;
 
     private void OnEnable()
     {
         StatManager.Instance.OnPlayerDamaged += UpdateHealthText;
         StatManager.Instance.OnEnemyKilled += UpdateKilledText;
+        _player.GetComponent<PlayerShootingController>().OnAmmoChanged += UpdateAmmoText;
     }
 
     private void OnDisable()
     {
         StatManager.Instance.OnPlayerDamaged -= UpdateHealthText;
         StatManager.Instance.OnEnemyKilled -= UpdateKilledText;
+        _player.GetComponent<PlayerShootingController>().OnAmmoChanged -= UpdateAmmoText;
     }
 
     private void Start()
@@ -31,6 +34,7 @@ public class UIController : MonoBehaviour
     {
         _healthText.text = "Health: 100";
         _killedText.text = "Enemies Killed: 0";
+        _ammoText.text = $"Ammo: {StatManager.Instance.MaxAmmo}";
     }
 
     private void UpdateHealthText(int playerHealth)
@@ -41,5 +45,10 @@ public class UIController : MonoBehaviour
     private void UpdateKilledText(int numKilled)
     {
         _killedText.text = $"Enemies Killed: {numKilled}";
+    }
+
+    private void UpdateAmmoText(int currentAmmo)
+    {
+        _ammoText.text = $"Ammo: {currentAmmo}";
     }
 }

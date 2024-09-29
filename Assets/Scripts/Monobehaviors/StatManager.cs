@@ -6,14 +6,16 @@ using UnityEngine;
 public class StatManager : MonoBehaviour
 {
     public static StatManager Instance { get; private set; }
-    
-    private const int MaxHealth = 100;
-    public int PlayerHealth { get; set; }
-    
-    private const int BaseDamage = 10;
-    public int CurrentDamage { get; set; }
 
-    private const float DamageCooldown = 2.0f;
+    public int MaxHealth { get; set; } = 100;
+    public int CurrentHealth { get; set; }
+
+    public int BaseDamage { get; set; } = 10;
+    public int CurrentDamage { get; set; }
+    
+    public int MaxAmmo { get; set; } = 10;
+
+    private const float DamageCooldown = 0.5f;
     private bool _canTakeDamage = true;
     private Coroutine _invulnerabilityCoroutine;
     
@@ -39,7 +41,7 @@ public class StatManager : MonoBehaviour
 
     private void Start()
     {
-        PlayerHealth = MaxHealth;
+        CurrentHealth = MaxHealth;
         CurrentDamage = BaseDamage;
 
         _audio = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
@@ -49,8 +51,8 @@ public class StatManager : MonoBehaviour
     {
         if (!_canTakeDamage) return;
         
-        PlayerHealth -= amount;
-        OnPlayerDamaged?.Invoke(PlayerHealth);
+        CurrentHealth -= amount;
+        OnPlayerDamaged?.Invoke(CurrentHealth);
         
         _audio.PlayPlayerHitAudio();
         
@@ -58,7 +60,7 @@ public class StatManager : MonoBehaviour
 
         _invulnerabilityCoroutine ??= StartCoroutine(PlayerInvulnerability());
             
-        if (PlayerHealth <= 0)
+        if (CurrentHealth <= 0)
         {
             Die();
         }
