@@ -8,6 +8,7 @@ public class PlayerShootingController : MonoBehaviour
 {
     [SerializeField] private GameObject _fireballPrefab;
     [SerializeField] private Transform _muzzlePosition;
+    [SerializeField] private AudioManager _audio;
 
     private ShotType _currentShotType;
     
@@ -24,6 +25,7 @@ public class PlayerShootingController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Shoot(_currentShotType);
+            _audio.PlayShotAudio();
         }
     }
 

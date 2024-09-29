@@ -5,8 +5,14 @@ using UnityEngine;
 
 public class FireballController : MonoBehaviour
 {
+    private AudioManager _audio;
+
+    private const float Lifespan = 2.5f;
+    
     private void Awake()
     {
+        _audio = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        
         StartCoroutine(FireballLifespan());
     }
     
@@ -14,8 +20,11 @@ public class FireballController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            var damageableComponent = other.gameObject.GetComponent<IDamageable>();
-            damageableComponent?.TakeDamage();
+            var damage = StatManager.Instance.CurrentDamage;
+            var enemyController = other.gameObject.GetComponent<EnemyController>();
+            enemyController.DamageEnemy(damage);
+            
+            _audio.PlayEnemyHitAudio();
             
             Destroy(gameObject);
         }
@@ -28,7 +37,7 @@ public class FireballController : MonoBehaviour
 
     private IEnumerator FireballLifespan()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(Lifespan);
         Destroy(gameObject);
     }
 }

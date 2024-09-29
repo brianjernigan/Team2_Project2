@@ -1,18 +1,33 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour, IDamageable
+public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyData _data;
 
     private NavMeshAgent _navMeshAgent;
     private Transform _playerTransform;
 
+    public int Health { get; set; }
+    public int Damage { get; set; }
+
+    private void InitializeEnemy()
+    {
+        Health = _data.health;
+        Damage = _data.damage;
+        _navMeshAgent.speed = _data.speed;
+        _navMeshAgent.angularSpeed = _data.angularSpeed;
+        _navMeshAgent.stoppingDistance = _data.stoppingDistance;
+        _navMeshAgent.acceleration = _data.acceleration;
+    }
+    
     private void Start()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        InitializeEnemy();
     }
 
     private void Update()
@@ -33,8 +48,20 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
 
-    public void TakeDamage()
+    public void DamageEnemy(int amount)
     {
-        Debug.Log("Enemy takes damage");
+        Health -= amount;
+        Debug.Log($"Enemy hit for {amount} damage");
+
+        if (Health <= 0)
+        {
+            KillEnemy();
+        }
+    }
+
+    private void KillEnemy()
+    {
+        StatManager.Instance.EnemyDied();
+        Destroy(gameObject);
     }
 }

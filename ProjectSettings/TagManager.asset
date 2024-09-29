@@ -8,6 +8,7 @@ TagManager:
   - Fireball
   - StatManager
   - Environment
+  - AudioManager
   layers:
   - Default
   - TransparentFX

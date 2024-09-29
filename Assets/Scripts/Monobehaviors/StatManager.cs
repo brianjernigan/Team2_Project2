@@ -5,16 +5,25 @@ using UnityEngine;
 
 public class StatManager : MonoBehaviour
 {
+    public static StatManager Instance { get; private set; }
+    
     private const int MaxHealth = 100;
     public int PlayerHealth { get; set; }
-    public static StatManager Instance { get; private set; }
+    
+    private const int BaseDamage = 10;
+    public int CurrentDamage { get; set; }
+
+    private const float DamageCooldown = 2.0f;
+    private bool _canTakeDamage = true;
+    private Coroutine _invulnerabilityCoroutine;
+    
     public event Action<int> OnPlayerDamaged;
 
-    private float _damageCooldown = 2.0f;
+    private int _numEnemiesKilled;
+    public event Action<int> OnEnemyKilled;
 
-    private bool _canTakeDamage = true;
-    private float _cooldownTimer;
-
+    private AudioManager _audio;
+    
     private void Awake()
     {
         if (Instance is null)
@@ -31,35 +40,43 @@ public class StatManager : MonoBehaviour
     private void Start()
     {
         PlayerHealth = MaxHealth;
-        _cooldownTimer = 0f;
-    }
+        CurrentDamage = BaseDamage;
 
-    private void Update()
-    {
-        if (!_canTakeDamage)
-        {
-            _cooldownTimer -= Time.deltaTime;
-            if (_cooldownTimer <= 0f)
-            {
-                _canTakeDamage = true;
-            }
-        }
+        _audio = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
     }
     
-    public void TakeDamage(int amount)
+    public void DamagePlayer(int amount)
     {
         if (!_canTakeDamage) return;
+        
         PlayerHealth -= amount;
         OnPlayerDamaged?.Invoke(PlayerHealth);
-        Debug.Log("Player takes damage");
+        
+        _audio.PlayPlayerHitAudio();
+        
+        Debug.Log($"Player takes {amount} damage");
 
-        _canTakeDamage = false;
-        _cooldownTimer = _damageCooldown;
+        _invulnerabilityCoroutine ??= StartCoroutine(PlayerInvulnerability());
             
         if (PlayerHealth <= 0)
         {
             Die();
         }
+    }
+
+    public void EnemyDied()
+    {
+        OnEnemyKilled?.Invoke(++_numEnemiesKilled);
+    }
+
+    private IEnumerator PlayerInvulnerability()
+    {
+        _canTakeDamage = false;
+
+        yield return new WaitForSeconds(DamageCooldown);
+
+        _canTakeDamage = true;
+        _invulnerabilityCoroutine = null;
     }
 
     private void Die()

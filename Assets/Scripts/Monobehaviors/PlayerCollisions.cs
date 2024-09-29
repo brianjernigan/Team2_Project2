@@ -9,7 +9,8 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            StatManager.Instance.TakeDamage(10);
+            var damage = other.gameObject.GetComponent<EnemyController>().Damage;
+            StatManager.Instance.DamagePlayer(damage);
         }
     }
 }
