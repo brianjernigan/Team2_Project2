@@ -7,6 +7,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _shotAudio;
     [SerializeField] private AudioSource _enemyHitAudio;
     [SerializeField] private AudioSource _playerHitAudio;
+    [SerializeField] private AudioSource _reloadAudio;
+    [SerializeField] private AudioSource _emptyMagAudio;
 
     public void PlayShotAudio()
     {
@@ -38,5 +40,22 @@ public class AudioManager : MonoBehaviour
 
         _playerHitAudio.time = 0.117f;
         _playerHitAudio.Play();
+    }
+
+    public void PlayReloadAudio()
+    {
+        _reloadAudio.time = 0.67f;
+        _reloadAudio.Play();
+    }
+
+    public void PlayEmptyMagAudio()
+    {
+        if (_emptyMagAudio.isPlaying)
+        {
+            _emptyMagAudio.Stop();
+        }
+        
+        _emptyMagAudio.time = 0.022f;
+        _emptyMagAudio.Play();
     }
 }

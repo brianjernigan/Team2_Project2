@@ -14,22 +14,69 @@ public class PlayerShootingController : MonoBehaviour
     
     private const float FireballSpeed = 20f;
 
+    private int _currentAmmo;
+
+    private bool _canShoot = true;
+
+    public event Action<int> OnAmmoChanged;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
         _currentShotType = ShotType.Default;
+
+        _currentAmmo = StatManager.Instance.MaxAmmo;
     }
     
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Shoot(_currentShotType);
-            _audio.PlayShotAudio();
+            if (_currentAmmo <= 0)
+            {
+                _audio.PlayEmptyMagAudio();
+                return;
+            }
+
+            if (_canShoot)
+            {
+                Shoot();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if (_currentAmmo < StatManager.Instance.MaxAmmo)
+            {
+                Reload();
+            }
         }
     }
 
-    private void Shoot(ShotType currentShot)
+    private void Shoot()
+    {
+        DetermineShot(_currentShotType);
+        _audio.PlayShotAudio();
+    }
+    
+    private void Reload()
+    {
+        _audio.PlayReloadAudio();
+
+        StartCoroutine(ReloadRoutine());
+        
+        _currentAmmo = StatManager.Instance.MaxAmmo;
+        OnAmmoChanged?.Invoke(_currentAmmo);
+    }
+
+    private IEnumerator ReloadRoutine()
+    {
+        _canShoot = false;
+        yield return new WaitForSeconds(1f);
+        _canShoot = true;
+    }
+
+    private void DetermineShot(ShotType currentShot)
     {
         switch (currentShot)
         {
@@ -118,6 +165,8 @@ public class PlayerShootingController : MonoBehaviour
         var fireballRb = fireball.GetComponent<Rigidbody>();
 
         fireballRb?.AddForce(_muzzlePosition.forward * FireballSpeed, ForceMode.Impulse);
+
+        OnAmmoChanged?.Invoke(--_currentAmmo);
     }
 
     public void SetShotType(ShotType newShot)
