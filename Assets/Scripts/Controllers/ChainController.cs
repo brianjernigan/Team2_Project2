@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ChainController : MonoBehaviour
 {
-    [SerializeField] float _maxChainRange = 15f;
-    [SerializeField] float _stunDuration = .5f;
-    [SerializeField] float _pullSpeed = 20f;
-    [SerializeField] float _pushSpeed = 40f;
-    [SerializeField] Transform _player;
+    [SerializeField] private float _maxChainRange = 15f;
+    [SerializeField] private float _stunDuration = .5f;
+    [SerializeField] private float _pullSpeed = 20f;
+    [SerializeField] private float _pushSpeed = 40f;
+    [SerializeField] private Transform _player;
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -18,15 +18,14 @@ public class ChainController : MonoBehaviour
         }
     }
 
-    void ShootChain()
+    private void ShootChain()
     {
-        RaycastHit hit;
-        Vector3 direction = transform.forward;
+        var direction = transform.forward;
 
         // Draw the raycast line for visualization in the Scene view
         Debug.DrawRay(transform.position, direction * _maxChainRange, Color.red, 2f); // Line lasts for 2 seconds
 
-        if (Physics.Raycast(transform.position, direction, out hit, _maxChainRange))
+        if (Physics.Raycast(transform.position, direction, out var hit, _maxChainRange))
         {
             if (hit.collider.CompareTag("Enemy"))
             {
@@ -44,12 +43,11 @@ public class ChainController : MonoBehaviour
         }
     }
 
-    IEnumerator ChainEnemy(GameObject enemy)
+    private IEnumerator ChainEnemy(GameObject enemy)
     {
-
         // Step 1: Pull enemy to the max hook range
-        Vector3 direction = (enemy.transform.position - _player.position).normalized;
-        Vector3 maxRangePosition = _player.position + direction * _maxChainRange;
+        var direction = (enemy.transform.position - _player.position).normalized;
+        var maxRangePosition = _player.position + direction * _maxChainRange;
 
         while (Vector3.Distance(enemy.transform.position, maxRangePosition) > 0.1f)
         {
@@ -62,7 +60,7 @@ public class ChainController : MonoBehaviour
         yield return new WaitForSeconds(_stunDuration);
 
         // Step 2: Pull enemy to 2 units in front of the player
-        Vector3 closeRangePosition = _player.position + (enemy.transform.position - _player.position).normalized * 2f;
+        var closeRangePosition = _player.position + (enemy.transform.position - _player.position).normalized * 2f;
 
         while (Vector3.Distance(enemy.transform.position, closeRangePosition) > 0.1f)
         {
@@ -75,17 +73,14 @@ public class ChainController : MonoBehaviour
         yield return new WaitForSeconds(_stunDuration * 2);
 
         // Kill (destroy) the enemy after the second stun duration
-        Destroy(enemy);
+        enemy.GetComponent<EnemyController>().KillEnemy();
     }
 
-    void StunEnemy(GameObject enemy, float duration)
+    private void StunEnemy(GameObject enemy, float duration)
     {
         // Example: disabling enemy's movement or actions
-        EnemyController enemyController = enemy.GetComponent<EnemyController>();
-        if (enemyController != null)
-        {
-            enemyController.Stun(duration);
-        }
+        var enemyController = enemy.GetComponent<EnemyController>();
+        enemyController?.Stun(duration);
     }
 
 

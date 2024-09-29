@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private EnemyData _data;
+    [SerializeField] private EnemyData _enemyData;
 
     private NavMeshAgent _navMeshAgent;
     private Transform _playerTransform;
@@ -18,12 +18,12 @@ public class EnemyController : MonoBehaviour
     private void InitializeEnemy()
     {
         _isStunned = false;
-        Health = _data.health;
-        Damage = _data.damage;
-        _navMeshAgent.speed = _data.speed;
-        _navMeshAgent.angularSpeed = _data.angularSpeed;
-        _navMeshAgent.stoppingDistance = _data.stoppingDistance;
-        _navMeshAgent.acceleration = _data.acceleration;
+        Health = _enemyData.health;
+        Damage = _enemyData.damage;
+        _navMeshAgent.speed = _enemyData.speed;
+        _navMeshAgent.angularSpeed = _enemyData.angularSpeed;
+        _navMeshAgent.stoppingDistance = _enemyData.stoppingDistance;
+        _navMeshAgent.acceleration = _enemyData.acceleration;
     }
     
     private void Start()
@@ -44,7 +44,7 @@ public class EnemyController : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(playerDirection);
         }
         
-        if (_playerTransform is not null && _navMeshAgent is not null)
+        if (_playerTransform is not null && _navMeshAgent is not null && !_isStunned)
         {
             _navMeshAgent.SetDestination(_playerTransform.position);
         }
@@ -52,20 +52,21 @@ public class EnemyController : MonoBehaviour
 
     public void Stun(float duration)
     {
-        if (!_isStunned)
-        {
-            _isStunned = true;
-            // Add stun logic here (e.g., disable movement)
-            StartCoroutine(RemoveStun(duration));
-            RemoveNavMeshAgent();
-        }
+        if (_isStunned) return;
+        // Add stun logic here (e.g., disable movement)
+        StartCoroutine(RemoveStun(duration));
     }
 
     private IEnumerator RemoveStun(float duration)
     {
+        _isStunned = true;
+        
+        _navMeshAgent.enabled = false;
+        
         yield return new WaitForSeconds(duration);
+        
         _isStunned = false;
-        // Re-enable movement or other effects
+        _navMeshAgent.enabled = true;
     }
 
     public void DamageEnemy(int amount)
@@ -79,18 +80,9 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void KillEnemy()
+    public void KillEnemy()
     {
         StatManager.Instance.EnemyDied();
         Destroy(gameObject);
-    }
-
-    void RemoveNavMeshAgent()
-    {
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        if (agent != null)
-        {
-            Destroy(agent);
-        }
     }
 }
