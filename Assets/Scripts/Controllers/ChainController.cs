@@ -91,7 +91,7 @@ public class ChainController : MonoBehaviour
     private IEnumerator RemoveStun(float duration, EnemyController ec)
     {
         yield return new WaitForSeconds(duration);
-        ec.IsStunned = true;
+        ec.IsStunned = false;
         ec.NavMeshAgent.enabled = true;
     }
 }
