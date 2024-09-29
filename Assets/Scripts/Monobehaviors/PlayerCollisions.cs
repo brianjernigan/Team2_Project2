@@ -9,8 +9,13 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            var damage = other.gameObject.GetComponent<EnemyController>().Damage;
-            StatManager.Instance.DamagePlayer(damage);
+            var enemyController = other.gameObject.GetComponent<EnemyController>();
+            var damage = enemyController.Damage;
+
+            if (!enemyController.IsStunned)
+            {
+                StatManager.Instance.DamagePlayer(damage);
+            }
         }
     }
 }

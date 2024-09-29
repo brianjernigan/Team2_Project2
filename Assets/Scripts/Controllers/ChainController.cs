@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ChainController : MonoBehaviour
 {
@@ -45,7 +46,12 @@ public class ChainController : MonoBehaviour
 
     private IEnumerator ChainEnemy(GameObject enemy)
     {
-        // Step 1: Pull enemy to the max hook range
+        var enemyController = enemy.GetComponent<EnemyController>();
+        
+        enemyController.IsStunned = true;
+        enemyController.NavMeshAgent.enabled = false;
+        
+        // Step 1: Push enemy to the max hook range
         var direction = (enemy.transform.position - _player.position).normalized;
         var maxRangePosition = _player.position + direction * _maxChainRange;
 
@@ -56,7 +62,7 @@ public class ChainController : MonoBehaviour
         }
 
         // Stun enemy for initial stun duration once they get to max range
-        StunEnemy(enemy, _stunDuration);
+        StunEnemy(_stunDuration, enemyController);
         yield return new WaitForSeconds(_stunDuration);
 
         // Step 2: Pull enemy to 2 units in front of the player
@@ -69,19 +75,23 @@ public class ChainController : MonoBehaviour
         }
 
         // Stun enemy again for double the initial stun duration
-        StunEnemy(enemy, _stunDuration * 2);
+        StunEnemy(_stunDuration * 2, enemyController);
         yield return new WaitForSeconds(_stunDuration * 2);
 
         // Kill (destroy) the enemy after the second stun duration
-        enemy.GetComponent<EnemyController>().KillEnemy();
+        enemyController.KillEnemy();
     }
 
-    private void StunEnemy(GameObject enemy, float duration)
+    private void StunEnemy( float duration, EnemyController ec)
     {
-        // Example: disabling enemy's movement or actions
-        var enemyController = enemy.GetComponent<EnemyController>();
-        enemyController?.Stun(duration);
+        if (ec.IsStunned) return;
+        StartCoroutine(RemoveStun(duration, ec));
     }
 
-
+    private IEnumerator RemoveStun(float duration, EnemyController ec)
+    {
+        yield return new WaitForSeconds(duration);
+        ec.IsStunned = true;
+        ec.NavMeshAgent.enabled = true;
+    }
 }
