@@ -53,16 +53,14 @@ public class PlayerController : MonoBehaviour
 
         var groundPlane = new Plane(Vector3.up, Vector3.zero);
 
-        if (groundPlane.Raycast(ray, out var enter))
-        {
-            var hitPoint = ray.GetPoint(enter);
+        if (!groundPlane.Raycast(ray, out var enter)) return;
+        var hitPoint = ray.GetPoint(enter);
 
-            var direction = (hitPoint - transform.position).normalized;
-            direction.y = 0;
+        var direction = (hitPoint - transform.position).normalized;
+        direction.y = 0;
 
-            var targetRotation = Quaternion.LookRotation(direction);
+        var targetRotation = Quaternion.LookRotation(direction);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
-        }
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
     }
 }

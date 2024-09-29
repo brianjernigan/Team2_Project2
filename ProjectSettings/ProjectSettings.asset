@@ -909,8 +909,8 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Team2_Project2_v1.0
-  metroPackageVersion: 
+  metroPackageName: Team2Project2v1.0
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -918,7 +918,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: Team2_Project2_v1.0
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: Team2_Project2_v1.0
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0

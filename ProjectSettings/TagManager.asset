@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Fireball
   - StatManager
+  - Environment
+  - AudioManager
   layers:
   - Default
   - TransparentFX
