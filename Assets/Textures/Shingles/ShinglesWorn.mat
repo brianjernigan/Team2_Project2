@@ -7,12 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Road
+  m_Name: ShinglesWorn
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _DETAIL_MULX2
   - _METALLICGLOSSMAP
   - _NORMALMAP
   - _PARALLAXMAP
@@ -28,11 +27,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 6a724f49a01978b4792377e1793263a7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2087c5626e93cea4c857eebdaa0fe516, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
-        m_Texture: {fileID: 2800000, guid: a1daf1fb59f37fe42a20e27420264715, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailMask:
@@ -45,22 +44,22 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 0.2, y: 0.2}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: a1daf1fb59f37fe42a20e27420264715, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: abfb37d2c74aa0541a7f2d685c15b292, type: 3}
+        m_Scale: {x: 0.2, y: 0.2}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 256962269c5529b4f83ef190b573a5bb, type: 3}
+        m_Texture: {fileID: 2800000, guid: f48241a816fd2f74eb96d29628f65740, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: dafc4916062d57441ad9863d5dd54a69, type: 3}
+        m_Texture: {fileID: 2800000, guid: 72d16dc7f66fd0740893230303384fc1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 2800000, guid: f4d3a51aeefa1714f881c091d25ec667, type: 3}
+        m_Texture: {fileID: 2800000, guid: 19ea22c5f44fcbc489dadda3e0b301f3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -69,19 +68,19 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _GlossMapScale: 0.3
+    - _GlossMapScale: 0.6
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Parallax: 0.005
+    - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 0.11070648, b: 0.754717, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
