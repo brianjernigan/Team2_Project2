@@ -10,6 +10,7 @@ public class ChainController : MonoBehaviour
     [SerializeField] private float _pullSpeed = 20f;
     [SerializeField] private float _pushSpeed = 40f;
     [SerializeField] private Transform _player;
+    [SerializeField] private AudioManager _audio;
 
     private void Update()
     {
@@ -46,6 +47,8 @@ public class ChainController : MonoBehaviour
 
     private IEnumerator ChainEnemy(GameObject enemy)
     {
+        _audio.PlayChainAudio();
+        
         var enemyController = enemy.GetComponent<EnemyController>();
         
         enemyController.IsStunned = true;

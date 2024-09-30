@@ -8,12 +8,12 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyData _enemyData;
 
-    public NavMeshAgent NavMeshAgent { get; set; }
+    public NavMeshAgent NavMeshAgent { get; private set; }
     private Transform _playerTransform;
     public bool IsStunned { get; set; }
 
-    public int Health { get; set; }
-    public int Damage { get; set; }
+    public float Health { get; set; }
+    public float Damage { get; set; }
 
     private void InitializeEnemy()
     {
@@ -49,7 +49,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void DamageEnemy(int amount)
+    public void DamageEnemy(float amount)
     {
         Health -= amount;
         Debug.Log($"Enemy hit for {amount} damage");

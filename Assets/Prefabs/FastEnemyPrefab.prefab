@@ -332,6 +332,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7852097205221994175}
     m_Modifications:
+    - target: {fileID: 54996923992777931, guid: aaf3cd998c5a19f4cba8afbd678b288d, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.075
+      objectReference: {fileID: 0}
     - target: {fileID: 5457046129077323356, guid: aaf3cd998c5a19f4cba8afbd678b288d, type: 3}
       propertyPath: m_Name
       value: BloodSpurt

@@ -7,19 +7,27 @@ public class StatManager : MonoBehaviour
 {
     public static StatManager Instance { get; private set; }
 
-    public int MaxHealth { get; set; } = 100;
-    public int CurrentHealth { get; set; }
+    #region UpgradeableStats
 
-    public int BaseDamage { get; set; } = 10;
-    public int CurrentDamage { get; set; }
+    public float BaseHealth { get; set; } = 50f;
+    public float CurrentHealth { get; set; }
+
+    public float BaseDamage { get; set; } = 10f;
+    public float CurrentDamage { get; set; }
+
+    public float BaseAmmo { get; set; } = 10f;
+    public float CurrentAmmo { get; set; }
+
+    public float BaseShotSpeed { get; set; } = 10f;
+    public float CurrentShotSpeed { get; set; }
+
+    #endregion
     
-    public int MaxAmmo { get; set; } = 10;
-
     private const float DamageCooldown = 0.5f;
     private bool _canTakeDamage = true;
     private Coroutine _invulnerabilityCoroutine;
     
-    public event Action<int> OnPlayerDamaged;
+    public event Action<float> OnPlayerDamaged;
 
     private int _numEnemiesKilled;
     public event Action<int> OnEnemyKilled;
@@ -41,13 +49,15 @@ public class StatManager : MonoBehaviour
 
     private void Start()
     {
-        CurrentHealth = MaxHealth;
+        CurrentHealth = BaseHealth;
         CurrentDamage = BaseDamage;
+        CurrentAmmo = BaseAmmo;
+        CurrentShotSpeed = BaseShotSpeed;
 
         _audio = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
     }
     
-    public void DamagePlayer(int amount)
+    public void DamagePlayer(float amount)
     {
         if (!_canTakeDamage) return;
         

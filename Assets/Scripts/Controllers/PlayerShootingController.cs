@@ -11,21 +11,19 @@ public class PlayerShootingController : MonoBehaviour
     [SerializeField] private AudioManager _audio;
 
     private ShotType _currentShotType;
-    
-    private const float FireballSpeed = 20f;
 
-    private int _currentAmmo;
+    private float _currentAmmo;
 
     private bool _canShoot = true;
 
-    public event Action<int> OnAmmoChanged;
+    public event Action<float> OnAmmoChanged;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
         _currentShotType = ShotType.Default;
 
-        _currentAmmo = StatManager.Instance.MaxAmmo;
+        _currentAmmo = StatManager.Instance.CurrentAmmo;
     }
     
     private void Update()
@@ -46,7 +44,7 @@ public class PlayerShootingController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            if (_currentAmmo < StatManager.Instance.MaxAmmo)
+            if (_currentAmmo < StatManager.Instance.CurrentAmmo)
             {
                 Reload();
             }
@@ -65,7 +63,7 @@ public class PlayerShootingController : MonoBehaviour
 
         StartCoroutine(ReloadRoutine());
         
-        _currentAmmo = StatManager.Instance.MaxAmmo;
+        _currentAmmo = StatManager.Instance.CurrentAmmo;
         OnAmmoChanged?.Invoke(_currentAmmo);
     }
 
@@ -164,7 +162,7 @@ public class PlayerShootingController : MonoBehaviour
         var fireball = Instantiate(_fireballPrefab, _muzzlePosition.position, _muzzlePosition.rotation);
         var fireballRb = fireball.GetComponent<Rigidbody>();
 
-        fireballRb?.AddForce(_muzzlePosition.forward * FireballSpeed, ForceMode.Impulse);
+        fireballRb?.AddForce(_muzzlePosition.forward * StatManager.Instance.BaseShotSpeed, ForceMode.Impulse);
 
         OnAmmoChanged?.Invoke(--_currentAmmo);
     }

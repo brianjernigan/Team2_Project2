@@ -35,10 +35,10 @@ public class UIController : MonoBehaviour
     {
         _healthText.text = "Health: 100";
         _killedText.text = "Enemies Killed: 0";
-        _ammoText.text = $"Ammo: {StatManager.Instance.MaxAmmo}";
+        _ammoText.text = $"Ammo: {StatManager.Instance.CurrentAmmo}";
     }
 
-    private void UpdateHealthText(int playerHealth)
+    private void UpdateHealthText(float playerHealth)
     {
         _healthText.text = $"Health: {playerHealth}";
     }
@@ -48,7 +48,7 @@ public class UIController : MonoBehaviour
         _killedText.text = $"Enemies Killed: {numKilled}";
     }
 
-    private void UpdateAmmoText(int currentAmmo)
+    private void UpdateAmmoText(float currentAmmo)
     {
         _ammoText.text = $"Ammo: {currentAmmo}";
     }
