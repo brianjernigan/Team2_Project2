@@ -82,7 +82,7 @@ public class ChainController : MonoBehaviour
         enemyController.KillEnemy();
     }
 
-    private void StunEnemy( float duration, EnemyController ec)
+    private void StunEnemy(float duration, EnemyController ec)
     {
         if (ec.IsStunned) return;
         StartCoroutine(RemoveStun(duration, ec));
