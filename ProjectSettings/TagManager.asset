@@ -9,6 +9,7 @@ TagManager:
   - StatManager
   - Environment
   - AudioManager
+  - House
   layers:
   - Default
   - TransparentFX
