@@ -22,8 +22,8 @@ public class FireballController : MonoBehaviour
         {
             var damage = StatManager.Instance.CurrentDamage;
             var enemyController = other.gameObject.GetComponent<EnemyController>();
-            enemyController.DamageEnemy(damage);
             
+            enemyController.DamageEnemy(damage);
             _audio.PlayEnemyHitAudio();
             
             Destroy(gameObject);
