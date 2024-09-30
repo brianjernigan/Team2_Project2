@@ -10,19 +10,20 @@ public class UIController : MonoBehaviour
     [SerializeField] private TMP_Text _killedText;
     [SerializeField] private TMP_Text _ammoText;
     [SerializeField] private GameObject _player;
+    [SerializeField] private PlayerShootingController _playerShootingController;
 
     private void OnEnable()
     {
         StatManager.Instance.OnPlayerDamaged += UpdateHealthText;
         StatManager.Instance.OnEnemyKilled += UpdateKilledText;
-        _player.GetComponent<PlayerShootingController>().OnAmmoChanged += UpdateAmmoText;
+        _playerShootingController.OnAmmoChanged += UpdateAmmoText;
     }
 
     private void OnDisable()
     {
         StatManager.Instance.OnPlayerDamaged -= UpdateHealthText;
         StatManager.Instance.OnEnemyKilled -= UpdateKilledText;
-        _player.GetComponent<PlayerShootingController>().OnAmmoChanged -= UpdateAmmoText;
+        _playerShootingController.OnAmmoChanged -= UpdateAmmoText;
     }
 
     private void Start()
