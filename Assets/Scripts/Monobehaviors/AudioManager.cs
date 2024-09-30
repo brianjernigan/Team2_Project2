@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _playerHitAudio;
     [SerializeField] private AudioSource _reloadAudio;
     [SerializeField] private AudioSource _emptyMagAudio;
+    [SerializeField] private AudioSource _chainAudio;
 
     public void PlayShotAudio()
     {
@@ -57,5 +58,16 @@ public class AudioManager : MonoBehaviour
         
         _emptyMagAudio.time = 0.022f;
         _emptyMagAudio.Play();
+    }
+
+    public void PlayChainAudio()
+    {
+        if (_chainAudio.isPlaying)
+        {
+            _chainAudio.Stop();
+        }
+        
+        _chainAudio.time = 0.673f;
+        _chainAudio.Play();
     }
 }

@@ -8,9 +8,9 @@ using UnityEngine.EventSystems;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Camera _mainCamera;
-    
-    private float _moveSpeed = 10f;
-    private float _rotationSpeed = 720f;
+
+    private const float MoveSpeed = 10f;
+    private const float RotationSpeed = 720f;
 
     private Rigidbody _rb;
     private Vector3 _moveDirection;
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _rb.velocity = _moveDirection * _moveSpeed;
+            _rb.velocity = _moveDirection * MoveSpeed;
         }
 
         RotatePlayer();
@@ -61,6 +61,6 @@ public class PlayerController : MonoBehaviour
 
         var targetRotation = Quaternion.LookRotation(direction);
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
     }
 }

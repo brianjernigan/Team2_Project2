@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
 
-    private Vector3 _cameraOffset = new(0f, 25f, -10f);
+    private readonly Vector3 _cameraOffset = new(0f, 25f, -10f);
 
     private void Start()
     {

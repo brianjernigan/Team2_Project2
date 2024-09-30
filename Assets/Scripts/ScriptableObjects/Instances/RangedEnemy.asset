@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RangedEnemy
   m_EditorClassIdentifier: 
   type: 2
-  health: 30
+  health: 20
   damage: 10
   speed: 4
   angularSpeed: 360

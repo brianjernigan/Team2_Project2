@@ -6,8 +6,8 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     public EnemyType type;
-    public int health;
-    public int damage;
+    public float health;
+    public float damage;
     public float speed;
     public float angularSpeed;
     public float acceleration;
