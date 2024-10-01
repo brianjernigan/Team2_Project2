@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyData _enemyData;
+    [SerializeField] private GameObject _xpPrefab;
 
     public NavMeshAgent NavMeshAgent { get; private set; }
     private Transform _playerTransform;
@@ -66,6 +67,7 @@ public class EnemyController : MonoBehaviour
     public void KillEnemy()
     {
         StatManager.Instance.EnemyDied();
+        Instantiate(_xpPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

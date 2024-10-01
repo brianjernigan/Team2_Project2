@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
     private int _initialPoolSize;
     private ObjectPool<GameObject> _enemyPool;
 
-    private const float SpawnInterval = 1.5f;
+    private const float SpawnInterval = 3.0f;
 
     private void Awake()
     {
