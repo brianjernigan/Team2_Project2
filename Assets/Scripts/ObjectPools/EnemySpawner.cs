@@ -42,7 +42,6 @@ public class EnemySpawner : MonoBehaviour
     private GameObject CreatePooledEnemy()
     {
         var enemyIndex = Random.Range(0, _enemyPrefabs.Count);
-        
         var enemy = Instantiate(_enemyPrefabs[enemyIndex]);
         enemy.SetActive(false);
         return enemy;
@@ -51,10 +50,12 @@ public class EnemySpawner : MonoBehaviour
     private void OnTakeFromPool(GameObject enemy)
     {
         var spawnPoint = GetRandomPointOnNavMesh();
-
         spawnPoint.y += 1.045f;
         enemy.transform.position = spawnPoint;
         enemy.SetActive(true);
+
+        var enemyController = enemy.GetComponent<EnemyController>();
+        enemyController?.InitializeEnemy();
     }
 
     private void OnReturnedToPool(GameObject enemy)
@@ -69,7 +70,10 @@ public class EnemySpawner : MonoBehaviour
 
     public void ReturnEnemyToPool(GameObject enemy)
     {
-        _enemyPool.Release(enemy);
+        if (enemy.activeSelf)
+        {
+            _enemyPool.Release(enemy);
+        }
     }
 
     private Vector3 GetRandomPointOnNavMesh()
@@ -96,10 +100,10 @@ public class EnemySpawner : MonoBehaviour
     {
         return SceneManager.GetActiveScene().name switch
         {
-            "L1" => 100,
-            "L2" => 200,
-            "L3" => 300,
-            _ => 50
+            "L1" => 25,
+            "L2" => 50,
+            "L3" => 75,
+            _ => 100
         };
     }
 }

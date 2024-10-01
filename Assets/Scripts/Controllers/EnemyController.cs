@@ -8,15 +8,18 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyData _enemyData;
     [SerializeField] private GameObject _xpPrefab;
+    [SerializeField] private NavMeshAgent _navMeshAgent;
 
-    public NavMeshAgent NavMeshAgent { get; private set; }
+    public NavMeshAgent NavMeshAgent => _navMeshAgent;
+    
     private Transform _playerTransform;
     public bool IsStunned { get; set; }
-
     public float Health { get; set; }
     public float Damage { get; set; }
 
-    private void InitializeEnemy()
+    private EnemySpawner _spawner;
+    
+    public void InitializeEnemy()
     {
         Health = _enemyData.health;
         Damage = _enemyData.damage;
@@ -25,11 +28,10 @@ public class EnemyController : MonoBehaviour
         NavMeshAgent.stoppingDistance = _enemyData.stoppingDistance;
         NavMeshAgent.acceleration = _enemyData.acceleration;
     }
-    
-    private void Start()
+
+    private void Awake()
     {
-        NavMeshAgent = GetComponent<NavMeshAgent>();
-        InitializeEnemy();
+        _spawner = FindObjectOfType<EnemySpawner>();
     }
 
     private void Update()
@@ -67,7 +69,14 @@ public class EnemyController : MonoBehaviour
     public void KillEnemy()
     {
         StatManager.Instance.EnemyDied();
-        Instantiate(_xpPrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        DropXp();
+        _spawner.ReturnEnemyToPool(gameObject);
+    }
+
+    private void DropXp()
+    {
+        var targetPos = transform.position;
+        targetPos.y = _playerTransform.position.y;
+        Instantiate(_xpPrefab, targetPos, Quaternion.identity);
     }
 }
