@@ -259,6 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyData: {fileID: 11400000, guid: e4e14dd5dcf41c9489802e79cf3b037e, type: 2}
+  _xpPrefab: {fileID: 5337641785984595677, guid: 7c94be4b26cfe3b469632c014198edcb, type: 3}
 --- !u!114 &8789930622353561902
 MonoBehaviour:
   m_ObjectHideFlags: 0
