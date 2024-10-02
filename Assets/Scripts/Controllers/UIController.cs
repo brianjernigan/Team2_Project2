@@ -16,11 +16,16 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject _player;
     [SerializeField] private PlayerShootingController _playerShootingController;
 
+    [Header("Panels")] 
+    [SerializeField] private GameObject _gamePanel;
+    [SerializeField] private GameObject _upgradePanel;
+    
     private void OnEnable()
     {
         StatManager.Instance.OnPlayerDamaged += UpdateHealthText;
         StatManager.Instance.OnEnemyKilled += UpdateKilledText;
         StatManager.Instance.OnXpChanged += UpdateXpText;
+        StatManager.Instance.OnPlayerUpgrade += ActivateUpgradePanel;
         _playerShootingController.OnAmmoChanged += UpdateAmmoText;
     }
 
@@ -29,6 +34,7 @@ public class UIController : MonoBehaviour
         StatManager.Instance.OnPlayerDamaged -= UpdateHealthText;
         StatManager.Instance.OnEnemyKilled -= UpdateKilledText;
         StatManager.Instance.OnXpChanged -= UpdateXpText;
+        StatManager.Instance.OnPlayerUpgrade -= ActivateUpgradePanel;
         _playerShootingController.OnAmmoChanged -= UpdateAmmoText;
     }
 
@@ -63,5 +69,11 @@ public class UIController : MonoBehaviour
     private void UpdateXpText()
     {
         _xpText.text = $"XP: {StatManager.Instance.CurrentXp}";
+    }
+    
+    private void ActivateUpgradePanel()
+    {
+        _gamePanel.SetActive(false);
+        _upgradePanel.SetActive(true);
     }
 }

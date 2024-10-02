@@ -7,6 +7,11 @@ public class StatManager : MonoBehaviour
 {
     public static StatManager Instance { get; private set; }
 
+    public event Action<int> OnEnemyKilled;
+    public event Action OnXpChanged;
+    public event Action<float> OnPlayerDamaged;
+    public event Action OnPlayerUpgrade;
+    
     private const float BaseMoveSpeed = 10f;
     private const float BaseHealth = 50f;
     private const float BaseDamage = 10f;
@@ -26,12 +31,8 @@ public class StatManager : MonoBehaviour
     private const float DamageCooldown = 1.0f;
     private bool _canTakeDamage = true;
     private Coroutine _invulnerabilityCoroutine;
-    
-    public event Action<float> OnPlayerDamaged;
 
     private int _numEnemiesKilled;
-    public event Action<int> OnEnemyKilled;
-    public event Action OnXpChanged;
     
     private AudioManager _audio;
     
@@ -101,5 +102,10 @@ public class StatManager : MonoBehaviour
         CurrentXp += amount;
         _audio.PlayCollectAudio();
         OnXpChanged?.Invoke();
+
+        if (CurrentXp >= 10)
+        {
+            OnPlayerUpgrade?.Invoke();
+        }
     }
 }
