@@ -99,6 +99,7 @@ public class StatManager : MonoBehaviour
     public void IncreaseXp(int amount)
     {
         CurrentXp += amount;
+        _audio.PlayCollectAudio();
         OnXpChanged?.Invoke();
     }
 }

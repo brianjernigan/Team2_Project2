@@ -31,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
             100
         );
 
-        InvokeRepeating(nameof(SpawnEnemy), 0, SpawnInterval);
+        InvokeRepeating(nameof(SpawnEnemy), 1, SpawnInterval);
     }
 
     private void SpawnEnemy()
