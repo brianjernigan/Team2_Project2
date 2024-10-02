@@ -8,27 +8,33 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyData _enemyData;
     [SerializeField] private GameObject _xpPrefab;
+    [SerializeField] private NavMeshAgent _navMeshAgent;
 
-    public NavMeshAgent NavMeshAgent { get; private set; }
+    public NavMeshAgent NavMeshAgent => _navMeshAgent;
+    
     private Transform _playerTransform;
     public bool IsStunned { get; set; }
-
     public float Health { get; set; }
     public float Damage { get; set; }
+    public int XpValue { get; set; }
 
-    private void InitializeEnemy()
+    private EnemySpawner _spawner;
+    
+    public void InitializeEnemy()
     {
         Health = _enemyData.health;
         Damage = _enemyData.damage;
+        XpValue = _enemyData.xpValue;
         NavMeshAgent.speed = _enemyData.speed;
         NavMeshAgent.angularSpeed = _enemyData.angularSpeed;
         NavMeshAgent.stoppingDistance = _enemyData.stoppingDistance;
         NavMeshAgent.acceleration = _enemyData.acceleration;
+        IsStunned = false;
     }
-    
-    private void Start()
+
+    private void Awake()
     {
-        NavMeshAgent = GetComponent<NavMeshAgent>();
+        _spawner = FindObjectOfType<EnemySpawner>();
         InitializeEnemy();
     }
 
@@ -53,7 +59,6 @@ public class EnemyController : MonoBehaviour
     public void DamageEnemy(float amount)
     {
         Health -= amount;
-        Debug.Log($"Enemy hit for {amount} damage");
 
         var particles = GetComponentInChildren<ParticleSystem>();
         particles.Play();
@@ -67,7 +72,6 @@ public class EnemyController : MonoBehaviour
     public void KillEnemy()
     {
         StatManager.Instance.EnemyDied();
-        Instantiate(_xpPrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        _spawner.ReturnEnemyToPool(gameObject);
     }
 }

@@ -5,11 +5,9 @@ using UnityEngine.AI;
 
 public class PushBackController : MonoBehaviour
 {
-    private float knockbackRadius = 7.5f;  // Radius to detect enemies
-    private float knockbackForce = 750f;   // Force to apply to enemies
-    public LayerMask enemyLayer;          // Layer of the enemies
-    private Rigidbody enemyRigidbody;
-    private bool isKnockBack;
+    private float _knockbackRadius = 7.5f;  // Radius to detect enemies
+    private float _knockbackForce = 750f;   // Force to apply to enemies
+    private LayerMask _enemyLayer;          // Layer of the enemies
 
     void Update()
     {
@@ -26,24 +24,24 @@ public class PushBackController : MonoBehaviour
     public void TriggerKnockback(Vector3 origin)
     {
         // Create a sphere cast to find all enemies in the radius
-        Collider[] hitColliders = Physics.OverlapSphere(origin, knockbackRadius, enemyLayer);
+        Collider[] hitColliders = Physics.OverlapSphere(origin, _knockbackRadius, _enemyLayer);
 
         foreach (var hitCollider in hitColliders)
         {
-            enemyRigidbody = hitCollider.gameObject.GetComponent<Rigidbody>();
+            var enemyRb = hitCollider.gameObject.GetComponent<Rigidbody>();
             var navMeshAgent = hitCollider.gameObject.GetComponent<NavMeshAgent>();
 
-            if (enemyRigidbody != null && navMeshAgent is not null)
+            if (enemyRb is not null && navMeshAgent is not null)
             {
                 navMeshAgent.isStopped = true; // Stop the agent temporarily
 
-                var backwardsDirection = -enemyRigidbody.gameObject.transform.forward;
+                var backwardsDirection = -enemyRb.gameObject.transform.forward;
 
                 // Apply knockback force
-                enemyRigidbody.AddForce(backwardsDirection * knockbackForce, ForceMode.Impulse);
+                enemyRb.AddForce(backwardsDirection * _knockbackForce, ForceMode.Impulse);
 
 
-                StartCoroutine(KnockbackEffect(enemyRigidbody, navMeshAgent));
+                StartCoroutine(KnockbackEffect(enemyRb, navMeshAgent));
             }
         }
     }
@@ -64,6 +62,6 @@ public class PushBackController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, knockbackRadius);
+        Gizmos.DrawWireSphere(transform.position, _knockbackRadius);
     }
 }
