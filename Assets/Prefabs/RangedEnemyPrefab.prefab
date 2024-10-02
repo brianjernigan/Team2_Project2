@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3104374531704703196}
   - component: {fileID: 218822093474328754}
   - component: {fileID: 5959012342327232773}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 2146125106796788957}
   - component: {fileID: 8789930622353561902}
   - component: {fileID: 5513795055248697059}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RangedEnemyPrefab
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -260,6 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyData: {fileID: 11400000, guid: e4e14dd5dcf41c9489802e79cf3b037e, type: 2}
   _xpPrefab: {fileID: 5337641785984595677, guid: 7c94be4b26cfe3b469632c014198edcb, type: 3}
+  _navMeshAgent: {fileID: 5513795055248697059}
 --- !u!114 &8789930622353561902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,7 +282,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8810231628824606568}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 4
   m_Acceleration: 6
   avoidancePriority: 50
@@ -303,7 +304,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4519270279959283666}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,6 +337,10 @@ PrefabInstance:
     - target: {fileID: 5457046129077323356, guid: aaf3cd998c5a19f4cba8afbd678b288d, type: 3}
       propertyPath: m_Name
       value: BloodSpurt
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457046129077323356, guid: aaf3cd998c5a19f4cba8afbd678b288d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8409987020356406494, guid: aaf3cd998c5a19f4cba8afbd678b288d, type: 3}
       propertyPath: m_LocalPosition.x

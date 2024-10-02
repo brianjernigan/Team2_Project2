@@ -161,7 +161,7 @@ public class PlayerShootingController : MonoBehaviour
         var fireball = Instantiate(_fireballPrefab, _muzzlePosition.position, _muzzlePosition.rotation);
         var fireballRb = fireball.GetComponent<Rigidbody>();
 
-        fireballRb?.AddForce(_muzzlePosition.forward * StatManager.Instance.BaseShotSpeed, ForceMode.Impulse);
+        fireballRb?.AddForce(_muzzlePosition.forward * StatManager.Instance.CurrentShotSpeed, ForceMode.Impulse);
 
         OnAmmoChanged?.Invoke(--_currentAmmo);
     }

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
-{ 
-    private void OnCollisionEnter(Collision other)
+{
+    private void OnCollisionStay(Collision other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
@@ -16,6 +16,16 @@ public class PlayerCollisions : MonoBehaviour
             {
                 StatManager.Instance.DamagePlayer(damage);
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("XP"))
+        {
+            var xpController = other.gameObject.GetComponent<XpController>();
+            StatManager.Instance.IncreaseXp(xpController.Value);
+            Destroy(other.gameObject);
         }
     }
 }

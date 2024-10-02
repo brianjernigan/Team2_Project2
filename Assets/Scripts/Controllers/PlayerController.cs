@@ -8,8 +8,7 @@ using UnityEngine.EventSystems;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Camera _mainCamera;
-
-    private const float MoveSpeed = 10f;
+    
     private const float RotationSpeed = 720f;
 
     private Rigidbody _rb;
@@ -40,7 +39,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _rb.velocity = _moveDirection * MoveSpeed;
+            _rb.velocity = _moveDirection * StatManager.Instance.CurrentMoveSpeed;
         }
 
         RotatePlayer();

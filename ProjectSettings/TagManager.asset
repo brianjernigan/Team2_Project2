@@ -10,11 +10,12 @@ TagManager:
   - Environment
   - AudioManager
   - House
+  - XP
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemy
   - Water
   - UI
   - 
