@@ -49,14 +49,18 @@ public class StatManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void InitializeStats()
     {
         CurrentMoveSpeed = BaseMoveSpeed;
         CurrentHealth = BaseHealth;
         CurrentDamage = BaseDamage;
         CurrentAmmo = BaseAmmo;
         CurrentShotSpeed = BaseShotSpeed;
+    }
 
+    private void Start()
+    {
+        InitializeStats();
         _audio = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
@@ -103,9 +107,9 @@ public class StatManager : MonoBehaviour
         _audio.PlayCollectAudio();
         OnXpChanged?.Invoke();
 
-        if (CurrentXp >= 10)
-        {
-            OnPlayerUpgrade?.Invoke();
-        }
+        // if (CurrentXp >= 10)
+        // {
+        //     OnPlayerUpgrade?.Invoke();
+        // }
     }
 }

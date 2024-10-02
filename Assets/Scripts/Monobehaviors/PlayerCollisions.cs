@@ -23,7 +23,8 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (other.gameObject.CompareTag("XP"))
         {
-            StatManager.Instance.IncreaseXp(1);
+            var xpController = other.gameObject.GetComponent<XpController>();
+            StatManager.Instance.IncreaseXp(xpController.Value);
             Destroy(other.gameObject);
         }
     }

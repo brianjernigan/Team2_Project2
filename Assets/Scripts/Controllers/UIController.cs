@@ -75,5 +75,7 @@ public class UIController : MonoBehaviour
     {
         _gamePanel.SetActive(false);
         _upgradePanel.SetActive(true);
+        _playerShootingController.enabled = false;
+        Time.timeScale = 0;
     }
 }

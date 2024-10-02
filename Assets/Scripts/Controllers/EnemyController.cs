@@ -16,6 +16,7 @@ public class EnemyController : MonoBehaviour
     public bool IsStunned { get; set; }
     public float Health { get; set; }
     public float Damage { get; set; }
+    public int XpValue { get; set; }
 
     private EnemySpawner _spawner;
     
@@ -23,15 +24,18 @@ public class EnemyController : MonoBehaviour
     {
         Health = _enemyData.health;
         Damage = _enemyData.damage;
+        XpValue = _enemyData.xpValue;
         NavMeshAgent.speed = _enemyData.speed;
         NavMeshAgent.angularSpeed = _enemyData.angularSpeed;
         NavMeshAgent.stoppingDistance = _enemyData.stoppingDistance;
         NavMeshAgent.acceleration = _enemyData.acceleration;
+        IsStunned = false;
     }
 
     private void Awake()
     {
         _spawner = FindObjectOfType<EnemySpawner>();
+        InitializeEnemy();
     }
 
     private void Update()
@@ -68,14 +72,6 @@ public class EnemyController : MonoBehaviour
     public void KillEnemy()
     {
         StatManager.Instance.EnemyDied();
-        DropXp();
         _spawner.ReturnEnemyToPool(gameObject);
-    }
-
-    private void DropXp()
-    {
-        var targetPos = transform.position;
-        targetPos.y = _playerTransform.position.y;
-        Instantiate(_xpPrefab, targetPos, Quaternion.identity);
     }
 }

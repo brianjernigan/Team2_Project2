@@ -8,11 +8,13 @@ using UnityEngine.SceneManagement;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _enemyPrefabs;
+    [SerializeField] private GameObject _xpPrefab;
 
     private int _initialPoolSize;
     private ObjectPool<GameObject> _enemyPool;
 
     private const float SpawnInterval = 3.0f;
+    private const float XpHeight = 1.045f;
 
     private void Awake()
     {
@@ -60,6 +62,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnReturnedToPool(GameObject enemy)
     {
+        var enemyController = enemy.GetComponent<EnemyController>();
+        enemyController?.InitializeEnemy();
         enemy.SetActive(false);
     }
 
@@ -70,10 +74,26 @@ public class EnemySpawner : MonoBehaviour
 
     public void ReturnEnemyToPool(GameObject enemy)
     {
-        if (enemy.activeSelf)
-        {
-            _enemyPool.Release(enemy);
-        }
+        if (!enemy.activeSelf) return;
+        DropXp(enemy);
+        _enemyPool.Release(enemy);
+    }
+    
+    private void DropXp(GameObject enemy)
+    {
+        var targetPos = enemy.transform.position;
+        targetPos.y = XpHeight;
+        var xp = Instantiate(_xpPrefab, targetPos, Quaternion.identity);
+
+        SetXpValue(xp, enemy);
+    }
+
+    private void SetXpValue(GameObject xp, GameObject enemy)
+    {
+        var xpController = xp.GetComponent<XpController>();
+        var xpAmount = enemy.GetComponent<EnemyController>().XpValue;
+
+        xpController.Value = xpAmount;
     }
 
     private Vector3 GetRandomPointOnNavMesh()
