@@ -7,23 +7,23 @@ public class StatManager : MonoBehaviour
 {
     public static StatManager Instance { get; private set; }
 
+    private const float BaseMoveSpeed = 10f;
+    private const float BaseHealth = 50f;
+    private const float BaseDamage = 10f;
+    private const float BaseAmmo = 10f;
+    private const float BaseShotSpeed = 10f;
+    
     #region UpgradeableStats
-
-    public float BaseHealth { get; set; } = 50f;
+    public float CurrentMoveSpeed { get; set; }
     public float CurrentHealth { get; set; }
-
-    public float BaseDamage { get; set; } = 10f;
     public float CurrentDamage { get; set; }
-
-    public float BaseAmmo { get; set; } = 10f;
     public float CurrentAmmo { get; set; }
-
-    public float BaseShotSpeed { get; set; } = 10f;
     public float CurrentShotSpeed { get; set; }
-
     #endregion
     
-    private const float DamageCooldown = 0.5f;
+    public int CurrentXp { get; set; }
+    
+    private const float DamageCooldown = 1.0f;
     private bool _canTakeDamage = true;
     private Coroutine _invulnerabilityCoroutine;
     
@@ -31,7 +31,8 @@ public class StatManager : MonoBehaviour
 
     private int _numEnemiesKilled;
     public event Action<int> OnEnemyKilled;
-
+    public event Action OnXpChanged;
+    
     private AudioManager _audio;
     
     private void Awake()
@@ -49,6 +50,7 @@ public class StatManager : MonoBehaviour
 
     private void Start()
     {
+        CurrentMoveSpeed = BaseMoveSpeed;
         CurrentHealth = BaseHealth;
         CurrentDamage = BaseDamage;
         CurrentAmmo = BaseAmmo;
@@ -56,7 +58,7 @@ public class StatManager : MonoBehaviour
 
         _audio = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
     }
-    
+
     public void DamagePlayer(float amount)
     {
         if (!_canTakeDamage) return;
@@ -65,14 +67,12 @@ public class StatManager : MonoBehaviour
         OnPlayerDamaged?.Invoke(CurrentHealth);
         
         _audio.PlayPlayerHitAudio();
-        
-        Debug.Log($"Player takes {amount} damage");
 
         _invulnerabilityCoroutine ??= StartCoroutine(PlayerInvulnerability());
             
         if (CurrentHealth <= 0)
         {
-            Die();
+            OnPlayerDeath();
         }
     }
 
@@ -91,8 +91,14 @@ public class StatManager : MonoBehaviour
         _invulnerabilityCoroutine = null;
     }
 
-    private void Die()
+    private void OnPlayerDeath()
     {
         Debug.Log("Player is dead");
+    }
+
+    public void IncreaseXp(int amount)
+    {
+        CurrentXp += amount;
+        OnXpChanged?.Invoke();
     }
 }

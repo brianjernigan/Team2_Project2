@@ -55,7 +55,6 @@ public class EnemyController : MonoBehaviour
     public void DamageEnemy(float amount)
     {
         Health -= amount;
-        Debug.Log($"Enemy hit for {amount} damage");
 
         var particles = GetComponentInChildren<ParticleSystem>();
         particles.Play();
