@@ -25,7 +25,7 @@ public class PlayerCollisions : MonoBehaviour
         {
             var xpController = other.gameObject.GetComponent<XpController>();
             StatManager.Instance.IncreaseXp(xpController.Value);
-            // I don't know why this is necessary but it is...
+            // I don't know why this is necessary, but it is...
             other.enabled = false;
             Destroy(other.gameObject);
         }
