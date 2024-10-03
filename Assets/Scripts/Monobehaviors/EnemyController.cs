@@ -25,6 +25,12 @@ public class EnemyController : MonoBehaviour
         Health = _enemyData.health;
         Damage = _enemyData.damage;
         XpValue = _enemyData.xpValue;
+
+        if (!NavMeshAgent.enabled)
+        {
+            NavMeshAgent.enabled = true;
+        }
+        
         NavMeshAgent.speed = _enemyData.speed;
         NavMeshAgent.angularSpeed = _enemyData.angularSpeed;
         NavMeshAgent.stoppingDistance = _enemyData.stoppingDistance;
