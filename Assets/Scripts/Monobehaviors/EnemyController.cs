@@ -20,11 +20,11 @@ public class EnemyController : MonoBehaviour
 
     private EnemySpawner _spawner;
 
-    private const float HealthScale = 1.1f;
+    private const float HealthScale = 1.025f;
     private const float DamageScale = 1.05f;
-    private const float SpeedScale = 1.02f;
+    private const float SpeedScale = 1.075f;
     
-    public void InitializeEnemy()
+    public void InitializeEnemyStats()
     {
         Health = _enemyData.health * Mathf.Pow(HealthScale, StatManager.Instance.CurrentPlayerLevel - 1);
         Damage = _enemyData.damage * Mathf.Pow(DamageScale, StatManager.Instance.CurrentPlayerLevel - 1);
@@ -45,7 +45,7 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         _spawner = FindObjectOfType<EnemySpawner>();
-        InitializeEnemy();
+        InitializeEnemyStats();
     }
 
     private void Update()

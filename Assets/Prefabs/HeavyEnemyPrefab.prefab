@@ -5008,7 +5008,6 @@ GameObject:
   - component: {fileID: 6706449604171991012}
   - component: {fileID: 8464491656529597836}
   - component: {fileID: 2146125106796788957}
-  - component: {fileID: 8789930622353561902}
   - component: {fileID: 5513795055248697059}
   m_Layer: 3
   m_Name: HeavyEnemyPrefab
@@ -5149,18 +5148,6 @@ MonoBehaviour:
   _enemyData: {fileID: 11400000, guid: e9fe5579762e52144a2dc9f2f3d12493, type: 2}
   _xpPrefab: {fileID: 5337641785984595677, guid: 7c94be4b26cfe3b469632c014198edcb, type: 3}
   _navMeshAgent: {fileID: 5513795055248697059}
---- !u!114 &8789930622353561902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8810231628824606568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61bbb90d640e86e41a60b8550a052401, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &5513795055248697059
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5174,7 +5161,7 @@ NavMeshAgent:
   m_Speed: 2
   m_Acceleration: 4
   avoidancePriority: 50
-  m_AngularSpeed: 360
+  m_AngularSpeed: 270
   m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1

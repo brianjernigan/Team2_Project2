@@ -46,7 +46,7 @@ public class UIController : MonoBehaviour
 
     private void UpdateHealthText()
     {
-        _healthText.text = $"Health: {StatManager.Instance.CurrentHealth} / {StatManager.Instance.MaxHealth}";
+        _healthText.text = $"Health: {StatManager.Instance.CurrentHealth} / {StatManager.Instance.CurrentMaxHealth}";
     }
 
     private void UpdateKilledText()
@@ -56,7 +56,7 @@ public class UIController : MonoBehaviour
 
     private void UpdateAmmoText()
     {
-        _ammoText.text = $"Ammo: {StatManager.Instance.CurrentAmmo} / {StatManager.Instance.MaxAmmo}";
+        _ammoText.text = $"Ammo: {StatManager.Instance.CurrentAmmo} / {StatManager.Instance.CurrentMaxAmmo}";
     }
 
     private void UpdateXpText()

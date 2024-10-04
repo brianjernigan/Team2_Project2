@@ -21,10 +21,10 @@ public class StatManager : MonoBehaviour
     
     #region UpgradeableStats
     public float CurrentMoveSpeed { get; set; }
-    public float MaxHealth { get; set; } = BaseMaxHealth;
+    public float CurrentMaxHealth { get; set; }
     public float CurrentHealth { get; set; }
     public float CurrentDamage { get; set; }
-    public float MaxAmmo { get; set; } = BaseMaxAmmo;
+    public float CurrentMaxAmmo { get; set; }
     public float CurrentAmmo { get; set; }
     public float CurrentShotSpeed { get; set; }
     #endregion
@@ -34,9 +34,9 @@ public class StatManager : MonoBehaviour
     public int CurrentXp { get; set; }
     public int XpThreshold { get; set; } = BaseXpThreshold;
     
-    private const float XpMultiplier = 1.75f;
+    private const float XpMultiplier = 1.55f;
     private const float HealthMultiplier = 1.1f;
-    private const float DamageMultiplier = 1.05f;
+    private const float DamageMultiplier = 1.15f;
     private const float ShotSpeedMultiplier = 1.05f;
     private const float MoveSpeedMultiplier = 1.05f;
     private const float AmmoUpgradeCount = 2;
@@ -46,6 +46,8 @@ public class StatManager : MonoBehaviour
     private Coroutine _invulnerabilityCoroutine;
 
     public int NumEnemiesKilled { get; set; }
+    
+    public bool GameIsOver { get; set; }
 
     private AudioManager _audio;
     
@@ -62,25 +64,31 @@ public class StatManager : MonoBehaviour
         }
     }
 
-    private void InitializeStats()
+    private void InitializePlayerStats()
     {
         CurrentMoveSpeed = BaseMoveSpeed;
-        CurrentHealth = BaseMaxHealth;
+        CurrentMaxHealth = BaseMaxHealth;
+        CurrentHealth = CurrentMaxHealth;
         CurrentDamage = BaseDamage;
-        CurrentAmmo = BaseMaxAmmo;
+        CurrentMaxAmmo = BaseMaxAmmo;
+        CurrentAmmo = CurrentMaxAmmo;
         CurrentShotSpeed = BaseShotSpeed;
         CurrentPlayerLevel = 1;
+        CurrentXp = 0;
+        XpThreshold = BaseXpThreshold;
     }
 
     private void Start()
     {
-        InitializeStats();
+        InitializePlayerStats();
         _audio = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
     public void DamagePlayer(float amount)
     {
         if (!_canTakeDamage) return;
+
+        amount = Mathf.Round(amount);
         
         CurrentHealth -= amount;
         OnPlayerDamaged?.Invoke();
@@ -113,7 +121,7 @@ public class StatManager : MonoBehaviour
 
     private void OnPlayerDeath()
     {
-        InitializeStats();
+        InitializePlayerStats();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -135,7 +143,7 @@ public class StatManager : MonoBehaviour
 
     public void UpgradeHealth()
     {
-        MaxHealth = Mathf.Round(MaxHealth * HealthMultiplier);
+        CurrentMaxHealth = Mathf.Round(CurrentMaxHealth * HealthMultiplier);
     }
 
     public void UpgradeMoveSpeed()
@@ -150,7 +158,7 @@ public class StatManager : MonoBehaviour
 
     public void UpgradeAmmo()
     {
-        MaxAmmo += AmmoUpgradeCount;
+        CurrentMaxAmmo += AmmoUpgradeCount;
     }
 
     public void UpgradeShotSpeed()

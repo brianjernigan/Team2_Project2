@@ -29,5 +29,12 @@ public class PlayerCollisions : MonoBehaviour
             other.enabled = false;
             Destroy(other.gameObject);
         }
+
+        if (other.gameObject.CompareTag("EnemyBullet"))
+        {
+            var bulletController = other.GetComponent<EnemyBulletController>();
+            
+            StatManager.Instance.DamagePlayer(bulletController.DamageValue);
+        }
     }
 }

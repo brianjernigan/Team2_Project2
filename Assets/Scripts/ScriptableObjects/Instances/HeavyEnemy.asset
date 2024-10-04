@@ -17,6 +17,6 @@ MonoBehaviour:
   health: 50
   damage: 12
   speed: 2
-  angularSpeed: 360
+  angularSpeed: 270
   acceleration: 4
   stoppingDistance: 1

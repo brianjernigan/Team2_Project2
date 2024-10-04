@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -16,8 +18,19 @@ public class EnemySpawner : MonoBehaviour
     private const float BaseSpawnRate = 2.5f;
     private const float MinSpawnRate = 0.5f;
     private const float SpawnRateScale = 0.975f;
+    private float _currentSpawnRate;
     
     private const float XpHeight = 1.045f;
+
+    private void OnEnable()
+    {
+        StatManager.Instance.OnPlayerUpgrade += UpdateSpawnInterval;
+    }
+
+    private void OnDisable()
+    {
+        StatManager.Instance.OnPlayerUpgrade -= UpdateSpawnInterval;
+    }
 
     private void Awake()
     {
@@ -36,13 +49,31 @@ public class EnemySpawner : MonoBehaviour
             100
         );
 
-        InvokeRepeating(nameof(SpawnEnemy), 0,
-            Mathf.Max(MinSpawnRate, BaseSpawnRate * Mathf.Pow(SpawnRateScale, StatManager.Instance.CurrentPlayerLevel - 1)));
+        UpdateSpawnInterval();
+
+        StartCoroutine(SpawningCoroutine());
+    }
+
+    private IEnumerator SpawningCoroutine()
+    {
+        while (!StatManager.Instance.GameIsOver)
+        {
+            SpawnEnemy();
+            yield return new WaitForSeconds(_currentSpawnRate);
+        }
     }
 
     private void SpawnEnemy()
     {
         var enemy = _enemyPool.Get();
+    }
+    
+    private void UpdateSpawnInterval()
+    {
+        var playerLevel = StatManager.Instance.CurrentPlayerLevel;
+
+        _currentSpawnRate = Mathf.Max(MinSpawnRate, BaseSpawnRate * Mathf.Pow(SpawnRateScale, playerLevel - 1));
+        Debug.Log("Spawn rate decreased");
     }
 
     private GameObject CreatePooledEnemy()
@@ -61,13 +92,13 @@ public class EnemySpawner : MonoBehaviour
         enemy.SetActive(true);
 
         var enemyController = enemy.GetComponent<EnemyController>();
-        enemyController?.InitializeEnemy();
+        enemyController?.InitializeEnemyStats();
     }
 
     private void OnReturnedToPool(GameObject enemy)
     {
         var enemyController = enemy.GetComponent<EnemyController>();
-        enemyController?.InitializeEnemy();
+        enemyController?.InitializeEnemyStats();
         enemy.SetActive(false);
     }
 

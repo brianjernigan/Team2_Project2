@@ -273,6 +273,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61bbb90d640e86e41a60b8550a052401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bulletPrefab: {fileID: 5337641785984595677, guid: 6defbff3191e31b439279eacb3419d49, type: 3}
+  _muzzleTransform: {fileID: 4519270279959283666}
 --- !u!195 &5513795055248697059
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -320,7 +322,7 @@ Transform:
   m_GameObject: {fileID: 8941935777019056871}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0031092863, y: -0.13577595, z: 1.1375144}
+  m_LocalPosition: {x: 0.017, y: 0.05, z: 1.045}
   m_LocalScale: {x: 1.554643, y: 2.951649, z: 2.1543832}
   m_ConstrainProportionsScale: 0
   m_Children: []

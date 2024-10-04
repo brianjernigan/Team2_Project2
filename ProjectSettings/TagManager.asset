@@ -11,6 +11,7 @@ TagManager:
   - AudioManager
   - House
   - XP
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX

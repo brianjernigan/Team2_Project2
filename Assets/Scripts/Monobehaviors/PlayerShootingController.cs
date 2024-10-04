@@ -39,7 +39,7 @@ public class PlayerShootingController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            if (StatManager.Instance.CurrentAmmo < StatManager.Instance.MaxAmmo)
+            if (StatManager.Instance.CurrentAmmo < StatManager.Instance.CurrentMaxAmmo)
             {
                 Reload();
             }
@@ -58,7 +58,7 @@ public class PlayerShootingController : MonoBehaviour
 
         StartCoroutine(ReloadRoutine());
 
-        StatManager.Instance.CurrentAmmo = StatManager.Instance.MaxAmmo;
+        StatManager.Instance.CurrentAmmo = StatManager.Instance.CurrentMaxAmmo;
         OnAmmoChanged?.Invoke();
     }
 
