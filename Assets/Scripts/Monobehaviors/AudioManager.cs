@@ -12,6 +12,11 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _chainAudio;
     [SerializeField] private AudioSource _collectAudio;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
+    
     public void PlayShotAudio()
     {
         if (_shotAudio.isPlaying)

@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 0
   xpValue: 2
   health: 30
-  damage: 10
+  damage: 8
   speed: 4
   angularSpeed: 360
   acceleration: 6

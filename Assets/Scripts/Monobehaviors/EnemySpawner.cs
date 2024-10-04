@@ -13,7 +13,10 @@ public class EnemySpawner : MonoBehaviour
     private int _initialPoolSize;
     private ObjectPool<GameObject> _enemyPool;
 
-    private const float SpawnInterval = 2.5f;
+    private const float BaseSpawnRate = 2.5f;
+    private const float MinSpawnRate = 0.5f;
+    private const float SpawnRateScale = 0.975f;
+    
     private const float XpHeight = 1.045f;
 
     private void Awake()
@@ -33,7 +36,8 @@ public class EnemySpawner : MonoBehaviour
             100
         );
 
-        InvokeRepeating(nameof(SpawnEnemy), 1, SpawnInterval);
+        InvokeRepeating(nameof(SpawnEnemy), 0,
+            Mathf.Max(MinSpawnRate, BaseSpawnRate * Mathf.Pow(SpawnRateScale, StatManager.Instance.CurrentPlayerLevel - 1)));
     }
 
     private void SpawnEnemy()

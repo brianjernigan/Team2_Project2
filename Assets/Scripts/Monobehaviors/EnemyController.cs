@@ -19,19 +19,23 @@ public class EnemyController : MonoBehaviour
     public int XpValue { get; set; }
 
     private EnemySpawner _spawner;
+
+    private const float HealthScale = 1.1f;
+    private const float DamageScale = 1.05f;
+    private const float SpeedScale = 1.02f;
     
     public void InitializeEnemy()
     {
-        Health = _enemyData.health;
-        Damage = _enemyData.damage;
+        Health = _enemyData.health * Mathf.Pow(HealthScale, StatManager.Instance.CurrentPlayerLevel - 1);
+        Damage = _enemyData.damage * Mathf.Pow(DamageScale, StatManager.Instance.CurrentPlayerLevel - 1);
         XpValue = _enemyData.xpValue;
 
         if (!NavMeshAgent.enabled)
         {
             NavMeshAgent.enabled = true;
         }
-        
-        NavMeshAgent.speed = _enemyData.speed;
+
+        NavMeshAgent.speed = _enemyData.speed * Mathf.Pow(SpeedScale, StatManager.Instance.CurrentPlayerLevel - 1);
         NavMeshAgent.angularSpeed = _enemyData.angularSpeed;
         NavMeshAgent.stoppingDistance = _enemyData.stoppingDistance;
         NavMeshAgent.acceleration = _enemyData.acceleration;

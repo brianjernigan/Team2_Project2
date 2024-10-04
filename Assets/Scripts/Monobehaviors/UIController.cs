@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TMP_Text _killedText;
     [SerializeField] private TMP_Text _ammoText;
     [SerializeField] private TMP_Text _xpText;
+    [SerializeField] private TMP_Text _xpRequiredText;
     
     [Header("Player Components")]
     [SerializeField] private GameObject _player;
@@ -40,35 +41,32 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        InitializeTexts();
+        UpdateAllTexts();
     }
 
-    private void InitializeTexts()
+    private void UpdateHealthText()
     {
-        _healthText.text = "Health: 100";
-        _killedText.text = "Enemies Killed: 0";
-        _ammoText.text = $"Ammo: {StatManager.Instance.CurrentAmmo}";
-        _xpText.text = "XP: 0";
+        _healthText.text = $"Health: {StatManager.Instance.CurrentHealth} / {StatManager.Instance.MaxHealth}";
     }
 
-    private void UpdateHealthText(float playerHealth)
+    private void UpdateKilledText()
     {
-        _healthText.text = $"Health: {playerHealth}";
+        _killedText.text = $"Enemies Killed: {StatManager.Instance.NumEnemiesKilled}";
     }
 
-    private void UpdateKilledText(int numKilled)
+    private void UpdateAmmoText()
     {
-        _killedText.text = $"Enemies Killed: {numKilled}";
-    }
-
-    private void UpdateAmmoText(float currentAmmo)
-    {
-        _ammoText.text = $"Ammo: {currentAmmo}";
+        _ammoText.text = $"Ammo: {StatManager.Instance.CurrentAmmo} / {StatManager.Instance.MaxAmmo}";
     }
 
     private void UpdateXpText()
     {
         _xpText.text = $"XP: {StatManager.Instance.CurrentXp}";
+    }
+
+    private void UpdateXpRequiredText()
+    {
+        _xpRequiredText.text = $"XP Required: {StatManager.Instance.XpThreshold}";
     }
     
     private void ActivateUpgradePanel()
@@ -77,5 +75,23 @@ public class UIController : MonoBehaviour
         _upgradePanel.SetActive(true);
         _playerShootingController.enabled = false;
         Time.timeScale = 0;
+    }
+
+    public void ResumeGame()
+    {
+        _gamePanel.SetActive(true);
+        _upgradePanel.SetActive(false);
+        _playerShootingController.enabled = true;
+        UpdateAllTexts();
+        Time.timeScale = 1;
+    }
+
+    private void UpdateAllTexts()
+    {
+        UpdateAmmoText();
+        UpdateHealthText();
+        UpdateKilledText();
+        UpdateXpText();
+        UpdateXpRequiredText();
     }
 }
