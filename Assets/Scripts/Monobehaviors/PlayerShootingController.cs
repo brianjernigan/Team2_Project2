@@ -9,7 +9,7 @@ public class PlayerShootingController : MonoBehaviour
     [SerializeField] private Transform _muzzlePosition;
     [SerializeField] private AudioManager _audio;
 
-    private ShotType _currentShotType;
+    public ShotType CurrentShotType { get; set; }
 
     private bool _canShoot = true;
 
@@ -18,7 +18,7 @@ public class PlayerShootingController : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        _currentShotType = ShotType.Default;
+        CurrentShotType = ShotType.Default;
     }
     
     private void Update()
@@ -44,11 +44,31 @@ public class PlayerShootingController : MonoBehaviour
                 Reload();
             }
         }
+
+        CycleShotType();
+    }
+
+    private void CycleShotType()
+    {
+        var shotTypes = (ShotType[])Enum.GetValues(typeof(ShotType));
+        var shotTypeIndex = Array.IndexOf(shotTypes, CurrentShotType);
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            shotTypeIndex = (shotTypeIndex + 1) % shotTypes.Length;
+            SetShotType(shotTypes[shotTypeIndex]);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            shotTypeIndex = (shotTypeIndex - 1 + shotTypes.Length) % shotTypes.Length;
+            SetShotType(shotTypes[shotTypeIndex]);
+        }
     }
 
     private void Shoot()
     {
-        DetermineShot(_currentShotType);
+        DetermineShot(CurrentShotType);
         _audio.PlayShotAudio();
     }
     
@@ -88,9 +108,6 @@ public class PlayerShootingController : MonoBehaviour
             case ShotType.HeavyShot:
                 ShootHeavy();
                 break;
-            case ShotType.LargeShot:
-                ShootLarge();
-                break;
             case ShotType.PiercingShot:
                 ShootPiercing();
                 break;
@@ -114,7 +131,21 @@ public class PlayerShootingController : MonoBehaviour
 
     private void ShootSpread()
     {
-        throw new NotImplementedException();
+        var numProjectiles = 3;
+        var spreadAngle = 15f;
+
+        for (var i = 0; i < numProjectiles; i++)
+        {
+            var fireball = InstantiateFireBall();
+            var fireballRb = GetFireballRigidbody(fireball);
+
+            var angleOffset = (i - (numProjectiles - 1) / 2f) * spreadAngle;
+            var direction = Quaternion.Euler(0, angleOffset, 0) * _muzzlePosition.forward;
+
+            fireballRb?.AddForce(direction * StatManager.Instance.CurrentShotSpeed, ForceMode.Impulse);
+        }
+
+        DecreaseAmmo();
     }
 
     private void ShootPiercing()
@@ -122,14 +153,15 @@ public class PlayerShootingController : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    private void ShootLarge()
-    {
-        throw new NotImplementedException();
-    }
-
     private void ShootHeavy()
     {
-        throw new NotImplementedException();
+        var fireball = InstantiateFireBall();
+        var fireballRb = GetFireballRigidbody(fireball);
+        fireball.transform.localScale *= 2;
+        
+        fireballRb?.AddForce(_muzzlePosition.forward * (StatManager.Instance.CurrentShotSpeed / 2f), ForceMode.Impulse);
+        
+        DecreaseAmmo();
     }
 
     private void ShootFast()
@@ -154,18 +186,33 @@ public class PlayerShootingController : MonoBehaviour
 
     private void ShootDefault()
     {
-        var fireball = Instantiate(_fireballPrefab, _muzzlePosition.position, _muzzlePosition.rotation);
-        var fireballRb = fireball.GetComponent<Rigidbody>();
+        var fireball = InstantiateFireBall();
+        var fireballRb = GetFireballRigidbody(fireball);
 
         fireballRb?.AddForce(_muzzlePosition.forward * StatManager.Instance.CurrentShotSpeed, ForceMode.Impulse);
 
+        DecreaseAmmo();
+    }
+
+    private GameObject InstantiateFireBall()
+    {
+        return Instantiate(_fireballPrefab, _muzzlePosition.position, _muzzlePosition.rotation);
+    }
+
+    private Rigidbody GetFireballRigidbody(GameObject fireball)
+    {
+        return fireball.GetComponent<Rigidbody>();
+    }
+
+    private void DecreaseAmmo()
+    {
         StatManager.Instance.CurrentAmmo--;
         OnAmmoChanged?.Invoke();
     }
 
     public void SetShotType(ShotType newShot)
     {
-        _currentShotType = newShot;
-        Debug.Log(_currentShotType);
+        CurrentShotType = newShot;
+        Debug.Log("Current Shot Type: " + CurrentShotType);
     }
 }

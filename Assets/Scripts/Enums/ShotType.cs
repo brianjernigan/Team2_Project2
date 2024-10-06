@@ -7,7 +7,6 @@ public enum ShotType
     Default, // Single shot
     CircleShot, // Circle of bullets around player
     SpreadShot, // 3 bullet spread
-    LargeShot, // Larger bullet
     FastShot, // Faster bullet
     TrackingShot, // Bullet moves towards closest enemy
     BouncingShot, // Bullet bounces off object once
