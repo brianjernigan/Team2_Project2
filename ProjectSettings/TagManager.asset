@@ -12,6 +12,7 @@ TagManager:
   - House
   - XP
   - EnemyBullet
+  - Spawner
   layers:
   - Default
   - TransparentFX

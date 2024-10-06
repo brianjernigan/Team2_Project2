@@ -73,7 +73,6 @@ public class EnemySpawner : MonoBehaviour
         var playerLevel = StatManager.Instance.CurrentPlayerLevel;
 
         _currentSpawnRate = Mathf.Max(MinSpawnRate, BaseSpawnRate * Mathf.Pow(SpawnRateScale, playerLevel - 1));
-        Debug.Log("Spawn rate decreased");
     }
 
     private GameObject CreatePooledEnemy()
