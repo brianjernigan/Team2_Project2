@@ -86,17 +86,11 @@ public class PlayerShootingController : MonoBehaviour
     {
         switch (currentShot)
         {
-            case ShotType.CircleShot:
-                ShootCircle();
-                break;
             case ShotType.FastShot:
                 ShootFast();
                 break;
             case ShotType.HeavyShot:
                 ShootHeavy();
-                break;
-            case ShotType.PiercingShot:
-                ShootPiercing();
                 break;
             case ShotType.SpreadShot:
                 ShootSpread();
@@ -237,11 +231,6 @@ public class PlayerShootingController : MonoBehaviour
 
             fireballRb?.AddForce(direction * StatManager.Instance.CurrentShotSpeed, ForceMode.Impulse);
         }
-    }
-
-    private void ShootPiercing()
-    {
-        throw new NotImplementedException();
     }
 
     private void ShootHeavy()
