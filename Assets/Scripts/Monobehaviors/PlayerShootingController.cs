@@ -10,8 +10,11 @@ public class PlayerShootingController : MonoBehaviour
     [SerializeField] private AudioManager _audio;
 
     public ShotType CurrentShotType { get; set; }
-
+    
+    private const float FireRate = 0.1f;
     private bool _canShoot = true;
+    private bool _isAutoFireEnabled;
+    private float _timeSinceLastShot;
 
     public event Action OnAmmoChanged;
 
@@ -23,72 +26,59 @@ public class PlayerShootingController : MonoBehaviour
     
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (StatManager.Instance.CurrentAmmo <= 0)
-            {
-                _audio.PlayEmptyMagAudio();
-                return;
-            }
-
-            if (_canShoot)
-            {
-                Shoot();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            if (StatManager.Instance.CurrentAmmo < StatManager.Instance.CurrentMaxAmmo)
-            {
-                Reload();
-            }
-        }
-
+        _timeSinceLastShot += Time.deltaTime;
+        
+        HandleShooting();
+        HandleReloading();
         CycleShotType();
     }
 
-    private void CycleShotType()
+    private void HandleShooting()
     {
-        var shotTypes = (ShotType[])Enum.GetValues(typeof(ShotType));
-        var shotTypeIndex = Array.IndexOf(shotTypes, CurrentShotType);
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (StatManager.Instance.CurrentAmmo <= 0)
         {
-            shotTypeIndex = (shotTypeIndex + 1) % shotTypes.Length;
-            SetShotType(shotTypes[shotTypeIndex]);
+            if (Input.GetMouseButtonDown(0))
+            {
+                _audio.PlayEmptyMagAudio();
+            }
+
+            return;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (CurrentShotType == ShotType.AutomaticShot || _isAutoFireEnabled)
         {
-            shotTypeIndex = (shotTypeIndex - 1 + shotTypes.Length) % shotTypes.Length;
-            SetShotType(shotTypes[shotTypeIndex]);
+            HandleAutoFire();
+        }
+        else
+        {
+            HandleManualFire();
         }
     }
 
+    private void HandleManualFire()
+    {
+        if (Input.GetMouseButtonDown(0) && _canShoot)
+        {
+            Shoot();
+        }
+    }
+
+    private void HandleAutoFire()
+    {
+        if (Input.GetMouseButton(0) && _canShoot && _timeSinceLastShot >= FireRate)
+        {
+            Shoot();
+            _timeSinceLastShot = 0f;
+        }
+    }
+    
     private void Shoot()
     {
         DetermineShot(CurrentShotType);
         _audio.PlayShotAudio();
+        DecreaseAmmo();
     }
     
-    private void Reload()
-    {
-        _audio.PlayReloadAudio();
-
-        StartCoroutine(ReloadRoutine());
-
-        StatManager.Instance.CurrentAmmo = StatManager.Instance.CurrentMaxAmmo;
-        OnAmmoChanged?.Invoke();
-    }
-
-    private IEnumerator ReloadRoutine()
-    {
-        _canShoot = false;
-        yield return new WaitForSeconds(1f);
-        _canShoot = true;
-    }
-
     private void DetermineShot(ShotType currentShot)
     {
         switch (currentShot)
@@ -117,10 +107,52 @@ public class PlayerShootingController : MonoBehaviour
             case ShotType.TrackingShot:
                 ShootTracking();
                 break;
+            case ShotType.AutomaticShot:
             case ShotType.Default:
             default:
                 ShootDefault();
                 break;
+        }
+    }
+
+    private void HandleReloading()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && StatManager.Instance.CurrentAmmo < StatManager.Instance.CurrentMaxAmmo)
+        {
+            Reload();
+        }
+    }
+
+    private void Reload()
+    {
+        StartCoroutine(ReloadRoutine());
+        _audio.PlayReloadAudio();
+        StatManager.Instance.CurrentAmmo = StatManager.Instance.CurrentMaxAmmo;
+        OnAmmoChanged?.Invoke();
+    }
+    
+    private IEnumerator ReloadRoutine()
+    {
+        _canShoot = false;
+        yield return new WaitForSeconds(1f);
+        _canShoot = true;
+    }
+    
+    private void CycleShotType()
+    {
+        var shotTypes = (ShotType[])Enum.GetValues(typeof(ShotType));
+        var shotTypeIndex = Array.IndexOf(shotTypes, CurrentShotType);
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            shotTypeIndex = (shotTypeIndex + 1) % shotTypes.Length;
+            SetShotType(shotTypes[shotTypeIndex]);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            shotTypeIndex = (shotTypeIndex - 1 + shotTypes.Length) % shotTypes.Length;
+            SetShotType(shotTypes[shotTypeIndex]);
         }
     }
 
@@ -144,8 +176,6 @@ public class PlayerShootingController : MonoBehaviour
 
             fireballRb?.AddForce(direction * StatManager.Instance.CurrentShotSpeed, ForceMode.Impulse);
         }
-
-        DecreaseAmmo();
     }
 
     private void ShootPiercing()
@@ -160,13 +190,15 @@ public class PlayerShootingController : MonoBehaviour
         fireball.transform.localScale *= 2;
         
         fireballRb?.AddForce(_muzzlePosition.forward * (StatManager.Instance.CurrentShotSpeed / 2f), ForceMode.Impulse);
-        
-        DecreaseAmmo();
     }
 
     private void ShootFast()
     {
-        throw new NotImplementedException();
+        var fireball = InstantiateFireBall();
+        var fireballRb = GetFireballRigidbody(fireball);
+        fireball.transform.localScale *= 0.75f;
+        
+        fireballRb?.AddForce(_muzzlePosition.forward * (StatManager.Instance.CurrentShotSpeed * 1.5f), ForceMode.Impulse);
     }
 
     private void ShootExplode()
@@ -190,8 +222,6 @@ public class PlayerShootingController : MonoBehaviour
         var fireballRb = GetFireballRigidbody(fireball);
 
         fireballRb?.AddForce(_muzzlePosition.forward * StatManager.Instance.CurrentShotSpeed, ForceMode.Impulse);
-
-        DecreaseAmmo();
     }
 
     private GameObject InstantiateFireBall()
@@ -214,5 +244,15 @@ public class PlayerShootingController : MonoBehaviour
     {
         CurrentShotType = newShot;
         Debug.Log("Current Shot Type: " + CurrentShotType);
+    }
+
+    public void EnableAutoFire()
+    {
+        _isAutoFireEnabled = true;
+    }
+
+    public void DisableAutoFire()
+    {
+        _isAutoFireEnabled = false;
     }
 }
