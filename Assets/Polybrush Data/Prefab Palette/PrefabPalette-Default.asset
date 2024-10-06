@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc38003c0e0db6641a4762d4f392de52, type: 3}
+  m_Name: PrefabPalette-Default
+  m_EditorClassIdentifier: 
+  prefabs:
+  - gameObject: {fileID: 1644485141018748550, guid: 0d86dbbbc13c47c448614ee7aa1bb0ff, type: 3}
+    settings:
+      m_Strength: 100
+      m_RotationRangeMin: {x: 0, y: 0, z: 0}
+      m_RotationRangeMax: {x: 126.138115, y: 156.52174, z: 181.38109}
+      m_ScaleRangeMin: {x: 0, y: 0, z: 0}
+      m_ScaleRangeMax: {x: 2.1764708, y: 2.12532, z: 2.1739125}
+      m_UniformScale: {x: 0, y: 1.8867924}
+      m_UniformBool: 1
+      m_XRotationBool: 0
+      m_YRotationBool: 1
+      m_ZRotationBool: 1
+      m_XScaleBool: 1
+      m_YScaleBool: 1
+      m_ZScaleBool: 1
+    name: WeedRedo (2)
+  - gameObject: {fileID: 8692546809129313406, guid: 40316601a0e501a44b33201da63e9999, type: 3}
+    settings:
+      m_Strength: 100
+      m_RotationRangeMin: {x: 0, y: 0, z: 0}
+      m_RotationRangeMax: {x: 116.930954, y: 146.39388, z: 164.8082}
+      m_ScaleRangeMin: {x: 0.025575459, y: 0.3094629, z: 0.3094629}
+      m_ScaleRangeMax: {x: 1.381074, y: 1.4603581, z: 1.5882354}
+      m_UniformScale: {x: 0, y: 2.320754}
+      m_UniformBool: 1
+      m_XRotationBool: 0
+      m_YRotationBool: 1
+      m_ZRotationBool: 1
+      m_XScaleBool: 1
+      m_YScaleBool: 1
+      m_ZScaleBool: 1
+    name: WeedRedo3_Huff
+  - gameObject: {fileID: 135975928621164800, guid: 2d57eecf4e4352847b1e3da534728e88, type: 3}
+    settings:
+      m_Strength: 100
+      m_RotationRangeMin: {x: 0, y: 0, z: 0}
+      m_RotationRangeMax: {x: 152.83888, y: 214.52686, z: 190.58824}
+      m_ScaleRangeMin: {x: 0, y: 0, z: 0}
+      m_ScaleRangeMax: {x: 1.9430723, y: 1.9754441, z: 1.9113624}
+      m_UniformScale: {x: 0, y: 1.9433962}
+      m_UniformBool: 1
+      m_XRotationBool: 0
+      m_YRotationBool: 1
+      m_ZRotationBool: 1
+      m_XScaleBool: 1
+      m_YScaleBool: 1
+      m_ZScaleBool: 1
+    name: WeedRedo_Huff
