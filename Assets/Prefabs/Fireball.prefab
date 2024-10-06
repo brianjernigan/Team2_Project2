@@ -146,3 +146,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21dea65ab6f5e524e983bd8da297c851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _smallBulletPrefab: {fileID: 5337641785984595677, guid: a2884f12bb1bc3a469eb4fef08e0c863, type: 3}

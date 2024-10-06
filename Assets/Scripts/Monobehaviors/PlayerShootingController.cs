@@ -15,8 +15,9 @@ public class PlayerShootingController : MonoBehaviour
     
     private const float FireRate = 0.1f;
     private bool _canShoot = true;
-    private bool _isAutoFireEnabled;
     private float _timeSinceLastShot;
+    
+    public bool IsTracking { get; set; }
 
     public event Action OnAmmoChanged;
 
@@ -47,7 +48,7 @@ public class PlayerShootingController : MonoBehaviour
             return;
         }
 
-        if (CurrentShotType == ShotType.AutomaticShot || _isAutoFireEnabled)
+        if (CurrentShotType == ShotType.AutomaticShot)
         {
             HandleAutoFire();
         }
@@ -85,14 +86,8 @@ public class PlayerShootingController : MonoBehaviour
     {
         switch (currentShot)
         {
-            case ShotType.BouncingShot:
-                ShootBounce();
-                break;
             case ShotType.CircleShot:
                 ShootCircle();
-                break;
-            case ShotType.ExplodingShot:
-                ShootExplode();
                 break;
             case ShotType.FastShot:
                 ShootFast();
@@ -167,22 +162,24 @@ public class PlayerShootingController : MonoBehaviour
 
         if (target is null)
         {
+            IsTracking = false;
             Destroy(fireball);
             ShootDefault(); 
         }
         else
         {
+            IsTracking = true;
             StartCoroutine(TrackEnemy(fireball, target));
         }
     }
 
-    private IEnumerator TrackEnemy(GameObject fireball, Transform target)
+    public IEnumerator TrackEnemy(GameObject fireball, Transform target)
     {
         var fireballRb = GetFireballRigidbody(fireball);
 
         var turnSpeed = 5f;
 
-        while (fireball is not null && target is not null)
+        while (fireball is not null && target is not null && IsTracking)
         {
             var direction = (target.position - fireball.transform.position).normalized;
             var lookRotation = Quaternion.LookRotation(direction);
@@ -200,20 +197,24 @@ public class PlayerShootingController : MonoBehaviour
 
     private Transform FindClosestEnemy(Vector3 position, float radius)
     {
-        var colliders = Physics.OverlapSphere(position, radius);
+        const int maxColliders = 50;
+        
+        var hitColliders = new Collider[maxColliders];
+        var numColliders = Physics.OverlapSphereNonAlloc(position, radius, hitColliders);
+        
         Transform closestEnemy = null;
         var closestDistance = Mathf.Infinity;
 
-        foreach (var enemyColliders in colliders) 
+        for (var i = 0; i < numColliders; i++)
         {
-            if (enemyColliders.CompareTag("Enemy"))
+            if (hitColliders[i].CompareTag("Enemy"))
             {
-                var distanceToEnemy = Vector3.Distance(position, enemyColliders.transform.position);
+                var distanceToEnemy = Vector3.Distance(position, hitColliders[i].transform.position);
 
                 if (distanceToEnemy < closestDistance)
                 {
                     closestDistance = distanceToEnemy;
-                    closestEnemy = enemyColliders.transform;
+                    closestEnemy = hitColliders[i].transform;
                 }
             }
         }
@@ -261,17 +262,7 @@ public class PlayerShootingController : MonoBehaviour
         fireballRb?.AddForce(_muzzlePosition.forward * (StatManager.Instance.CurrentShotSpeed * 1.5f), ForceMode.Impulse);
     }
 
-    private void ShootExplode()
-    {
-        throw new NotImplementedException();
-    }
-
     private void ShootCircle()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void ShootBounce()
     {
         throw new NotImplementedException();
     }
@@ -304,15 +295,5 @@ public class PlayerShootingController : MonoBehaviour
     {
         CurrentShotType = newShot;
         Debug.Log("Current Shot Type: " + CurrentShotType);
-    }
-
-    public void EnableAutoFire()
-    {
-        _isAutoFireEnabled = true;
-    }
-
-    public void DisableAutoFire()
-    {
-        _isAutoFireEnabled = false;
     }
 }

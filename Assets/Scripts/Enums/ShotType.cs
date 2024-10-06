@@ -10,8 +10,6 @@ public enum ShotType
     FastShot, // Faster, smaller bullet, less damage - done
     HeavyShot, // Slower, larger bullet, more damage - done
     TrackingShot, // Bullet moves towards closest enemy
-    BouncingShot, // Bullet bounces off object once
     PiercingShot, // Bullet goes through one enemy
-    ExplodingShot, // On hit, bullet explodes into 5 smaller bullets
     AutomaticShot // Fires automatically - done
 }

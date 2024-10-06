@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class FireballController : MonoBehaviour
@@ -30,7 +31,7 @@ public class FireballController : MonoBehaviour
             
             enemyController.DamageEnemy(damage);
             _audio.PlayEnemyHitAudio();
-
+            
             Destroy(gameObject);
         }
 
@@ -54,5 +55,11 @@ public class FireballController : MonoBehaviour
     {
         yield return new WaitForSeconds(Lifespan);
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        StopCoroutine(FireballLifespan());
+        _playerShootingController.IsTracking = false;
     }
 }
