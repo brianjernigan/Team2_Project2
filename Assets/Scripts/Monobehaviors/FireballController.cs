@@ -30,7 +30,7 @@ public class FireballController : MonoBehaviour
             
             enemyController.DamageEnemy(damage);
             _audio.PlayEnemyHitAudio();
-            
+
             Destroy(gameObject);
         }
 

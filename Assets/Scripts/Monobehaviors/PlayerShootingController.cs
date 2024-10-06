@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 public class PlayerShootingController : MonoBehaviour
 {
@@ -158,7 +160,65 @@ public class PlayerShootingController : MonoBehaviour
 
     private void ShootTracking()
     {
-        throw new NotImplementedException();
+        var trackingRadius = 25f;
+        
+        var fireball = InstantiateFireBall();
+        var target = FindClosestEnemy(_muzzlePosition.position, trackingRadius);
+
+        if (target is null)
+        {
+            Destroy(fireball);
+            ShootDefault(); 
+        }
+        else
+        {
+            StartCoroutine(TrackEnemy(fireball, target));
+        }
+    }
+
+    private IEnumerator TrackEnemy(GameObject fireball, Transform target)
+    {
+        var fireballRb = GetFireballRigidbody(fireball);
+
+        var turnSpeed = 5f;
+
+        while (fireball is not null && target is not null)
+        {
+            var direction = (target.position - fireball.transform.position).normalized;
+            var lookRotation = Quaternion.LookRotation(direction);
+
+            fireball.transform.rotation = Quaternion.Slerp(fireball.transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
+
+            if (fireballRb is not null)
+            {
+                fireballRb.velocity = fireball.transform.forward * StatManager.Instance.CurrentShotSpeed;
+            }
+            
+            yield return null;
+        }
+    }
+
+    private Transform FindClosestEnemy(Vector3 position, float radius)
+    {
+        var colliders = Physics.OverlapSphere(position, radius);
+        Transform closestEnemy = null;
+        var closestDistance = Mathf.Infinity;
+
+        foreach (var enemyColliders in colliders) 
+        {
+            if (enemyColliders.CompareTag("Enemy"))
+            {
+                var distanceToEnemy = Vector3.Distance(position, enemyColliders.transform.position);
+
+                if (distanceToEnemy < closestDistance)
+                {
+                    closestDistance = distanceToEnemy;
+                    closestEnemy = enemyColliders.transform;
+                }
+            }
+        }
+
+        return closestEnemy;
     }
 
     private void ShootSpread()
