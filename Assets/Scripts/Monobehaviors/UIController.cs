@@ -100,7 +100,7 @@ public class UIController : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    private void UpdateAllTexts()
+    public void UpdateAllTexts()
     {
         UpdateAmmoText();
         UpdateHealthText();

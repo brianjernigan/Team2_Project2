@@ -85,6 +85,7 @@ public class StatManager : MonoBehaviour
         CurrentPlayerLevel = 1;
         CurrentXp = 0;
         XpThreshold = BaseXpThreshold;
+        UIController.Instance.UpdateAllTexts();
     }
 
     private void Start()

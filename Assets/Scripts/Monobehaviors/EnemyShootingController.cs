@@ -31,8 +31,11 @@ public class EnemyShootingController : MonoBehaviour
     private void Update()
     {
         _playerTransform = GameObject.FindWithTag("Player").transform;
+
+        var playerIsWithinDistance = Vector3.Distance(transform.position, _playerTransform.position) <=
+                                     _enemyController.NavMeshAgent.stoppingDistance;
         
-        if (Vector3.Distance(transform.position, _playerTransform.position) <= _enemyController.NavMeshAgent.stoppingDistance)
+        if (playerIsWithinDistance)
         {
             if (!_isFiring)
             {

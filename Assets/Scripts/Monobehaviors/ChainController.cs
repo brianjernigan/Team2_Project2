@@ -6,10 +6,10 @@ using UnityEngine.AI;
 
 public class ChainController : MonoBehaviour
 {
-    [SerializeField] private float _maxChainRange = 15f;
-    [SerializeField] private float _stunDuration = .5f;
-    [SerializeField] private float _pullSpeed = 20f;
-    [SerializeField] private float _pushSpeed = 40f;
+    private const float MaxChainRange = 15f;
+    private const float StunDuration = .5f;
+    private const float PullSpeed = 20f;
+    private const float PushSpeed = 40f;
     [SerializeField] private Transform _player;
     [SerializeField] private AudioManager _audio;
 
@@ -35,7 +35,7 @@ public class ChainController : MonoBehaviour
     {
         var direction = transform.forward;
 
-        if (Physics.Raycast(transform.position, direction, out var hit, _maxChainRange))
+        if (Physics.Raycast(transform.position, direction, out var hit, MaxChainRange))
         {
             if (hit.collider.CompareTag("Enemy"))
             {
@@ -73,24 +73,24 @@ public class ChainController : MonoBehaviour
         
         // Step 1: Push enemy to the max hook range
         var direction = (enemy.transform.position - _player.position).normalized;
-        var maxRangePosition = _player.position + direction * _maxChainRange;
+        var maxRangePosition = _player.position + direction * MaxChainRange;
 
         while (Vector3.Distance(enemy.transform.position, maxRangePosition) > 0.1f)
         {
-            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, maxRangePosition, _pushSpeed * Time.deltaTime);
+            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, maxRangePosition, PushSpeed * Time.deltaTime);
             yield return null;
         }
 
         // Stun enemy for initial stun duration once they get to max range
-        StunEnemy(_stunDuration, enemyController);
-        yield return new WaitForSeconds(_stunDuration);
+        StunEnemy(StunDuration, enemyController);
+        yield return new WaitForSeconds(StunDuration);
 
         // Step 2: Pull enemy to 2 units in front of the player
         var closeRangePosition = _player.position + (enemy.transform.position - _player.position).normalized * 2f;
 
         while (Vector3.Distance(enemy.transform.position, closeRangePosition) > 0.1f)
         {
-            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, closeRangePosition, _pullSpeed * Time.deltaTime);
+            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, closeRangePosition, PullSpeed * Time.deltaTime);
             yield return null;
         }
 

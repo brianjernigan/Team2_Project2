@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,11 @@ public class CameraController : MonoBehaviour
     [SerializeField] private GameObject _player;
 
     private readonly Vector3 _cameraOffset = new(0f, 25f, -10f);
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
 
     private void Start()
     {
