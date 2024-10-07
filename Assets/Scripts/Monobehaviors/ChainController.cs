@@ -11,7 +11,6 @@ public class ChainController : MonoBehaviour
     private const float PullSpeed = 20f;
     private const float PushSpeed = 40f;
     [SerializeField] private Transform _player;
-    [SerializeField] private AudioManager _audio;
 
     private bool _canTrigger;
     public float ChainCooldown { get; private set; } = 10f;
@@ -64,7 +63,7 @@ public class ChainController : MonoBehaviour
 
     private IEnumerator ChainEnemy(GameObject enemy)
     {
-        _audio.PlayChainAudio();
+        AudioManager.Instance.PlayChainAudio();
         
         var enemyController = enemy.GetComponent<EnemyController>();
         

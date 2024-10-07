@@ -6,14 +6,12 @@ using UnityEngine;
 
 public class FireballController : MonoBehaviour
 {
-    private AudioManager _audio;
     private PlayerShootingController _playerShootingController;
 
     private const float Lifespan = 2.5f;
     
     private void Awake()
     {
-        _audio = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
         _playerShootingController = FindObjectOfType<PlayerShootingController>();
         
         StartCoroutine(FireballLifespan());
@@ -30,7 +28,7 @@ public class FireballController : MonoBehaviour
             var damage = GetDamageAmount();   
             
             enemyController.DamageEnemy(damage);
-            _audio.PlayEnemyHitAudio();
+            AudioManager.Instance.PlayEnemyHitAudio();
             
             Destroy(gameObject);
         }

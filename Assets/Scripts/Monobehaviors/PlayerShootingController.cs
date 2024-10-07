@@ -9,7 +9,6 @@ public class PlayerShootingController : MonoBehaviour
 {
     [SerializeField] private GameObject _fireballPrefab;
     [SerializeField] private Transform _muzzlePosition;
-    [SerializeField] private AudioManager _audio;
 
     public ShotType CurrentShotType { get; set; }
     
@@ -44,7 +43,7 @@ public class PlayerShootingController : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                _audio.PlayEmptyMagAudio();
+                AudioManager.Instance.PlayEmptyMagAudio();
             }
 
             return;
@@ -80,7 +79,7 @@ public class PlayerShootingController : MonoBehaviour
     private void Shoot()
     {
         DetermineShot(CurrentShotType);
-        _audio.PlayShotAudio();
+        AudioManager.Instance.PlayShotAudio();
         DecreaseAmmo();
     }
     
@@ -119,7 +118,7 @@ public class PlayerShootingController : MonoBehaviour
     private void Reload()
     {
         StartCoroutine(ReloadRoutine());
-        _audio.PlayReloadAudio();
+        AudioManager.Instance.PlayReloadAudio();
         StatManager.Instance.CurrentAmmo = StatManager.Instance.CurrentMaxAmmo;
         OnAmmoChanged?.Invoke();
     }

@@ -56,9 +56,7 @@ public class StatManager : MonoBehaviour
     
     public bool GameIsOver { get; set; }
 
-    private AudioManager _audio;
-
-    private bool _levelLoading = false;
+    private bool _levelLoading;
 
     [SerializeField] private UpgradeHudController _upgradeHud;
     
@@ -90,11 +88,20 @@ public class StatManager : MonoBehaviour
         UIController.Instance.UpdateAllTexts();
     }
 
+    private void ResetPlayerStats()
+    {
+        CurrentHealth = CurrentMaxHealth;
+        CurrentAmmo = CurrentMaxAmmo;
+        CurrentPlayerLevel = 1;
+        CurrentXp = 0;
+        XpThreshold = BaseXpThreshold;
+        UIController.Instance.UpdateAllTexts();
+    }
+
     private void Start()
     {
         InitializePlayerStats();
-        _audio = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
-        _audio.PlayLevelMusic();
+        AudioManager.Instance.PlayLevelMusic();
     }
 
     public void DamagePlayer(float amount)
@@ -106,7 +113,7 @@ public class StatManager : MonoBehaviour
         CurrentHealth -= amount;
         OnPlayerDamaged?.Invoke();
         
-        _audio.PlayPlayerHitAudio();
+        AudioManager.Instance.PlayPlayerHitAudio();
 
         _invulnerabilityCoroutine ??= StartCoroutine(PlayerInvulnerability());
             
@@ -119,10 +126,10 @@ public class StatManager : MonoBehaviour
     private void Update()
     {
         // Testing
-        // if (NumEnemiesKilled >= 5 && !_levelLoading)
-        // {
-        //     LoadNextLevel("L2");
-        // }
+        if (NumEnemiesKilled >= 5 && !_levelLoading)
+        {
+            LoadNextLevel("L2");
+        }
     }
 
     public void EnemyDied()
@@ -143,14 +150,14 @@ public class StatManager : MonoBehaviour
 
     private void OnPlayerDeath()
     {
-        InitializePlayerStats();
+        ResetPlayerStats();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void IncreaseXp(int amount)
     {
         CurrentXp += amount;
-        _audio.PlayCollectAudio();
+        AudioManager.Instance.PlayCollectAudio();
         OnXpChanged?.Invoke();
 
         if (CurrentXp < XpThreshold) return;
@@ -197,5 +204,8 @@ public class StatManager : MonoBehaviour
     {
         _levelLoading = true;
         SceneManager.LoadScene(levelName);
+        // Scene transitions
+        // Set position
+        // Reset stats?
     }
 }
