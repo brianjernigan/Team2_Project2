@@ -58,6 +58,8 @@ public class StatManager : MonoBehaviour
 
     private AudioManager _audio;
 
+    private bool _levelLoading = false;
+
     [SerializeField] private UpgradeHudController _upgradeHud;
     
     private void Awake()
@@ -112,6 +114,15 @@ public class StatManager : MonoBehaviour
         {
             OnPlayerDeath();
         }
+    }
+
+    private void Update()
+    {
+        // Testing
+        // if (NumEnemiesKilled >= 5 && !_levelLoading)
+        // {
+        //     LoadNextLevel("L2");
+        // }
     }
 
     public void EnemyDied()
@@ -180,5 +191,11 @@ public class StatManager : MonoBehaviour
     {
         CurrentShotSpeed = Mathf.Round(CurrentShotSpeed * ShotSpeedMultiplier);
         _upgradeHud.UpdateStatHud(4, ++ShotSpeedLevel);
+    }
+
+    private void LoadNextLevel(string levelName)
+    {
+        _levelLoading = true;
+        SceneManager.LoadScene(levelName);
     }
 }

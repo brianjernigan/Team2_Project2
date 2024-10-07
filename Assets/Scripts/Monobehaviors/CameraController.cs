@@ -5,13 +5,23 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController Instance { get; private set; }
+    
     [SerializeField] private GameObject _player;
 
     private readonly Vector3 _cameraOffset = new(0f, 25f, -10f);
 
     private void Awake()
     {
-        DontDestroyOnLoad(this);
+        if (Instance is null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()

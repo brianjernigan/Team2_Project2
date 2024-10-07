@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance { get; private set; }
+    
     [SerializeField] private AudioSource _shotAudio;
     [SerializeField] private AudioSource _enemyHitAudio;
     [SerializeField] private AudioSource _playerHitAudio;
@@ -15,7 +17,15 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(this);
+        if (Instance is null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     
     public void PlayShotAudio()

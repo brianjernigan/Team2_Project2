@@ -22,6 +22,11 @@ public class EnemySpawner : MonoBehaviour
     
     private const float XpHeight = 1.045f;
 
+    private void Awake()
+    {
+        _initialPoolSize = GetPoolSize();
+    }
+    
     private void OnEnable()
     {
         StatManager.Instance.OnPlayerUpgrade += UpdateSpawnInterval;
@@ -30,11 +35,6 @@ public class EnemySpawner : MonoBehaviour
     private void OnDisable()
     {
         StatManager.Instance.OnPlayerUpgrade -= UpdateSpawnInterval;
-    }
-
-    private void Awake()
-    {
-        _initialPoolSize = GetPoolSize();
     }
 
     private void Start()

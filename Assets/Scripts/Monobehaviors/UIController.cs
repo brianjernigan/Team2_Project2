@@ -15,11 +15,12 @@ public class UIController : MonoBehaviour
     [SerializeField] private TMP_Text _xpText;
 
     [Header("Player Components")] 
-    [SerializeField] private GameObject _player;
-    [SerializeField] private PlayerShootingController _playerShootingController;
-    [SerializeField] private ChainController _chainController;
+    private GameObject _player;
+    private PlayerShootingController _playerShootingController;
+    private ChainController _chainController;
 
-    [Header("Panels")] [SerializeField] private GameObject _gamePanel;
+    [Header("Panels")] 
+    [SerializeField] private GameObject _gamePanel;
     [SerializeField] private GameObject _upgradePanel;
 
     [Header("Images")] 
@@ -36,6 +37,10 @@ public class UIController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        _player = GameObject.FindWithTag("Player");
+        _playerShootingController = _player.GetComponent<PlayerShootingController>();
+        _chainController = _player.GetComponent<ChainController>();
     }
 
     private void OnEnable()

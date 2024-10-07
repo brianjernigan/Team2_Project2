@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance { get; private set; }
+    
     [SerializeField] private Camera _mainCamera;
     
     private const float RotationSpeed = 720f;
@@ -16,7 +18,16 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(this);
+        if (Instance is null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
         _rb = GetComponent<Rigidbody>();
     }
 
