@@ -123,15 +123,6 @@ public class StatManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        // Testing
-        if (NumEnemiesKilled >= 5 && !_levelLoading)
-        {
-            LoadNextLevel("L2");
-        }
-    }
-
     public void EnemyDied()
     {
         NumEnemiesKilled++;

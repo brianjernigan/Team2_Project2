@@ -18,6 +18,7 @@ TagManager:
   - HeavyPickup
   - SpreadPickup
   - TrackingPickup
+  - TrickOrTreat
   layers:
   - Default
   - TransparentFX

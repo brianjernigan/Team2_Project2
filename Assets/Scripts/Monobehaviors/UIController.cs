@@ -55,12 +55,23 @@ public class UIController : MonoBehaviour
 
     private void OnDisable()
     {
-        StatManager.Instance.OnPlayerDamaged -= UpdateHealthText;
-        StatManager.Instance.OnEnemyKilled -= UpdateKilledText;
-        StatManager.Instance.OnXpChanged -= UpdateXpText;
-        StatManager.Instance.OnPlayerUpgrade -= ActivateUpgradePanel;
-        _playerShootingController.OnAmmoChanged -= UpdateAmmoText;
-        _chainController.OnChainTriggered -= HandleChainTriggered;
+        if (StatManager.Instance is not null)
+        {
+            StatManager.Instance.OnPlayerDamaged -= UpdateHealthText;
+            StatManager.Instance.OnEnemyKilled -= UpdateKilledText;
+            StatManager.Instance.OnXpChanged -= UpdateXpText;
+            StatManager.Instance.OnPlayerUpgrade -= ActivateUpgradePanel;
+        }
+
+        if (_playerShootingController is not null)
+        {
+            _playerShootingController.OnAmmoChanged -= UpdateAmmoText;
+        }
+
+        if (_chainController is not null)
+        {
+            _chainController.OnChainTriggered -= HandleChainTriggered;
+        }
     }
 
     private void Start()

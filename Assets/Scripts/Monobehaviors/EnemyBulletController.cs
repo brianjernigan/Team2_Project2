@@ -14,7 +14,7 @@ public class EnemyBulletController : MonoBehaviour
             Destroy(gameObject);
         }
         
-        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("XP") || other.gameObject.CompareTag("EnemyBullet")) return;
+        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("XP") || other.gameObject.CompareTag("EnemyBullet") || other.gameObject.CompareTag("TrickOrTreat")) return;
 
         Destroy(gameObject);
     }
