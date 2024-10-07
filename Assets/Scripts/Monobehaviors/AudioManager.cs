@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _emptyMagAudio;
     [SerializeField] private AudioSource _chainAudio;
     [SerializeField] private AudioSource _collectAudio;
+    [SerializeField] private AudioSource _levelMusic;
 
     private void Awake()
     {
@@ -86,5 +87,17 @@ public class AudioManager : MonoBehaviour
 
         _collectAudio.time = .027f;
         _collectAudio.Play();
+    }
+
+    public void PlayLevelMusic()
+    {
+        _levelMusic.volume = .75f;
+        _levelMusic.time = 14f;
+        _levelMusic.Play();
+    }
+
+    public void StopLevelMusic()
+    {
+        _levelMusic.Stop();
     }
 }

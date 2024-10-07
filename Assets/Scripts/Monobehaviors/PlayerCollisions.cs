@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
+    private PlayerShootingController _playerShootingController;
+
+    private void Awake()
+    {
+        _playerShootingController = GetComponent<PlayerShootingController>();
+    }
+    
     private void OnCollisionStay(Collision other)
     {
         if (other.gameObject.CompareTag("Enemy"))
@@ -35,6 +42,41 @@ public class PlayerCollisions : MonoBehaviour
             var bulletController = other.GetComponent<EnemyBulletController>();
             
             StatManager.Instance.DamagePlayer(bulletController.DamageValue);
+        }
+
+        HandlePickups(other);
+    }
+
+    private void HandlePickups(Collider other)
+    {
+        if (other.gameObject.CompareTag("FastPickup"))
+        {
+            _playerShootingController.SetShotType(ShotType.FastShot);
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("HeavyPickup"))
+        {
+            _playerShootingController.SetShotType(ShotType.HeavyShot);
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("AutoPickup"))
+        {
+            _playerShootingController.SetShotType(ShotType.AutomaticShot);
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("SpreadPickup"))
+        {
+            _playerShootingController.SetShotType(ShotType.SpreadShot);
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("TrackingPickup"))
+        {
+            _playerShootingController.SetShotType(ShotType.TrackingShot);
+            Destroy(other.gameObject);
         }
     }
 }

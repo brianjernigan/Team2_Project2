@@ -13,6 +13,11 @@ TagManager:
   - XP
   - EnemyBullet
   - Spawner
+  - AutoPickup
+  - FastPickup
+  - HeavyPickup
+  - SpreadPickup
+  - TrackingPickup
   layers:
   - Default
   - TransparentFX

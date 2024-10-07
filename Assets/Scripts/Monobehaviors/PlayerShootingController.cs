@@ -21,6 +21,8 @@ public class PlayerShootingController : MonoBehaviour
 
     public event Action OnAmmoChanged;
 
+    private Coroutine _activePickupCoroutine;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
@@ -33,7 +35,7 @@ public class PlayerShootingController : MonoBehaviour
         
         HandleShooting();
         HandleReloading();
-        CycleShotType();
+        // CycleShotType(); // Testing only
     }
 
     private void HandleShooting()
@@ -128,18 +130,19 @@ public class PlayerShootingController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         _canShoot = true;
     }
-    
+
+    // Testing only
     private void CycleShotType()
     {
         var shotTypes = (ShotType[])Enum.GetValues(typeof(ShotType));
         var shotTypeIndex = Array.IndexOf(shotTypes, CurrentShotType);
-
+    
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             shotTypeIndex = (shotTypeIndex + 1) % shotTypes.Length;
             SetShotType(shotTypes[shotTypeIndex]);
         }
-
+    
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             shotTypeIndex = (shotTypeIndex - 1 + shotTypes.Length) % shotTypes.Length;
@@ -251,11 +254,6 @@ public class PlayerShootingController : MonoBehaviour
         fireballRb?.AddForce(_muzzlePosition.forward * (StatManager.Instance.CurrentShotSpeed * 1.5f), ForceMode.Impulse);
     }
 
-    private void ShootCircle()
-    {
-        throw new NotImplementedException();
-    }
-
     private void ShootDefault()
     {
         var fireball = InstantiateFireBall();
@@ -283,6 +281,19 @@ public class PlayerShootingController : MonoBehaviour
     public void SetShotType(ShotType newShot)
     {
         CurrentShotType = newShot;
-        Debug.Log("Current Shot Type: " + CurrentShotType);
+        StartCoroutine(PickupDuration());
+
+        if (_activePickupCoroutine is not null)
+        {
+            StopCoroutine(_activePickupCoroutine);
+        }
+
+        _activePickupCoroutine = StartCoroutine(PickupDuration());
+    }
+
+    private IEnumerator PickupDuration()
+    {
+        yield return new WaitForSeconds(StatManager.Instance.CurrentPickupDuration);
+        SetShotType(ShotType.Default);
     }
 }

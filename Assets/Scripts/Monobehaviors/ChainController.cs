@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +13,19 @@ public class ChainController : MonoBehaviour
     [SerializeField] private Transform _player;
     [SerializeField] private AudioManager _audio;
 
+    private bool _canTrigger;
+    public float ChainCooldown { get; private set; } = 10f;
+
+    public event Action OnChainTriggered;
+
+    private void Start()
+    {
+        _canTrigger = true;
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && _canTrigger)
         {
             ShootChain();
         }
@@ -24,15 +35,15 @@ public class ChainController : MonoBehaviour
     {
         var direction = transform.forward;
 
-        // Draw the raycast line for visualization in the Scene view
-        Debug.DrawRay(transform.position, direction * _maxChainRange, Color.red, 2f); // Line lasts for 2 seconds
-
         if (Physics.Raycast(transform.position, direction, out var hit, _maxChainRange))
         {
             if (hit.collider.CompareTag("Enemy"))
             {
                 Debug.Log("Enemy hit by hook!");
                 StartCoroutine(ChainEnemy(hit.collider.gameObject));
+                _canTrigger = false;
+                StartCoroutine(CooldownRoutine());
+                OnChainTriggered?.Invoke();
             }
             else
             {
@@ -43,6 +54,12 @@ public class ChainController : MonoBehaviour
         {
             Debug.Log("Hook missed.");
         }
+    }
+
+    private IEnumerator CooldownRoutine()
+    {
+        yield return new WaitForSeconds(ChainCooldown);
+        _canTrigger = true;
     }
 
     private IEnumerator ChainEnemy(GameObject enemy)

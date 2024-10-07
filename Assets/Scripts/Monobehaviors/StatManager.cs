@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,12 +22,18 @@ public class StatManager : MonoBehaviour
     
     #region UpgradeableStats
     public float CurrentMoveSpeed { get; set; }
+    public int MoveSpeedLevel { get; private set; }
     public float CurrentMaxHealth { get; set; }
+    public int MaxHealthLevel { get; private set; }
     public float CurrentHealth { get; set; }
     public float CurrentDamage { get; set; }
+    public int DamageLevel { get; private set; }
     public float CurrentMaxAmmo { get; set; }
+    public int AmmoLevel { get; private set; }
     public float CurrentAmmo { get; set; }
     public float CurrentShotSpeed { get; set; }
+    public int ShotSpeedLevel { get; private set; }
+    public float CurrentPickupDuration { get; set; } = 10f;
     #endregion
     
     private const int BaseXpThreshold = 10;
@@ -50,6 +57,8 @@ public class StatManager : MonoBehaviour
     public bool GameIsOver { get; set; }
 
     private AudioManager _audio;
+
+    [SerializeField] private UpgradeHudController _upgradeHud;
     
     private void Awake()
     {
@@ -82,6 +91,7 @@ public class StatManager : MonoBehaviour
     {
         InitializePlayerStats();
         _audio = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+        _audio.PlayLevelMusic();
     }
 
     public void DamagePlayer(float amount)
@@ -144,25 +154,30 @@ public class StatManager : MonoBehaviour
     public void UpgradeHealth()
     {
         CurrentMaxHealth = Mathf.Round(CurrentMaxHealth * HealthMultiplier);
+        _upgradeHud.UpdateStatHud(0, ++MaxHealthLevel);
     }
 
     public void UpgradeMoveSpeed()
     {
         CurrentMoveSpeed = Mathf.Round(CurrentMoveSpeed * MoveSpeedMultiplier);
+        _upgradeHud.UpdateStatHud(1, ++MoveSpeedLevel);
     }
 
     public void UpgradeDamage()
     {
         CurrentDamage = Mathf.Round(CurrentDamage * DamageMultiplier);
+        _upgradeHud.UpdateStatHud(2, ++DamageLevel);
     }
 
     public void UpgradeAmmo()
     {
         CurrentMaxAmmo += AmmoUpgradeCount;
+        _upgradeHud.UpdateStatHud(3, ++AmmoLevel);
     }
 
     public void UpgradeShotSpeed()
     {
         CurrentShotSpeed = Mathf.Round(CurrentShotSpeed * ShotSpeedMultiplier);
+        _upgradeHud.UpdateStatHud(4, ++ShotSpeedLevel);
     }
 }
