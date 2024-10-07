@@ -61,3 +61,19 @@ MonoBehaviour:
       m_YScaleBool: 1
       m_ZScaleBool: 1
     name: WeedRedo_Huff
+  - gameObject: {fileID: 8670865535676453257, guid: 16a93cb1fe820cc4c880b63147128e9e, type: 3}
+    settings:
+      m_Strength: 100
+      m_RotationRangeMin: {x: 0, y: 0, z: 0}
+      m_RotationRangeMax: {x: 0, y: 0, z: 0}
+      m_ScaleRangeMin: {x: 1, y: 1, z: 1}
+      m_ScaleRangeMax: {x: 1, y: 1, z: 1}
+      m_UniformScale: {x: 1, y: 3.1333346}
+      m_UniformBool: 1
+      m_XRotationBool: 0
+      m_YRotationBool: 1
+      m_ZRotationBool: 1
+      m_XScaleBool: 1
+      m_YScaleBool: 1
+      m_ZScaleBool: 1
+    name: Tree
