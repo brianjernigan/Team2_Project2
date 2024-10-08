@@ -6,10 +6,10 @@ using UnityEngine.AI;
 public class PushBack2Controller : MonoBehaviour
 {
     [SerializeField] private float _knockbackRadius = 5f;       // Radius for knockback
-    [SerializeField] private float _initialKnockbackForce = 10f; // Initial force applied for knockback
+    [SerializeField] private float _initialKnockbackForce = 100f; // Initial force applied for knockback
     [SerializeField] private float _maxRaycastDistance = 10f;   // Max distance enemies will be pushed
-    [SerializeField] private float _knockbackDuration = 1f;     // Time over which the knockback force will be applied
-    [SerializeField] private float _knockbackCooldown = 2f;     // Cooldown duration for knockback
+    [SerializeField] private float _knockbackDuration = .75f;     // Time over which the knockback force will be applied
+    [SerializeField] private float _knockbackCooldown = 5f;     // Cooldown duration for knockback
 
     private bool _canKnockback = true; // Control cooldown
 private float _knockbackCooldownTimer = 0f;
