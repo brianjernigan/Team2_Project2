@@ -10,9 +10,14 @@ public class PushBackController : MonoBehaviour
     private const float KnockbackDuration = .75f; // Time over which the knockback force will be applied
     private const float KnockbackCooldown = 5f; // Cooldown duration for knockback
 
-    private bool _canKnockback = true; // Control cooldown
-    private float _knockbackCooldownTimer = 0f;
+    private bool _canKnockback; // Control cooldown
+    private float _knockbackCooldownTimer;
 
+    private void Start()
+    {
+        _canKnockback = true;
+    }
+    
     private void Update()
     {
         // Manage cooldown
