@@ -5,63 +5,96 @@ using UnityEngine.AI;
 
 public class PushBackController : MonoBehaviour
 {
-    private float _knockbackRadius = 7.5f;  // Radius to detect enemies
-    private float _knockbackForce = 750f;   // Force to apply to enemies
-    private LayerMask _enemyLayer;          // Layer of the enemies
+    private const float KnockbackRadius = 5f; // Radius for knockback
+    private const float MaxRaycastDistance = 10f; // Max distance enemies will be pushed
+    private const float KnockbackDuration = .75f; // Time over which the knockback force will be applied
+    private const float KnockbackCooldown = 5f; // Cooldown duration for knockback
 
-    void Update()
+    private bool _canKnockback = true; // Control cooldown
+    private float _knockbackCooldownTimer = 0f;
+
+    private void Update()
     {
-        // Check if the Q key is pressed
-        if (Input.GetKeyDown(KeyCode.Q))
+        // Manage cooldown
+        if (!_canKnockback)
         {
-            // Trigger knockback at the player's position
-            TriggerKnockback(transform.position);
+            _knockbackCooldownTimer -= Time.deltaTime;
+            if (_knockbackCooldownTimer <= 0f)
+            {
+                _canKnockback = true;
+            }
         }
 
+        // If Q is pressed and knockback is not on cooldown
+        if (Input.GetKeyDown(KeyCode.Q) && _canKnockback)
+        {
+            PerformKnockback();
+            _canKnockback = false;
+            _knockbackCooldownTimer = KnockbackCooldown; // Start cooldown
+        }
     }
 
-    // Call this method to trigger the knockback
-    public void TriggerKnockback(Vector3 origin)
+    private void PerformKnockback()
     {
-        // Create a sphere cast to find all enemies in the radius
-        Collider[] hitColliders = Physics.OverlapSphere(origin, _knockbackRadius, _enemyLayer);
+        // Find all enemies in knockback radius
+        var hitColliders = Physics.OverlapSphere(transform.position, KnockbackRadius);
 
-        foreach (var hitCollider in hitColliders)
+        foreach (Collider hitCollider in hitColliders)
         {
-            var enemyRb = hitCollider.gameObject.GetComponent<Rigidbody>();
-            var navMeshAgent = hitCollider.gameObject.GetComponent<NavMeshAgent>();
-
-            if (enemyRb is not null && navMeshAgent is not null)
+            // Check if the object is an enemy
+            if (hitCollider.CompareTag("Enemy"))
             {
-                navMeshAgent.isStopped = true; // Stop the agent temporarily
+                // Disable the NavMeshAgent (if available) to stop enemy movement
+                var agent = hitCollider.GetComponent<NavMeshAgent>();
+                if (agent is not null)
+                {
+                    agent.enabled = false;
+                }
 
-                var backwardsDirection = -enemyRb.gameObject.transform.forward;
+                var direction = (hitCollider.transform.position - transform.position).normalized;
 
-                // Apply knockback force
-                enemyRb.AddForce(backwardsDirection * _knockbackForce, ForceMode.Impulse);
+                // Calculate the target position at max raycast distance in the direction
+                var targetPosition = transform.position + direction * MaxRaycastDistance;
 
-
-                StartCoroutine(KnockbackEffect(enemyRb, navMeshAgent));
+                // Start a coroutine to apply knockback with an impulse-like effect
+                StartCoroutine(MoveEnemyWithImpulse(hitCollider.transform, targetPosition, agent));
             }
         }
     }
 
-    private IEnumerator KnockbackEffect(Rigidbody erb, NavMeshAgent nma)
+    private IEnumerator MoveEnemyWithImpulse(Transform enemyTransform, Vector3 targetPosition,
+        NavMeshAgent agent)
     {
-        while (erb.drag <= 1f)
+        var elapsedTime = 0f;
+        var startPosition = enemyTransform.position;
+
+        while (elapsedTime < KnockbackDuration)
         {
-            erb.drag += 0.01f;
-            yield return null;
+            // Calculate the remaining knockback time and the proportion of distance covered
+            var t = elapsedTime / KnockbackDuration;
+
+            // Gradually slow down the movement over time (starts fast and slows down)
+            enemyTransform.position = Vector3.Lerp(startPosition, targetPosition, t);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null; // Wait for the next frame
         }
 
-        erb.drag = 0.1f;
-        nma.isStopped = false; // Resume the NavMeshAgent
+        // Ensure the enemy reaches the final position
+        enemyTransform.position = targetPosition;
+
+        // Once the enemy reaches max range, re-enable the NavMeshAgent
+        if (agent is not null)
+        {
+            agent.enabled = true;
+        }
     }
 
-    // Optional: Visualize the sphere cast in the editor
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
+        // Visualize the knockback radius in the editor
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _knockbackRadius);
+        Gizmos.DrawWireSphere(transform.position, KnockbackRadius);
     }
 }
