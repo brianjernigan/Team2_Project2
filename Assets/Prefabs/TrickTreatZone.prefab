@@ -16531,9 +16531,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd11f6d7f94b0c4087f9e170374e9af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickupPrefabs:
-  - {fileID: 7996847883817209785, guid: 543fb269864b86d43b34f71f13d12d06, type: 3}
-  - {fileID: 5402904587464486947, guid: 3e79dd0306c13a2458245596252bf21e, type: 3}
-  - {fileID: 1341484790946942866, guid: 8a3c336ef44682d49a3eb327f9092973, type: 3}
-  - {fileID: 3035909047169916383, guid: 2a10d7f4ee161fd4f8ed42cbc0ecb03d, type: 3}
-  - {fileID: 439945396694829503, guid: 1421f7d0866d2ae42b1c74c210b74a9f, type: 3}

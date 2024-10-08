@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,6 +11,7 @@ public class EnemyShootingController : MonoBehaviour
 
     private float _fireRate;
     private float _shotSpeed;
+    private const float AimRotationSpeed = 45f;
 
     private EnemyController _enemyController;
     private Transform _playerTransform;
@@ -31,12 +31,14 @@ public class EnemyShootingController : MonoBehaviour
     private void Update()
     {
         _playerTransform = GameObject.FindWithTag("Player").transform;
-
+        
         var playerIsWithinDistance = Vector3.Distance(transform.position, _playerTransform.position) <=
                                      _enemyController.NavMeshAgent.stoppingDistance;
         
         if (playerIsWithinDistance)
         {
+            RotateTowardsPlayer();
+            
             if (!_isFiring)
             {
                 StartFiring();
@@ -49,6 +51,17 @@ public class EnemyShootingController : MonoBehaviour
                 StopFiring();
             }
         }
+    }
+
+    private void RotateTowardsPlayer()
+    {
+        var directionToPlayer = (_playerTransform.position - transform.position).normalized;
+        directionToPlayer.y = 0;
+
+        var targetRotation = Quaternion.LookRotation(directionToPlayer);
+
+        transform.rotation =
+            Quaternion.Slerp(transform.rotation, targetRotation, AimRotationSpeed * Time.deltaTime);
     }
 
     private void StartFiring()

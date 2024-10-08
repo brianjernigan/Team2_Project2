@@ -9,7 +9,8 @@ public class UIController : MonoBehaviour
 {
     public static UIController Instance { get; private set; }
     
-    [Header("Texts")] [SerializeField] private TMP_Text _healthText;
+    [Header("Texts")] 
+    [SerializeField] private TMP_Text _healthText;
     [SerializeField] private TMP_Text _killedText;
     [SerializeField] private TMP_Text _ammoText;
     [SerializeField] private TMP_Text _xpText;
@@ -25,6 +26,8 @@ public class UIController : MonoBehaviour
 
     [Header("Images")] 
     [SerializeField] private Image _chainImage;
+    [SerializeField] private Image _shotTypeImage;
+    [SerializeField] private Sprite[] _shotTypeSprites;
 
     private void Awake()
     {
@@ -50,6 +53,7 @@ public class UIController : MonoBehaviour
         StatManager.Instance.OnXpChanged += UpdateXpText;
         StatManager.Instance.OnPlayerUpgrade += ActivateUpgradePanel;
         _playerShootingController.OnAmmoChanged += UpdateAmmoText;
+        _playerShootingController.OnShotTypeChanged += UpdateShotTypeImage;
         _chainController.OnChainTriggered += HandleChainTriggered;
     }
 
@@ -66,6 +70,7 @@ public class UIController : MonoBehaviour
         if (_playerShootingController is not null)
         {
             _playerShootingController.OnAmmoChanged -= UpdateAmmoText;
+            _playerShootingController.OnShotTypeChanged -= UpdateShotTypeImage;
         }
 
         if (_chainController is not null)
@@ -97,6 +102,16 @@ public class UIController : MonoBehaviour
     private void UpdateXpText()
     {
         _xpText.text = $"XP: {StatManager.Instance.CurrentXp} / {StatManager.Instance.XpThreshold}";
+    }
+
+    private void UpdateShotTypeImage(ShotType currentShotType)
+    {
+        var shotTypeIndex = (int)currentShotType;
+
+        if (shotTypeIndex >= 0 && shotTypeIndex < _shotTypeSprites.Length)
+        {
+            _shotTypeImage.sprite = _shotTypeSprites[shotTypeIndex];
+        }
     }
     
     private void ActivateUpgradePanel()
@@ -151,5 +166,10 @@ public class UIController : MonoBehaviour
         _chainImage.color = color;
 
         _chainImage.color = Color.white;
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

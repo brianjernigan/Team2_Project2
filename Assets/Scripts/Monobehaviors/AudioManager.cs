@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _chainAudio;
     [SerializeField] private AudioSource _collectAudio;
     [SerializeField] private AudioSource _levelMusic;
+    [SerializeField] private AudioSource _weaponChangeAudio;
 
     private void Awake()
     {
@@ -109,5 +110,14 @@ public class AudioManager : MonoBehaviour
     public void StopLevelMusic()
     {
         _levelMusic.Stop();
+    }
+
+    public void PlayWeaponChangeAudio()
+    {
+        if (_weaponChangeAudio.isPlaying)
+        {
+            _weaponChangeAudio.Stop();
+        }
+        _weaponChangeAudio.Play();
     }
 }

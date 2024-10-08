@@ -48,17 +48,14 @@ public class EnemyController : MonoBehaviour
         InitializeEnemyStats();
     }
 
+    private void Start()
+    {
+        NavMeshAgent.updateRotation = true;
+    }
+
     private void Update()
     {
         _playerTransform = GameObject.FindWithTag("Player").transform;
-        
-        var playerDirection = _playerTransform.position - transform.position;
-        playerDirection.y = 0;
-
-        if (playerDirection != Vector3.zero)
-        {
-            transform.rotation = Quaternion.LookRotation(playerDirection);
-        }
         
         if (_playerTransform is not null && NavMeshAgent is not null && !IsStunned)
         {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 
@@ -19,6 +20,7 @@ public class PlayerShootingController : MonoBehaviour
     public bool IsTracking { get; set; }
 
     public event Action OnAmmoChanged;
+    public event Action<ShotType> OnShotTypeChanged;
 
     private Coroutine _activePickupCoroutine;
 
@@ -35,6 +37,24 @@ public class PlayerShootingController : MonoBehaviour
         HandleShooting();
         HandleReloading();
         // CycleShotType(); // Testing only
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            var currentSceneName = SceneManager.GetActiveScene().name;
+            if (currentSceneName == "L1")
+            {
+                SceneManager.LoadScene("L2");
+            } 
+            else if (currentSceneName == "L2")
+            {
+                SceneManager.LoadScene("L3");
+            }
+            else
+            {
+                SceneManager.LoadScene("L1");
+                
+            }
+        }
     }
 
     private void HandleShooting()
@@ -280,8 +300,11 @@ public class PlayerShootingController : MonoBehaviour
     public void SetShotType(ShotType newShot)
     {
         CurrentShotType = newShot;
-        StartCoroutine(PickupDuration());
+        OnShotTypeChanged?.Invoke(CurrentShotType);
+        AudioManager.Instance.PlayWeaponChangeAudio();
 
+        if (newShot == ShotType.Default) return;
+        
         if (_activePickupCoroutine is not null)
         {
             StopCoroutine(_activePickupCoroutine);
