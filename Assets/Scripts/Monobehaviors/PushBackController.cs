@@ -7,8 +7,8 @@ public class PushBackController : MonoBehaviour
 {
     private const float KnockbackRadius = 5f; // Radius for knockback
     private const float MaxRaycastDistance = 10f; // Max distance enemies will be pushed
-    private const float KnockbackDuration = .75f; // Time over which the knockback force will be applied
-    private const float KnockbackCooldown = 5f; // Cooldown duration for knockback
+    private const float KnockbackDuration = .5f; // Time over which the knockback force will be applied
+    private const float KnockbackCooldown = 1f; // Cooldown duration for knockback
 
     private bool _canKnockback; // Control cooldown
     private float _knockbackCooldownTimer;
@@ -17,7 +17,7 @@ public class PushBackController : MonoBehaviour
     {
         _canKnockback = true;
     }
-    
+
     private void Update()
     {
         // Manage cooldown
@@ -41,6 +41,7 @@ public class PushBackController : MonoBehaviour
 
     private void PerformKnockback()
     {
+        Debug.Log("Knockbacktriggered");
         // Find all enemies in knockback radius
         var hitColliders = Physics.OverlapSphere(transform.position, KnockbackRadius);
 
@@ -58,8 +59,12 @@ public class PushBackController : MonoBehaviour
 
                 var direction = (hitCollider.transform.position - transform.position).normalized;
 
-                // Calculate the target position at max raycast distance in the direction
-                var targetPosition = transform.position + direction * MaxRaycastDistance;
+                // Calculate the target position at max raycast distance in the direction (only for X and Z)
+                var targetPosition = new Vector3(
+                    transform.position.x + direction.x * MaxRaycastDistance,
+                    hitCollider.transform.position.y, // Keep the original Y position
+                    transform.position.z + direction.z * MaxRaycastDistance
+                );
 
                 // Start a coroutine to apply knockback with an impulse-like effect
                 StartCoroutine(MoveEnemyWithImpulse(hitCollider.transform, targetPosition, agent));
@@ -79,7 +84,8 @@ public class PushBackController : MonoBehaviour
             var t = elapsedTime / KnockbackDuration;
 
             // Gradually slow down the movement over time (starts fast and slows down)
-            enemyTransform.position = Vector3.Lerp(startPosition, targetPosition, t);
+            var newPosition = Vector3.Lerp(startPosition, targetPosition, t);
+            enemyTransform.position = new Vector3(newPosition.x, startPosition.y, newPosition.z); // Preserve Y axis
 
             elapsedTime += Time.deltaTime;
 
@@ -87,7 +93,7 @@ public class PushBackController : MonoBehaviour
         }
 
         // Ensure the enemy reaches the final position
-        enemyTransform.position = targetPosition;
+        enemyTransform.position = new Vector3(targetPosition.x, startPosition.y, targetPosition.z);
 
         // Once the enemy reaches max range, re-enable the NavMeshAgent
         if (agent is not null)
