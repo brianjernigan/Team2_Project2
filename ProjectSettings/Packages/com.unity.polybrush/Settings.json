@@ -9,7 +9,7 @@
             {
                 "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "Scattering.UsePivotForPlacement",
-                "value": "{\"m_Value\":false}"
+                "value": "{\"m_Value\":true}"
             },
             {
                 "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
@@ -69,12 +69,12 @@
             {
                 "type": "UnityEditor.Polybrush.PrefabLoadout, Unity.Polybrush.Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
                 "key": "ScatteringEditor.userLoadout",
-                "value": "{\"m_Value\":{\"infos\":[{\"palette\":{\"fileID\":11400000,\"guid\":\"7d3972304302bd343943574e122078ba\",\"type\":2},\"prefab\":{\"fileID\":1644485141018748550,\"guid\":\"0d86dbbbc13c47c448614ee7aa1bb0ff\",\"type\":3}},{\"palette\":{\"fileID\":11400000,\"guid\":\"7d3972304302bd343943574e122078ba\",\"type\":2},\"prefab\":{\"fileID\":8692546809129313406,\"guid\":\"40316601a0e501a44b33201da63e9999\",\"type\":3}},{\"palette\":{\"fileID\":11400000,\"guid\":\"7d3972304302bd343943574e122078ba\",\"type\":2},\"prefab\":{\"fileID\":135975928621164800,\"guid\":\"2d57eecf4e4352847b1e3da534728e88\",\"type\":3}}]}}"
+                "value": "{\"m_Value\":{\"infos\":[{\"palette\":{\"fileID\":11400000,\"guid\":\"7d3972304302bd343943574e122078ba\",\"type\":2},\"prefab\":{\"fileID\":8670865535676453257,\"guid\":\"16a93cb1fe820cc4c880b63147128e9e\",\"type\":3}}]}}"
             },
             {
                 "type": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "ScatteringEditor.PreviewThumSize",
-                "value": "{\"m_Value\":112}"
+                "value": "{\"m_Value\":60}"
             },
             {
                 "type": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
@@ -110,6 +110,11 @@
                 "type": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "Brush.VertexBillboardSize",
                 "value": "{\"m_Value\":2.0}"
+            },
+            {
+                "type": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "key": "2D.DepthOffset",
+                "value": "{\"m_Value\":0.0}"
             }
         ]
     }
