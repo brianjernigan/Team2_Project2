@@ -15,7 +15,7 @@ public class ZonesUIController : MonoBehaviour
     
     private void OnDisable()
     {
-        if (StatManager.Instance is not null)
+        if (LevelManager.Instance is not null)
         {
             LevelManager.Instance.OnHouseVisited -= UpdateZonesText;
         }

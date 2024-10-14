@@ -41,6 +41,8 @@ public class ShotTypeManager : MonoBehaviour
             case ShotType.TrackingShot:
                 ShootTracking();
                 break;
+            case ShotType.Default:
+            case ShotType.AutomaticShot:
             default:
                 ShootDefault();
                 break;

@@ -26,6 +26,14 @@ public class AmmoManager : MonoBehaviour
         OnAmmoChanged?.Invoke();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Reload();
+        }
+    }
+
     public bool HasAmmo()
     {
         return PlayerStats.Instance.CurrentAmmo > 0;

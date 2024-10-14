@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class ZoneController : MonoBehaviour
 {
-    private const float TimeToActivate = 3f;
+    private const float TimeToActivate = 5f;
 
     private float _timeInZone;
     private bool _playerInZone;

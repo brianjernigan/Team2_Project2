@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShootingController : MonoBehaviour
 {
-    private float _fireRate = 0.1f;
+    private const float FireRate = 0.1f;
     private float _timeSinceLastShot;
     private bool _canShoot;
 
@@ -12,6 +12,7 @@ public class ShootingController : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         _shotTypeManager = GetComponent<ShotTypeManager>();
         _canShoot = true;
     }
@@ -24,7 +25,11 @@ public class ShootingController : MonoBehaviour
 
     private void HandleShooting()
     {
-        if (!AmmoManager.Instance.HasAmmo()) return;
+        if (!AmmoManager.Instance.HasAmmo())
+        {
+            HandleEmptyMagazine();
+            return;
+        }
 
         if (_shotTypeManager.CurrentShotType == ShotType.AutomaticShot)
         {
@@ -33,6 +38,14 @@ public class ShootingController : MonoBehaviour
         else
         {
             HandleManualFire();
+        }
+    }
+
+    private void HandleEmptyMagazine()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            AudioManager.Instance.PlayEmptyMagAudio();
         }
     }
 
@@ -46,7 +59,7 @@ public class ShootingController : MonoBehaviour
 
     private void HandleAutoFire()
     {
-        if (Input.GetMouseButton(0) && _canShoot && _timeSinceLastShot >= _fireRate)
+        if (Input.GetMouseButton(0) && _canShoot && _timeSinceLastShot >= FireRate)
         {
             Shoot();
             _timeSinceLastShot = 0f;
