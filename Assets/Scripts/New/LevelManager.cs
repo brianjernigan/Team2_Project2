@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
     public int HousesVisited { get; set; } = 0;
     public int HousesRemaining => _totalHouses - HousesVisited;
     
-    public event Action OnAllHousesVisited;
+    public event Action OnHouseVisited;
     
     private void Awake()
     {
@@ -37,15 +37,15 @@ public class LevelManager : MonoBehaviour
     public void RegisterHouseVisited()
     {
         HousesVisited++;
-
+        OnHouseVisited?.Invoke();
+        
         if (HousesVisited >= _totalHouses)
         {
-            OnAllHousesVisited?.Invoke();
-            HandleLevelCompletion();
+            OnLevelComplete();
         }
     }
 
-    private void HandleLevelCompletion()
+    private void OnLevelComplete()
     {
         GameManager.Instance.LoadNextLevel();
     }

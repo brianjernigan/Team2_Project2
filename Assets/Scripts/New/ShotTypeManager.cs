@@ -82,7 +82,7 @@ public class ShotTypeManager : MonoBehaviour
 
             if (fireballRb is not null)
             {
-                fireballRb.velocity = fireball.transform.forward * StatManager.Instance.CurrentShotSpeed;
+                fireballRb.velocity = fireball.transform.forward * PlayerStats.Instance.CurrentShotSpeed;
             }
             
             yield return null;
@@ -129,7 +129,7 @@ public class ShotTypeManager : MonoBehaviour
             var angleOffset = (i - (numProjectiles - 1) / 2f) * spreadAngle;
             var direction = Quaternion.Euler(0, angleOffset, 0) * _muzzlePosition.forward;
 
-            fireballRb?.AddForce(direction * StatManager.Instance.CurrentShotSpeed, ForceMode.Impulse);
+            fireballRb?.AddForce(direction * PlayerStats.Instance.CurrentShotSpeed, ForceMode.Impulse);
         }
     }
 
@@ -139,7 +139,7 @@ public class ShotTypeManager : MonoBehaviour
         var fireballRb = GetFireballRigidbody(fireball);
         fireball.transform.localScale *= 2;
         
-        fireballRb?.AddForce(_muzzlePosition.forward * (StatManager.Instance.CurrentShotSpeed / 2f), ForceMode.Impulse);
+        fireballRb?.AddForce(_muzzlePosition.forward * (PlayerStats.Instance.CurrentShotSpeed / 2f), ForceMode.Impulse);
     }
 
     private void ShootFast()
@@ -148,7 +148,7 @@ public class ShotTypeManager : MonoBehaviour
         var fireballRb = GetFireballRigidbody(fireball);
         fireball.transform.localScale *= 0.75f;
         
-        fireballRb?.AddForce(_muzzlePosition.forward * (StatManager.Instance.CurrentShotSpeed * 1.5f), ForceMode.Impulse);
+        fireballRb?.AddForce(_muzzlePosition.forward * (PlayerStats.Instance.CurrentShotSpeed * 1.5f), ForceMode.Impulse);
     }
 
     private void ShootDefault()
@@ -156,7 +156,7 @@ public class ShotTypeManager : MonoBehaviour
         var fireball = InstantiateFireBall();
         var fireballRb = GetFireballRigidbody(fireball);
 
-        fireballRb?.AddForce(_muzzlePosition.forward * StatManager.Instance.CurrentShotSpeed, ForceMode.Impulse);
+        fireballRb?.AddForce(_muzzlePosition.forward * PlayerStats.Instance.CurrentShotSpeed, ForceMode.Impulse);
     }
     
     private GameObject InstantiateFireBall()

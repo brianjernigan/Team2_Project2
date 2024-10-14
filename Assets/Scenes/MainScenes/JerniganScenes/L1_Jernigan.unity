@@ -5762,6 +5762,10 @@ GameObject:
   - component: {fileID: 728382561}
   - component: {fileID: 728382562}
   - component: {fileID: 728382563}
+  - component: {fileID: 728382564}
+  - component: {fileID: 728382565}
+  - component: {fileID: 728382566}
+  - component: {fileID: 728382567}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5910,6 +5914,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a4994d7dd3a524b8c94d6a7fc69901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &728382564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728382556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6148a2efeeff044c9e84c212b8fea45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &728382565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728382556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63318c8aa4c985d41a16744a7031d039, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &728382566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728382556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0833a49c68b8660419f3dc5b0bc86fbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &728382567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728382556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60dbc0c9f07f8554ca1ac6dfe761db37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fireballPrefab: {fileID: 5337641785984595677, guid: 3f25457b613b05f4cb7d4c24cb31b593, type: 3}
+  _muzzlePosition: {fileID: 1719087422}
 --- !u!1 &733546222
 GameObject:
   m_ObjectHideFlags: 0

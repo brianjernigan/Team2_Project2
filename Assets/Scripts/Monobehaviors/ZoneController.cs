@@ -14,68 +14,54 @@ public class ZoneController : MonoBehaviour
 
     private ParticleSystem _particles;
     private ParticleSystem.MainModule _mainModule;
-    private PlayerShootingController _playerShootingController;
 
     private void Awake()
     {
-        _playerShootingController = FindObjectOfType<PlayerShootingController>();
         _particles = GetComponent<ParticleSystem>();
         _mainModule = _particles.main;
     }
-    
-    private void OnTriggerEnter(Collider other)
+
+    public void EnterZone()
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (_zoneIsActivated) return;
+        _timeInZone = 0f;
+        StartCoroutine(ActivateZoneRoutine());
+    }
+
+    public void ExitZone()
+    {
+        StopAllCoroutines();
+        _timeInZone = 0f;
+
+        if (_particles.isPlaying && !_zoneIsActivated)
         {
-            _playerInZone = true;
+            _particles.Stop();
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private IEnumerator ActivateZoneRoutine()
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            _playerInZone = false;
-            _timeInZone = 0f;
-        }
-    }
-
-    private void Update()
-    {
-        if (!_playerInZone && !_zoneIsActivated)
-        {
-            if (_particles.isPlaying && !_zoneIsActivated)
-            {
-                _particles.Stop();
-            }
-
-            return;
-        }
-
-        _timeInZone += Time.deltaTime;
-
         if (!_particles.isPlaying)
         {
             _particles.Play();
         }
 
-        if (_timeInZone >= TimeToActivate && !_zoneIsActivated)
+        while (_timeInZone < TimeToActivate)
         {
-            SpawnPickup();
+            _timeInZone += Time.deltaTime;
+            yield return null;
+        }
+
+        if (!_zoneIsActivated)
+        {
+            ActivateZone();
         }
     }
 
-    private void SpawnPickup()
+    private void ActivateZone()
     {
         _zoneIsActivated = true;
-
         _mainModule.startColor = Color.green;
-
-        var shotTypes = (ShotType[])Enum.GetValues(typeof(ShotType));
-        // Exclude default shot type
-        var randomShotIndex = Random.Range(1, shotTypes.Length);
-        var newShotType = shotTypes[randomShotIndex];
-
-        _playerShootingController?.SetShotType(newShotType);
+        LevelManager.Instance.RegisterHouseVisited();
     }
 }

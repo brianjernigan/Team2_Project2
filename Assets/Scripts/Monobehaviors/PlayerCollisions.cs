@@ -32,10 +32,18 @@ public class PlayerCollisions : MonoBehaviour
 
         if (other.CompareTag("TrickOrTreat"))
         {
-            HandleTrickOrTreatCollision(other.gameObject);
+            HandleTrickOrTreatEnter(other.gameObject);
         }
     }
-    
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("TrickOrTreat"))
+        {
+            HandleTrickOrTreatExit(other.gameObject);
+        }
+    }
+
     private void HandleEnemyBulletCollision(GameObject bullet)
     {
         throw new NotImplementedException();
@@ -46,8 +54,15 @@ public class PlayerCollisions : MonoBehaviour
         throw new NotImplementedException();
     }
     
-    private void HandleTrickOrTreatCollision(GameObject zone)
+    private void HandleTrickOrTreatEnter(GameObject zone)
     {
-        throw new NotImplementedException();
+        var zoneController = zone.GetComponent<ZoneController>();
+        zoneController?.EnterZone();
+    }
+    
+    private void HandleTrickOrTreatExit(GameObject zone)
+    {
+        var zoneController = zone.GetComponent<ZoneController>();
+        zoneController?.ExitZone();
     }
 }

@@ -8,18 +8,18 @@ public class ZonesUIController : MonoBehaviour
 {
     [SerializeField] private TMP_Text _zoneText;
 
-    // private void OnEnable()
-    // {
-    //     StatManager.Instance.OnZoneActivated += UpdateZonesText;
-    // }
-    //
-    // private void OnDisable()
-    // {
-    //     if (StatManager.Instance is not null)
-    //     {
-    //         StatManager.Instance.OnZoneActivated += UpdateZonesText;
-    //     }
-    // }
+    private void OnEnable()
+    {
+        LevelManager.Instance.OnHouseVisited += UpdateZonesText;
+    }
+    
+    private void OnDisable()
+    {
+        if (StatManager.Instance is not null)
+        {
+            LevelManager.Instance.OnHouseVisited -= UpdateZonesText;
+        }
+    }
 
     private void Start()
     {

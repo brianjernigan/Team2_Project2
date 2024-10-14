@@ -6,14 +6,10 @@ using UnityEngine;
 
 public class FireballController : MonoBehaviour
 {
-    private PlayerShootingController _playerShootingController;
-
     private const float Lifespan = 2.5f;
     
     private void Awake()
     {
-        _playerShootingController = FindObjectOfType<PlayerShootingController>();
-        
         StartCoroutine(FireballLifespan());
     }
     
@@ -41,11 +37,6 @@ public class FireballController : MonoBehaviour
 
     private float GetDamageAmount()
     {
-        if (_playerShootingController.CurrentShotType == ShotType.HeavyShot)
-        {
-            return StatManager.Instance.CurrentDamage * 2;
-        }
-
         return StatManager.Instance.CurrentDamage;
     }
 
@@ -58,6 +49,5 @@ public class FireballController : MonoBehaviour
     private void OnDestroy()
     {
         StopCoroutine(FireballLifespan());
-        _playerShootingController.IsTracking = false;
     }
 }

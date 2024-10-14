@@ -13,6 +13,7 @@ public class ShootingController : MonoBehaviour
     private void Start()
     {
         _shotTypeManager = GetComponent<ShotTypeManager>();
+        _canShoot = true;
     }
 
     private void Update()
