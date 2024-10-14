@@ -4,79 +4,50 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
-{
-    private PlayerShootingController _playerShootingController;
-
-    private void Awake()
-    {
-        _playerShootingController = GetComponent<PlayerShootingController>();
-    }
-    
+{ 
     private void OnCollisionStay(Collision other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            var enemyController = other.gameObject.GetComponent<EnemyController>();
-            var damage = (int)enemyController.Damage;
-
-            if (!enemyController.IsStunned)
-            {
-                StatManager.Instance.DamagePlayer(damage);
-            }
+            HandleEnemyCollision(other.gameObject);
         }
+    }
+    
+    private void HandleEnemyCollision(GameObject enemy)
+    {
+        throw new NotImplementedException();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("XP"))
+        if (other.CompareTag("EnemyBullet"))
         {
-            var xpController = other.gameObject.GetComponent<XpController>();
-            StatManager.Instance.IncreaseXp(xpController.Value);
-            // I don't know why this is necessary, but it is...
-            other.enabled = false;
-            Destroy(other.gameObject);
+            HandleEnemyBulletCollision(other.gameObject);
         }
 
-        if (other.gameObject.CompareTag("EnemyBullet"))
+        if (other.CompareTag("XP"))
         {
-            var bulletController = other.GetComponent<EnemyBulletController>();
-            
-            StatManager.Instance.DamagePlayer(bulletController.DamageValue);
+            HandleXpCollision(other.gameObject);
         }
 
-        HandlePickups(other);
+        if (other.CompareTag("TrickOrTreat"))
+        {
+            HandleTrickOrTreatCollision(other.gameObject);
+        }
+    }
+    
+    private void HandleEnemyBulletCollision(GameObject bullet)
+    {
+        throw new NotImplementedException();
     }
 
-    private void HandlePickups(Collider other)
+    private void HandleXpCollision(GameObject xp)
     {
-        if (other.gameObject.CompareTag("FastPickup"))
-        {
-            _playerShootingController.SetShotType(ShotType.FastShot);
-            Destroy(other.gameObject);
-        }
-
-        if (other.gameObject.CompareTag("HeavyPickup"))
-        {
-            _playerShootingController.SetShotType(ShotType.HeavyShot);
-            Destroy(other.gameObject);
-        }
-
-        if (other.gameObject.CompareTag("AutoPickup"))
-        {
-            _playerShootingController.SetShotType(ShotType.AutomaticShot);
-            Destroy(other.gameObject);
-        }
-
-        if (other.gameObject.CompareTag("SpreadPickup"))
-        {
-            _playerShootingController.SetShotType(ShotType.SpreadShot);
-            Destroy(other.gameObject);
-        }
-
-        if (other.gameObject.CompareTag("TrackingPickup"))
-        {
-            _playerShootingController.SetShotType(ShotType.TrackingShot);
-            Destroy(other.gameObject);
-        }
+        throw new NotImplementedException();
+    }
+    
+    private void HandleTrickOrTreatCollision(GameObject zone)
+    {
+        throw new NotImplementedException();
     }
 }

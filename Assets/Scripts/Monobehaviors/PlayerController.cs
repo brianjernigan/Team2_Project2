@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _rb.velocity = _moveDirection * StatManager.Instance.CurrentMoveSpeed;
+            _rb.velocity = _moveDirection * PlayerStats.Instance.CurrentMoveSpeed;
         }
 
         RotatePlayer();
