@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +9,12 @@ public class ShootingController : MonoBehaviour
     private float _timeSinceLastShot;
     private bool _canShoot;
 
-    private ShotTypeManager _shotTypeManager;
+    private ShotTypeController _shotTypeController;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        _shotTypeManager = GetComponent<ShotTypeManager>();
+        _shotTypeController = GetComponent<ShotTypeController>();
         _canShoot = true;
     }
 
@@ -31,7 +32,7 @@ public class ShootingController : MonoBehaviour
             return;
         }
 
-        if (_shotTypeManager.CurrentShotType == ShotType.AutomaticShot)
+        if (_shotTypeController.CurrentShotType == ShotType.AutomaticShot)
         {
             HandleAutoFire();
         }
@@ -68,7 +69,7 @@ public class ShootingController : MonoBehaviour
 
     private void Shoot()
     {
-        _shotTypeManager.DetermineShot();
+        _shotTypeController.DetermineShot();
         AudioManager.Instance.PlayShotAudio();
         AmmoManager.Instance.DecreaseAmmo();
     }

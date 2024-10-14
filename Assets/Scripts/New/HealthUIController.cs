@@ -10,14 +10,14 @@ public class HealthUIController : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerStats.Instance.OnPlayerDamaged += UpdateHealthText;
+        PlayerStats.Instance.OnHealthChanged += UpdateHealthText;
     }
 
     private void OnDisable()
     {
         if (PlayerStats.Instance is not null)
         {
-            PlayerStats.Instance.OnPlayerDamaged -= UpdateHealthText;
+            PlayerStats.Instance.OnHealthChanged -= UpdateHealthText;
         }
     }
 

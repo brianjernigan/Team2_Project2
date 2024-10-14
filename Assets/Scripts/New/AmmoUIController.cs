@@ -8,25 +8,22 @@ public class AmmoUIController : MonoBehaviour
 {
     [SerializeField] private TMP_Text _ammoText;
 
-    private PlayerShootingController _playerShootingController;
-
-    private void Awake()
+    private void OnEnable()
     {
-        _playerShootingController = PlayerStats.Instance.GetComponent<PlayerShootingController>();
-        _playerShootingController.OnAmmoChanged += UpdateAmmoText;
+        AmmoManager.Instance.OnAmmoChanged += UpdateAmmoText;
+    }
+
+    private void OnDisable()
+    {
+        if (AmmoManager.Instance is not null)
+        {
+            AmmoManager.Instance.OnAmmoChanged -= UpdateAmmoText;
+        }
     }
 
     private void Start()
     {
         UpdateAmmoText();
-    }
-
-    private void OnDisable()
-    {
-        if (_playerShootingController is not null)
-        {
-            _playerShootingController.OnAmmoChanged -= UpdateAmmoText;
-        }
     }
 
     private void UpdateAmmoText()

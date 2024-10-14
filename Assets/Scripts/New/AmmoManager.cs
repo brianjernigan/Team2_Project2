@@ -47,7 +47,7 @@ public class AmmoManager : MonoBehaviour
         OnAmmoChanged?.Invoke();
     }
 
-    public void Reload()
+    private void Reload()
     {
         if (PlayerStats.Instance.CurrentAmmo >= PlayerStats.Instance.CurrentMaxAmmo) return;
 

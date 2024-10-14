@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShotTypeManager : MonoBehaviour
+public class ShotTypeController : MonoBehaviour
 {
     public ShotType CurrentShotType { get; private set; } = ShotType.Default;
 

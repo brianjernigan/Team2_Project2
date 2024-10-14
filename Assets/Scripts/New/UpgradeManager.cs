@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class UpgradeManager : MonoBehaviour
     private const float ShotSpeedMultiplier = 1.05f;
     private const float AmmoUpgradeCount = 2f;
 
+    public event Action OnPlayerUpgrade;
+    
     private void Awake()
     {
         if (Instance is null)
@@ -28,25 +31,30 @@ public class UpgradeManager : MonoBehaviour
     public void UpgradeHealth()
     {
         PlayerStats.Instance.CurrentMaxHealth = Mathf.Round(PlayerStats.Instance.CurrentMaxHealth * HealthMultiplier);
+        OnPlayerUpgrade?.Invoke();
     }
     
     public void UpgradeMoveSpeed()
     {
         PlayerStats.Instance.CurrentMoveSpeed = Mathf.Round(PlayerStats.Instance.CurrentMoveSpeed * MoveSpeedMultiplier);
+        OnPlayerUpgrade?.Invoke();
     }
 
     public void UpgradeDamage()
     {
         PlayerStats.Instance.CurrentDamage = Mathf.Round(PlayerStats.Instance.CurrentDamage * DamageMultiplier);
+        OnPlayerUpgrade?.Invoke();
     }
 
     public void UpgradeAmmo()
     {
         PlayerStats.Instance.CurrentMaxAmmo += AmmoUpgradeCount;
+        OnPlayerUpgrade?.Invoke();
     }
     
     public void UpgradeShotSpeed()
     {
         PlayerStats.Instance.CurrentShotSpeed = Mathf.Round(PlayerStats.Instance.CurrentShotSpeed * ShotSpeedMultiplier);
+        OnPlayerUpgrade?.Invoke();
     }
 }

@@ -21,7 +21,7 @@ public class PlayerStats : MonoBehaviour
     public float CurrentDamage { get; set; }
     public float CurrentShotSpeed { get; set; }
 
-    public event Action OnPlayerDamaged;
+    public event Action OnHealthChanged;
 
     private void Awake()
     {
@@ -68,12 +68,13 @@ public class PlayerStats : MonoBehaviour
         }
         else
         {
-            OnPlayerDamaged?.Invoke();
+            OnHealthChanged?.Invoke();
         }
     }
 
     public void HealPlayer(float amount)
     {
         CurrentHealth = Mathf.Min(CurrentMaxHealth, CurrentHealth + amount);
+        OnHealthChanged?.Invoke();
     }
 }
