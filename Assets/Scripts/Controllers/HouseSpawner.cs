@@ -16,9 +16,10 @@ public class HouseSpawner : MonoBehaviour
     [Header("XP")] 
     [SerializeField] private GameObject _xpPrefab;
 
+    private const float SpawnInterval = 1f;
+    
     public int EnemiesPerWave { get; set; } = 2;
     public int TotalWaves { get; set; } = 2;
-    public float SpawnInterval { get; set; } = 0.5f;
     public float TimeBetweenWaves { get; set; } = 3f;
 
     private int _currentWave;
@@ -95,13 +96,14 @@ public class HouseSpawner : MonoBehaviour
     public void KillEnemy(GameObject enemy)
     {
         _enemiesRemaining--;
+        
         var xp = Instantiate(_xpPrefab, enemy.transform.position, enemy.transform.rotation);
         // Set Xp Value in XpController
         xp.GetComponent<XpController>().XpValue = enemy.GetComponent<EnemyController>().XpValue;
         Destroy(enemy);
 
+        // Check for next wave or house complete
         if (_enemiesRemaining > 0) return;
-        // Next wave
         _currentWave++;
         StartCoroutine(SpawnNextWave());
     }

@@ -75,9 +75,8 @@ public class PlayerStatManagerSingleton : MonoBehaviour
         else
         {
             OnHealthChanged?.Invoke();
+            StartCoroutine(InvincibilityRoutine());
         }
-
-        StartCoroutine(InvincibilityRoutine());
     }
 
     private IEnumerator InvincibilityRoutine()

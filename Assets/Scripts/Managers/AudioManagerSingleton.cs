@@ -12,7 +12,7 @@ public class AudioManagerSingleton : MonoBehaviour
     [SerializeField] private AudioSource _reloadAudio;
     [SerializeField] private AudioSource _emptyMagAudio;
     [SerializeField] private AudioSource _chainAudio;
-    [SerializeField] private AudioSource _collectAudio;
+    [SerializeField] private AudioSource _xpAudio;
     [SerializeField] private AudioSource _themeMusic;
     [SerializeField] private AudioSource _weaponChangeAudio;
     [SerializeField] private AudioSource _doorbellAudio;
@@ -93,15 +93,15 @@ public class AudioManagerSingleton : MonoBehaviour
         _chainAudio.Play();
     }
 
-    public void PlayCollectAudio()
+    public void PlayXpAudio()
     {
-        if (_collectAudio.isPlaying)
+        if (_xpAudio.isPlaying)
         {
-            _collectAudio.Stop();
+            _xpAudio.Stop();
         }
 
-        _collectAudio.time = .027f;
-        _collectAudio.Play();
+        _xpAudio.time = .027f;
+        _xpAudio.Play();
     }
 
     public void PlayThemeMusic()
