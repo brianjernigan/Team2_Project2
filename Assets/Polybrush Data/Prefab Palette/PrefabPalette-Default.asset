@@ -63,12 +63,12 @@ MonoBehaviour:
     name: WeedRedo_Huff
   - gameObject: {fileID: 8670865535676453257, guid: 16a93cb1fe820cc4c880b63147128e9e, type: 3}
     settings:
-      m_Strength: 15.399996
+      m_Strength: 15
       m_RotationRangeMin: {x: 0, y: 0, z: 0}
       m_RotationRangeMax: {x: 0, y: 0, z: 0}
       m_ScaleRangeMin: {x: 1, y: 1, z: 1}
       m_ScaleRangeMax: {x: 1, y: 1, z: 1}
-      m_UniformScale: {x: 0, y: 2.1333346}
+      m_UniformScale: {x: 0.23875752, y: 1.6279068}
       m_UniformBool: 1
       m_XRotationBool: 0
       m_YRotationBool: 1
