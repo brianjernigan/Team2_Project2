@@ -42,6 +42,7 @@ public class PlayerStatManagerSingleton : MonoBehaviour
     private void Start()
     {
         InitializeStats();
+        
     }
 
     public void InitializeStats()
