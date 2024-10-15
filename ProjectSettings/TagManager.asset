@@ -19,6 +19,11 @@ TagManager:
   - SpreadPickup
   - TrackingPickup
   - TrickOrTreat
+  - DoorbellZone
+  - Fence
+  - Gate
+  - InteractionPanel
+  - HouseExitTrigger
   layers:
   - Default
   - TransparentFX
