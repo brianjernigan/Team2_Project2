@@ -17,6 +17,7 @@ public class DoorbellZoneController : MonoBehaviour
     [SerializeField] private Animator _fenceAnim;
     [SerializeField] private HouseSpawner _houseSpawner;
     [SerializeField] private InteractionTextUIController _interactionTextUIController;
+    [SerializeField] private ParticleSystem _particles;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -62,6 +63,7 @@ public class DoorbellZoneController : MonoBehaviour
     private void RingDoorBell()
     {
         _bellIsRung = true;
+        _particles.Stop();
         _interactionTextUIController.HideInteractionPanel();
         AudioManagerSingleton.Instance.PlayDoorbellAudio();
         _fenceAnim.SetTrigger("raiseFence");

@@ -13,6 +13,8 @@ public class UpgradeManagerSingleton : MonoBehaviour
     private const float ShotSpeedMultiplier = 1.05f;
     private const float AmmoUpgradeCount = 2f;
 
+    [SerializeField] private GameObject _upgradePanel;
+
     public event Action OnPlayerUpgrade;
     
     private void Awake()
@@ -26,6 +28,11 @@ public class UpgradeManagerSingleton : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void ActivateUpgradePanel()
+    {
+        _upgradePanel.SetActive(true);
     }
 
     public void UpgradeHealth()

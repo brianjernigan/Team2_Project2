@@ -9,7 +9,7 @@ public class LevelManagerSingleton : MonoBehaviour
 
     private int _totalHouses;
     
-    public int HousesVisited { get; set; } = 0;
+    public int HousesVisited { get; set; }
     public int HousesRemaining => _totalHouses - HousesVisited;
     
     public event Action OnHouseVisited;
