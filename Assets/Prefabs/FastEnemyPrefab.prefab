@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 4961052611930652898}
   - component: {fileID: 6706449604171991012}
   - component: {fileID: 8464491656529597836}
-  - component: {fileID: 2146125106796788957}
+  - component: {fileID: 6436415443764241155}
   - component: {fileID: 5513795055248697059}
   m_Layer: 3
   m_Name: FastEnemyPrefab
@@ -210,7 +210,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -245,7 +245,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 116
   m_CollisionDetection: 2
---- !u!114 &2146125106796788957
+--- !u!114 &6436415443764241155
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -257,9 +257,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5df95f0858344e41b6757634510b977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyData: {fileID: 11400000, guid: 1e695ed8fefdf2748983f26154361339, type: 2}
-  _xpPrefab: {fileID: 5337641785984595677, guid: 7c94be4b26cfe3b469632c014198edcb, type: 3}
-  _navMeshAgent: {fileID: 5513795055248697059}
 --- !u!195 &5513795055248697059
 NavMeshAgent:
   m_ObjectHideFlags: 0

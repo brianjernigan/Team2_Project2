@@ -19,6 +19,9 @@ TagManager:
   - SpreadPickup
   - TrackingPickup
   - TrickOrTreat
+  - DoorbellZone
+  - Fence
+  - Gate
   layers:
   - Default
   - TransparentFX
