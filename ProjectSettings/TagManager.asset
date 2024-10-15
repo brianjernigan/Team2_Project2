@@ -22,6 +22,8 @@ TagManager:
   - DoorbellZone
   - Fence
   - Gate
+  - InteractionPanel
+  - HouseExitTrigger
   layers:
   - Default
   - TransparentFX

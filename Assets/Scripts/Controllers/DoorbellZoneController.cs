@@ -13,8 +13,8 @@ public class DoorbellZoneController : MonoBehaviour
     private bool _bellIsRung;
 
     [SerializeField] private Animator _fenceAnim;
-    [SerializeField] private GameObject _interactionPanel;
     [SerializeField] private HouseSpawner _houseSpawner;
+    [SerializeField] private GameObject _interactionPanel;
 
     private void OnTriggerEnter(Collider other)
     {

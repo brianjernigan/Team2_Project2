@@ -18,6 +18,7 @@ public class AudioManagerSingleton : MonoBehaviour
     [SerializeField] private AudioSource _doorbellAudio;
     [SerializeField] private AudioSource _levelOneMusic;
     [SerializeField] private AudioSource _trickOrTreatAudio;
+    [SerializeField] private AudioSource _doorCreakAudio;
 
     private void Awake()
     {
@@ -147,5 +148,11 @@ public class AudioManagerSingleton : MonoBehaviour
     public void PlayTrickOrTreatAudio()
     {
         _trickOrTreatAudio.Play();
+    }
+
+    public void PlayDoorCreakAudio()
+    {
+        _doorCreakAudio.time = 1.9f;
+        _doorCreakAudio.Play();
     }
 }

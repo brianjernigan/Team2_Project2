@@ -1039,6 +1039,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8140117135153526157}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1324536591596963983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8123017407684185611}
+  - component: {fileID: 7976669377537642336}
+  m_Layer: 0
+  m_Name: HouseExitTrigger
+  m_TagString: HouseExitTrigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8123017407684185611
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324536591596963983}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 636984965911915639}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7976669377537642336
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324536591596963983}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.154331, y: 0.5671178, z: 3.3843606}
+  m_Center: {x: 12.93955, y: 0.21644163, z: 0.6104735}
 --- !u!1 &1447732916555199296
 GameObject:
   m_ObjectHideFlags: 0
@@ -4624,6 +4677,7 @@ Transform:
   - {fileID: 1687500271747454044}
   - {fileID: 1358972712157418697}
   - {fileID: 8140117135153526157}
+  - {fileID: 8123017407684185611}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &1561812518204810436
@@ -4674,6 +4728,10 @@ MonoBehaviour:
   - {fileID: 1635120145460908392}
   - {fileID: 8244190714041463794}
   - {fileID: 2315248667163464176}
+  _gateParticles: {fileID: 506541283934265051}
+  _gateAnimator: {fileID: 0}
+  _exitTrigger: {fileID: 1324536591596963983}
+  _xpPrefab: {fileID: 5337641785984595677, guid: 7c94be4b26cfe3b469632c014198edcb, type: 3}
 --- !u!1 &4979809597444107010
 GameObject:
   m_ObjectHideFlags: 0
@@ -5302,7 +5360,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1358972712157418697}
   - component: {fileID: 389702332940658756}
-  - component: {fileID: 5982260159369242114}
+  - component: {fileID: 5332834565505185385}
   m_Layer: 0
   m_Name: DoorbellZone
   m_TagString: DoorbellZone
@@ -5346,7 +5404,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 7.2509747, y: 1.6419393, z: 9.8328}
   m_Center: {x: 7.4528995, y: 0.8226374, z: 0.4315822}
---- !u!114 &5982260159369242114
+--- !u!114 &5332834565505185385
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5359,8 +5417,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fenceAnim: {fileID: 3126255182029285658}
-  _interactionPanel: {fileID: 0}
   _houseSpawner: {fileID: 1561812518204810436}
+  _interactionPanel: {fileID: 0}
 --- !u!1 &6990715167220124734
 GameObject:
   m_ObjectHideFlags: 0
@@ -7423,6 +7481,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f4e533e9f017bd4994eba418db999d0, type: 3}
+--- !u!198 &506541283934265051 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6740161948900041062, guid: 3f4e533e9f017bd4994eba418db999d0, type: 3}
+  m_PrefabInstance: {fileID: 6525228818422202301}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1687500271747454044 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5613017338037382113, guid: 3f4e533e9f017bd4994eba418db999d0, type: 3}

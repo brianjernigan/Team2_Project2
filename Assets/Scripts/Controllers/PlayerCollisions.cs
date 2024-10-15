@@ -38,6 +38,7 @@ public class PlayerCollisions : MonoBehaviour
 
     private void HandleXpCollision(GameObject xp)
     {
-        throw new NotImplementedException();
+        ExperienceManagerSingleton.Instance.IncreaseXp(1);
+        Destroy(xp);
     }
 }

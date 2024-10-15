@@ -30,6 +30,11 @@ public class ExperienceManagerSingleton : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        InitializeXp();
+    }
+
     public void InitializeXp()
     {
         CurrentPlayerLevel = 1;

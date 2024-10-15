@@ -5,11 +5,19 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    private HouseSpawner _spawner;
+    
+    public void SetSpawner(HouseSpawner houseSpawner)
+    {
+        _spawner = houseSpawner;
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Fireball"))
         {
-            Destroy(gameObject);
+            Destroy(other.gameObject);
+            _spawner.KillEnemy(gameObject);
         }
     }
 }

@@ -9,11 +9,16 @@ public class HouseSpawner : MonoBehaviour
     [SerializeField] private Transform[] _spawnPoints;
 
     [Header("Fence & Gate")] 
+    [SerializeField] private ParticleSystem _gateParticles;
     [SerializeField] private Animator _gateAnimator;
+    [SerializeField] private GameObject _exitTrigger;
+
+    [Header("XP")] 
+    [SerializeField] private GameObject _xpPrefab;
 
     private int _enemiesPerWave = 2;
     private int _totalWaves = 2;
-    private float _spawnInterval = 1f;
+    private float _spawnInterval = 0.5f;
 
     private int _currentWave;
     private int _enemiesRemaining;
@@ -29,6 +34,7 @@ public class HouseSpawner : MonoBehaviour
     {
         if (_currentWave >= _totalWaves)
         {
+            HandleEndOfHouse();
             yield break;
         }
 
@@ -46,6 +52,30 @@ public class HouseSpawner : MonoBehaviour
         var enemyPrefab = _enemyPrefabs[Random.Range(0, _enemyPrefabs.Length)];
         var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
 
-        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        var enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        var enemyController = enemy.GetComponent<EnemyController>();
+
+        enemyController?.SetSpawner(this);
+    }
+
+    public void KillEnemy(GameObject enemy)
+    {
+        _enemiesRemaining--;
+        Instantiate(_xpPrefab, enemy.transform.position, enemy.transform.rotation);
+        Destroy(enemy);
+
+        if (_enemiesRemaining > 0) return;
+        // Next wave
+        _currentWave++;
+        StartCoroutine(SpawnNextWave());
+    }
+
+    private void HandleEndOfHouse()
+    {
+        AudioManagerSingleton.Instance.PlayDoorCreakAudio();
+        _gateAnimator.SetTrigger("openGate");
+        _gateParticles.Play();
+        LevelManagerSingleton.Instance.RegisterHouseVisited();
+        _exitTrigger.SetActive(true);
     }
 }
