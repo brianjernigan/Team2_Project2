@@ -101,8 +101,7 @@ public class HouseSpawner : MonoBehaviour
         // Set Xp Value in XpController
         xp.GetComponent<XpController>().XpValue = enemy.GetComponent<EnemyController>().XpValue;
         Destroy(enemy);
-
-        // Check for next wave or house complete
+        
         if (_enemiesRemaining > 0) return;
         _currentWave++;
         StartCoroutine(SpawnNextWave());
@@ -113,7 +112,6 @@ public class HouseSpawner : MonoBehaviour
         AudioManagerSingleton.Instance.PlayDoorCreakAudio();
         _gateAnimator.SetTrigger("openGate");
         _gateParticles.Play();
-        LevelManagerSingleton.Instance.RegisterHouseVisited();
         _exitTrigger.SetActive(true);
     }
 }

@@ -54,5 +54,6 @@ public class PlayerCollisions : MonoBehaviour
     private void HandleHouseExit()
     {
         Debug.Log("exiting house");
+        LevelManagerSingleton.Instance.RegisterHouseVisited();
     }
 }
