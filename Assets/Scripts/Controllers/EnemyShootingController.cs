@@ -83,6 +83,9 @@ public class EnemyShootingController : MonoBehaviour
     {
         var bullet = Instantiate(_bulletPrefab, _muzzleTransform.position, _bulletPrefab.transform.rotation);
         var bulletRb = bullet.GetComponent<Rigidbody>();
+        var bulletController = bullet.GetComponent<EnemyBulletController>();
+
+        bulletController.DamageValue = GetComponent<EnemyController>().Damage;
         
         bulletRb?.AddForce(_muzzleTransform.forward * _shotSpeed, ForceMode.Impulse);
     }

@@ -1055,7 +1055,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8123017407684185611
 Transform:
   m_ObjectHideFlags: 0
@@ -4729,7 +4729,7 @@ MonoBehaviour:
   - {fileID: 8244190714041463794}
   - {fileID: 2315248667163464176}
   _gateParticles: {fileID: 506541283934265051}
-  _gateAnimator: {fileID: 0}
+  _gateAnimator: {fileID: 4285833043938483011}
   _exitTrigger: {fileID: 1324536591596963983}
   _xpPrefab: {fileID: 5337641785984595677, guid: 7c94be4b26cfe3b469632c014198edcb, type: 3}
 --- !u!1 &4979809597444107010
@@ -7494,5 +7494,10 @@ Transform:
 --- !u!95 &3126255182029285658 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 8209206217636452007, guid: 3f4e533e9f017bd4994eba418db999d0, type: 3}
+  m_PrefabInstance: {fileID: 6525228818422202301}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &4285833043938483011 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7058287939270731006, guid: 3f4e533e9f017bd4994eba418db999d0, type: 3}
   m_PrefabInstance: {fileID: 6525228818422202301}
   m_PrefabAsset: {fileID: 0}

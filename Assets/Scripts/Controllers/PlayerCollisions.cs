@@ -15,7 +15,8 @@ public class PlayerCollisions : MonoBehaviour
     
     private void HandleEnemyCollision(GameObject enemy)
     {
-        throw new NotImplementedException();
+        var damageAmount = enemy.GetComponent<EnemyController>().Damage;
+        PlayerStatManagerSingleton.Instance.DamagePlayer(damageAmount);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -29,16 +30,23 @@ public class PlayerCollisions : MonoBehaviour
         {
             HandleXpCollision(other.gameObject);
         }
+
+        if (other.CompareTag("HouseExitTrigger"))
+        {
+            Debug.Log("exiting house");
+        }
     }
 
     private void HandleEnemyBulletCollision(GameObject bullet)
     {
-        throw new NotImplementedException();
+        var damageAmount = bullet.GetComponent<EnemyBulletController>().DamageValue;
+        PlayerStatManagerSingleton.Instance.DamagePlayer(damageAmount);
     }
 
     private void HandleXpCollision(GameObject xp)
     {
-        ExperienceManagerSingleton.Instance.IncreaseXp(1);
+        var xpAmount = xp.GetComponent<XpController>().XpValue;
+        ExperienceManagerSingleton.Instance.IncreaseXp(xpAmount);
         Destroy(xp);
     }
 }

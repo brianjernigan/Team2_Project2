@@ -21,6 +21,9 @@ public class PlayerStatManagerSingleton : MonoBehaviour
     public float CurrentDamage { get; set; }
     public float CurrentShotSpeed { get; set; }
 
+    private const float InvincibilityDuration = 0.5f;
+    private bool _isInvulnerable;
+
     public event Action OnHealthChanged;
 
     private void Awake()
@@ -60,6 +63,9 @@ public class PlayerStatManagerSingleton : MonoBehaviour
 
     public void DamagePlayer(float amount)
     {
+        if (_isInvulnerable) return;
+        
+        AudioManagerSingleton.Instance.PlayPlayerHitAudio();
         CurrentHealth = Mathf.Max(0, CurrentHealth - Mathf.Round(amount));
 
         if (CurrentHealth <= 0)
@@ -70,6 +76,15 @@ public class PlayerStatManagerSingleton : MonoBehaviour
         {
             OnHealthChanged?.Invoke();
         }
+
+        StartCoroutine(InvincibilityRoutine());
+    }
+
+    private IEnumerator InvincibilityRoutine()
+    {
+        _isInvulnerable = true;
+        yield return new WaitForSeconds(InvincibilityDuration);
+        _isInvulnerable = false;
     }
 
     public void HealPlayer(float amount)

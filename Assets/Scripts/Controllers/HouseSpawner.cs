@@ -16,14 +16,17 @@ public class HouseSpawner : MonoBehaviour
     [Header("XP")] 
     [SerializeField] private GameObject _xpPrefab;
 
-    private int _enemiesPerWave = 2;
-    private int _totalWaves = 2;
-    private float _spawnInterval = 0.5f;
+    public int EnemiesPerWave { get; set; } = 2;
+    public int TotalWaves { get; set; } = 2;
+    public float SpawnInterval { get; set; } = 0.5f;
+    public float TimeBetweenWaves { get; set; } = 3f;
 
     private int _currentWave;
     private int _enemiesRemaining;
 
     private int _houseIndex;
+    private int _previousEnemyIndex = -1;
+    private int _previousSpawnPointIndex = -1;
 
     public void StartSpawning()
     {
@@ -32,36 +35,69 @@ public class HouseSpawner : MonoBehaviour
 
     private IEnumerator SpawnNextWave()
     {
-        if (_currentWave >= _totalWaves)
+        if (_currentWave >= TotalWaves)
         {
             HandleEndOfHouse();
             yield break;
         }
+        
+        if (_currentWave > 0)
+        {
+            yield return new WaitForSeconds(TimeBetweenWaves);
+        }
 
-        _enemiesRemaining = _enemiesPerWave;
+        _enemiesRemaining = EnemiesPerWave;
 
-        for (var i = 0; i < _enemiesPerWave; i++)
+        for (var i = 0; i < EnemiesPerWave; i++)
         {
             SpawnEnemy();
-            yield return new WaitForSeconds(_spawnInterval);
+            yield return new WaitForSeconds(SpawnInterval);
         }
     }
 
     private void SpawnEnemy()
     {
-        var enemyPrefab = _enemyPrefabs[Random.Range(0, _enemyPrefabs.Length)];
-        var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
+        var enemyIndex = GetUniqueEnemyIndex();
+        var spawnPointIndex = GetUniqueSpawnPointIndex();
 
-        var enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        var enemy = Instantiate(_enemyPrefabs[enemyIndex], _spawnPoints[spawnPointIndex].position,
+            _spawnPoints[spawnPointIndex].rotation);
+
+        _previousEnemyIndex = enemyIndex;
+        _previousSpawnPointIndex = spawnPointIndex;
+        
         var enemyController = enemy.GetComponent<EnemyController>();
-
         enemyController?.SetSpawner(this);
+    }
+
+    private int GetUniqueEnemyIndex()
+    {
+        int enemyIndex;
+        do
+        {
+            enemyIndex = Random.Range(0, _enemyPrefabs.Length);
+        } while (enemyIndex == _previousEnemyIndex && _enemyPrefabs.Length > 1);
+
+        return enemyIndex;
+    }
+
+    private int GetUniqueSpawnPointIndex()
+    {
+        int spawnPointIndex;
+        do
+        {
+            spawnPointIndex = Random.Range(0, _spawnPoints.Length);
+        } while (spawnPointIndex == _previousSpawnPointIndex && _spawnPoints.Length > 1);
+
+        return spawnPointIndex;
     }
 
     public void KillEnemy(GameObject enemy)
     {
         _enemiesRemaining--;
-        Instantiate(_xpPrefab, enemy.transform.position, enemy.transform.rotation);
+        var xp = Instantiate(_xpPrefab, enemy.transform.position, enemy.transform.rotation);
+        // Set Xp Value in XpController
+        xp.GetComponent<XpController>().XpValue = enemy.GetComponent<EnemyController>().XpValue;
         Destroy(enemy);
 
         if (_enemiesRemaining > 0) return;

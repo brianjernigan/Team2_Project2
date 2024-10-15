@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 2001994272255753869}
   - component: {fileID: 3104374531704703196}
   - component: {fileID: 218822093474328754}
-  - component: {fileID: 5959012342327232773}
   m_Layer: 3
-  m_Name: Cube
+  m_Name: FrontFacing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,27 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5959012342327232773
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3486752470725444947}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8810231628824606568
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +222,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 116
+  m_Constraints: 126
   m_CollisionDetection: 2
 --- !u!114 &-8920558357178345668
 MonoBehaviour:
@@ -258,6 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5df95f0858344e41b6757634510b977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyData: {fileID: 11400000, guid: e4e14dd5dcf41c9489802e79cf3b037e, type: 2}
 --- !u!114 &8789930622353561902
 MonoBehaviour:
   m_ObjectHideFlags: 0
