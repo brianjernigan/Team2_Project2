@@ -12,7 +12,7 @@ public class InteractionTextUIController : MonoBehaviour
     [SerializeField] private GameObject _interactionPanel;
 
     private const float OriginalFontSize = 36f;
-    private const float ScaledFontSize = 60f;
+    private const float ScaledFontSize = 52f;
 
     public void ShowInteractionPanel()
     {

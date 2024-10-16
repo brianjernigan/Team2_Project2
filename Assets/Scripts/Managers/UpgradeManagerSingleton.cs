@@ -14,8 +14,6 @@ public class UpgradeManagerSingleton : MonoBehaviour
     private const float AmmoUpgradeCount = 2f;
 
     [SerializeField] private GameObject _upgradePanel;
-
-    public event Action OnPlayerUpgrade;
     
     private void Awake()
     {
@@ -30,6 +28,16 @@ public class UpgradeManagerSingleton : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    { 
+        LevelManagerSingleton.Instance.OnHouseVisited += ActivateUpgradePanel;
+    }
+
+    private void OnDisable()
+    { 
+        LevelManagerSingleton.Instance.OnHouseVisited -= ActivateUpgradePanel;
+    }
+
     public void ActivateUpgradePanel()
     {
         _upgradePanel.SetActive(true);
@@ -38,30 +46,25 @@ public class UpgradeManagerSingleton : MonoBehaviour
     public void UpgradeHealth()
     {
         PlayerStatManagerSingleton.Instance.CurrentMaxHealth = Mathf.Round(PlayerStatManagerSingleton.Instance.CurrentMaxHealth * HealthMultiplier);
-        OnPlayerUpgrade?.Invoke();
     }
     
     public void UpgradeMoveSpeed()
     {
         PlayerStatManagerSingleton.Instance.CurrentMoveSpeed = Mathf.Round(PlayerStatManagerSingleton.Instance.CurrentMoveSpeed * MoveSpeedMultiplier);
-        OnPlayerUpgrade?.Invoke();
     }
 
     public void UpgradeDamage()
     {
         PlayerStatManagerSingleton.Instance.CurrentDamage = Mathf.Round(PlayerStatManagerSingleton.Instance.CurrentDamage * DamageMultiplier);
-        OnPlayerUpgrade?.Invoke();
     }
 
     public void UpgradeAmmo()
     {
         PlayerStatManagerSingleton.Instance.CurrentMaxAmmo += AmmoUpgradeCount;
-        OnPlayerUpgrade?.Invoke();
     }
     
     public void UpgradeShotSpeed()
     {
         PlayerStatManagerSingleton.Instance.CurrentShotSpeed = Mathf.Round(PlayerStatManagerSingleton.Instance.CurrentShotSpeed * ShotSpeedMultiplier);
-        OnPlayerUpgrade?.Invoke();
     }
 }
