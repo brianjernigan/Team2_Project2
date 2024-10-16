@@ -33,7 +33,7 @@ public class PlayerCollisions : MonoBehaviour
 
         if (other.CompareTag("HouseExitTrigger"))
         {
-            HandleHouseExit();
+            HandleHouseExit(other.gameObject);
         }
     }
 
@@ -51,9 +51,10 @@ public class PlayerCollisions : MonoBehaviour
         Destroy(xp);
     }
 
-    private void HandleHouseExit()
+    private void HandleHouseExit(GameObject trigger)
     {
         Debug.Log("exiting house");
         LevelManagerSingleton.Instance.RegisterHouseVisited();
+        trigger.SetActive(false);
     }
 }
