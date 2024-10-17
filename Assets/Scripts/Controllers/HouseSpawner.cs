@@ -9,7 +9,6 @@ public class HouseSpawner : MonoBehaviour
     [SerializeField] private Transform[] _spawnPoints;
 
     [Header("Fence & Gate")] 
-    [SerializeField] private ParticleSystem _gateParticles;
     [SerializeField] private Animator _gateAnimator;
     [SerializeField] private GameObject _exitTrigger;
 
@@ -111,7 +110,6 @@ public class HouseSpawner : MonoBehaviour
     {
         AudioManagerSingleton.Instance.PlayDoorCreakAudio();
         _gateAnimator.SetTrigger("openGate");
-        _gateParticles.Play();
         _exitTrigger.SetActive(true);
     }
 }

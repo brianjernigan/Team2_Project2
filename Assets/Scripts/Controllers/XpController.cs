@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class XpController : MonoBehaviour
 {
-    private const float XpLifespanDuration = 2f;
+    private const float XpLifespanDuration = 2.5f;
     
     public int XpValue { get; set; }
 
