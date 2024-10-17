@@ -40,9 +40,10 @@ public class EnemyShootingController : MonoBehaviour
         }
         else
         {
-            // if (_isFiring)
-            // {
-            //     StopFiring();
+            if (_isFiring)
+            {
+                StopFiring();
+            }
         }
     }
 
