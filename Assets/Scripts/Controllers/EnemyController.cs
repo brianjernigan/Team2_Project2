@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyData _enemyData;
     [SerializeField] private NavMeshAgent _navMeshAgent;
+    [SerializeField] private ParticleSystem _particles;
 
     private GameObject _player;
     private HouseSpawner _houseSpawner;
@@ -56,6 +57,17 @@ public class EnemyController : MonoBehaviour
         Health = Mathf.Max(0, Health - damageAmount);
         AudioManagerSingleton.Instance.PlayEnemyHitAudio();
 
+        if (!_particles.isPlaying)
+        {
+            StartCoroutine(FlashParticles());
+        }
+        else
+        {
+            StopCoroutine(FlashParticles());
+            StartCoroutine(FlashParticles());
+        }
+        
+
         Destroy(fireball);
         
         if (Health <= 0)
@@ -67,5 +79,12 @@ public class EnemyController : MonoBehaviour
     private void KillEnemy(GameObject enemy)
     {
         _houseSpawner.KillEnemy(enemy);
+    }
+
+    private IEnumerator FlashParticles()
+    {
+        _particles.Play();
+        yield return new WaitForSeconds(0.15f);
+        _particles.Stop();
     }
 }
