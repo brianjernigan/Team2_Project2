@@ -14,6 +14,8 @@ public class HouseSpawner : MonoBehaviour
 
     [Header("XP")] 
     [SerializeField] private GameObject _xpPrefab;
+    [SerializeField] private GameObject _candyPrefab;
+    [SerializeField] private Transform _candySpawnPoint;
 
     private const float SpawnInterval = 1f;
     
@@ -110,6 +112,7 @@ public class HouseSpawner : MonoBehaviour
     {
         AudioManagerSingleton.Instance.PlayDoorCreakAudio();
         _gateAnimator.SetTrigger("openGate");
+        var candy = Instantiate(_candyPrefab, _candySpawnPoint.position, _candySpawnPoint.rotation);
         _exitTrigger.SetActive(true);
     }
 }

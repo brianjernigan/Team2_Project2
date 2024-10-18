@@ -26,7 +26,9 @@ public class ShootingController : MonoBehaviour
 
     private void HandleShooting()
     {
-        if (!AmmoManagerSingleton.Instance.HasAmmo())
+        if (AmmoManagerSingleton.Instance.IsReloading) return;
+        
+        if (!AmmoManagerSingleton.Instance.HasAmmo() && !AmmoManagerSingleton.Instance.IsReloading)
         {
             HandleEmptyMagazine();
             return;

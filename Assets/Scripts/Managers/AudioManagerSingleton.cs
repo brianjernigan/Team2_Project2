@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,8 +68,15 @@ public class AudioManagerSingleton : MonoBehaviour
 
     public void PlayReloadAudio()
     {
-        _reloadAudio.time = 0.67f;
+        _reloadAudio.time = 0.6f;
         _reloadAudio.Play();
+        StartCoroutine(StopReloadAudio());
+    }
+
+    private IEnumerator StopReloadAudio()
+    {
+        yield return new WaitForSeconds(1.75f);
+        _reloadAudio.Stop();
     }
 
     public void PlayEmptyMagAudio()
@@ -78,7 +86,7 @@ public class AudioManagerSingleton : MonoBehaviour
             _emptyMagAudio.Stop();
         }
         
-        _emptyMagAudio.time = 0.022f;
+        _emptyMagAudio.time = 0.035f;
         _emptyMagAudio.Play();
     }
 

@@ -7,9 +7,9 @@ public class AmmoManagerSingleton : MonoBehaviour
 {
     public static AmmoManagerSingleton Instance { get; private set; }
 
-    private bool _isReloading;
+    public bool IsReloading { get; set; }
 
-    private const float ReloadDuration = 1f;
+    private const float ReloadDuration = 1.75f;
 
     public event Action OnAmmoChanged;
 
@@ -32,7 +32,7 @@ public class AmmoManagerSingleton : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !_isReloading)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !IsReloading)
         {
             Reload();
         }
@@ -60,12 +60,12 @@ public class AmmoManagerSingleton : MonoBehaviour
 
     private IEnumerator ReloadRoutine()
     {
-        _isReloading = true;
+        IsReloading = true;
         AudioManagerSingleton.Instance.PlayReloadAudio();
         
         yield return new WaitForSeconds(ReloadDuration);
 
-        _isReloading = false;
+        IsReloading = false;
         PlayerStatManagerSingleton.Instance.CurrentAmmo = PlayerStatManagerSingleton.Instance.CurrentMaxAmmo;
         OnAmmoChanged?.Invoke();
     }
