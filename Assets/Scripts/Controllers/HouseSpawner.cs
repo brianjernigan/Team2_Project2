@@ -17,9 +17,9 @@ public class HouseSpawner : MonoBehaviour
     [SerializeField] private GameObject _candyPrefab;
     [SerializeField] private Transform _candySpawnPoint;
 
-    private const float SpawnInterval = 1f;
+    private const float SpawnInterval = 0.75f;
     
-    public int EnemiesPerWave { get; set; } = 2;
+    public int EnemiesPerWave { get; set; } = 5;
     public int TotalWaves { get; set; } = 2;
     public float TimeBetweenWaves { get; set; } = 3f;
 

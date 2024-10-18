@@ -7,11 +7,11 @@ public class PlayerStatManagerSingleton : MonoBehaviour
 {
     public static PlayerStatManagerSingleton Instance { get; private set; }
 
-    private const float BaseMaxHealth = 25f;
-    private const float BaseMaxAmmo = 10f;
-    private const float BaseMoveSpeed = 10f;
-    private const float BaseDamage = 10f;
-    private const float BaseShotSpeed = 10f;
+    private const float BaseMaxHealth = 10f;
+    private const float BaseMaxAmmo = 5f;
+    private const float BaseMoveSpeed = 7.5f;
+    private const float BaseDamage = 2f;
+    private const float BaseShotSpeed = 3f;
     
     public float CurrentMaxHealth { get; set; }
     public float CurrentHealth { get; set; }

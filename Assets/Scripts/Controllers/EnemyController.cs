@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         _player = GameObject.FindWithTag("Player");
-        
+        InitializeEnemy();
     }
 
     private void InitializeEnemy()
@@ -46,8 +46,26 @@ public class EnemyController : MonoBehaviour
     {
         if (other.CompareTag("Fireball"))
         {
-            Destroy(other.gameObject);
-            _houseSpawner.KillEnemy(gameObject);
+            HurtEnemy(other.gameObject, gameObject);
         }
+    }
+
+    private void HurtEnemy(GameObject fireball, GameObject enemy)
+    {
+        var damageAmount = fireball.GetComponent<FireballController>().Damage;
+        Health = Mathf.Max(0, Health - damageAmount);
+        AudioManagerSingleton.Instance.PlayEnemyHitAudio();
+
+        Destroy(fireball);
+        
+        if (Health <= 0)
+        {
+            KillEnemy(enemy);
+        }
+    }
+
+    private void KillEnemy(GameObject enemy)
+    {
+        _houseSpawner.KillEnemy(enemy);
     }
 }

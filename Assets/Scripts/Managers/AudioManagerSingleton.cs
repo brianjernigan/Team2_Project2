@@ -40,8 +40,8 @@ public class AudioManagerSingleton : MonoBehaviour
         {
             _shotAudio.Stop();
         }
-        
-        _shotAudio.time = 0.145f;
+
+        _shotAudio.time = 0.13f;
         _shotAudio.Play();
     }
 

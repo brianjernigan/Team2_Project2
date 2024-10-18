@@ -7,10 +7,12 @@ using UnityEngine;
 public class FireballController : MonoBehaviour
 {
     private const float Lifespan = 1f;
+    public float Damage { get; set; }
     
     private void Awake()
     {
         StartCoroutine(FireballLifespan());
+        Damage = PlayerStatManagerSingleton.Instance.CurrentDamage;
     }
 
     private IEnumerator FireballLifespan()

@@ -36,7 +36,7 @@ public class PlayerCollisions : MonoBehaviour
             HandleHouseExit(other.gameObject);
         }
 
-        if (other.CompareTag("Candy"))
+        if (other.CompareTag("BuffCandy"))
         {
             HandleCandyCollision(other.gameObject);
         }
