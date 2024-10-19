@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class DoorbellZoneController : MonoBehaviour
 {
-    private const float TimeToActivate = 2f;
+    private const float TimeToActivate = 1.5f;
 
     private float _timeHeldDown;
     private bool _isInZone;
