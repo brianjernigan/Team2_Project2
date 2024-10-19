@@ -4160,7 +4160,7 @@ MonoBehaviour:
   - {fileID: 5849831422244415645}
   - {fileID: 12269542312006659}
   - {fileID: 6448836564770115991}
-  _gateAnimator: {fileID: 0}
+  _gateAnimator: {fileID: 4285833043938483011}
   _exitTrigger: {fileID: 1324536591596963983}
   _xpPrefab: {fileID: 5337641785984595677, guid: 7c94be4b26cfe3b469632c014198edcb, type: 3}
   _candyPrefab: {fileID: 2237135511158642126, guid: 6a80122e5515abd42a3b9cfe51ef8d4d, type: 3}
@@ -11415,5 +11415,10 @@ Transform:
 --- !u!95 &3126255182029285658 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 8209206217636452007, guid: 3f4e533e9f017bd4994eba418db999d0, type: 3}
+  m_PrefabInstance: {fileID: 6525228818422202301}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &4285833043938483011 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7058287939270731006, guid: 3f4e533e9f017bd4994eba418db999d0, type: 3}
   m_PrefabInstance: {fileID: 6525228818422202301}
   m_PrefabAsset: {fileID: 0}
