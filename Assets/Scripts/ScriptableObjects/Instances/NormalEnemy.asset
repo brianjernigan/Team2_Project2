@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   xpValue: 5
-  health: 30
-  damage: 8
+  health: 4
+  damage: 2
   speed: 4
   angularSpeed: 540
   acceleration: 6

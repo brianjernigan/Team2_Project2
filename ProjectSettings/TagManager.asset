@@ -24,6 +24,8 @@ TagManager:
   - Gate
   - InteractionPanel
   - HouseExitTrigger
+  - CursedCandy
+  - BuffCandy
   layers:
   - Default
   - TransparentFX

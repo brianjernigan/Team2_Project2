@@ -9,18 +9,13 @@ public class EnemyShootingController : MonoBehaviour
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _muzzleTransform;
 
-    private float _fireRate;
-    private float _shotSpeed;
+    private const float FireRate = 2.0f;
+    private const float ShotSpeed = 2.5f;
     private const float AimRotationSpeed = 45f;
     
     private Transform _playerTransform;
     private bool _isFiring;
-
-    private void Start()
-    {
-        _fireRate = 2.0f;
-        _shotSpeed = 2.5f;
-    }
+    
 
     private void Update()
     {
@@ -75,7 +70,7 @@ public class EnemyShootingController : MonoBehaviour
         while (_isFiring)
         {
             FireBullet();
-            yield return new WaitForSeconds(_fireRate);
+            yield return new WaitForSeconds(FireRate);
         }
     }
 
@@ -87,6 +82,6 @@ public class EnemyShootingController : MonoBehaviour
 
         bulletController.DamageValue = GetComponent<EnemyController>().Damage;
         
-        bulletRb?.AddForce(_muzzleTransform.forward * _shotSpeed, ForceMode.Impulse);
+        bulletRb?.AddForce(_muzzleTransform.forward * ShotSpeed, ForceMode.Impulse);
     }
 }

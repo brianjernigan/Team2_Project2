@@ -35,6 +35,16 @@ public class PlayerCollisions : MonoBehaviour
         {
             HandleHouseExit(other.gameObject);
         }
+
+        if (other.CompareTag("BuffCandy"))
+        {
+            HandleCandyCollision(other.gameObject);
+        }
+    }
+
+    private void HandleCandyCollision(GameObject otherGameObject)
+    {
+        Debug.Log("yummy");
     }
 
     private void HandleEnemyBulletCollision(GameObject bullet)
