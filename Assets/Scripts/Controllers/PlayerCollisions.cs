@@ -40,6 +40,16 @@ public class PlayerCollisions : MonoBehaviour
         {
             HandleCandyCollision(other.gameObject);
         }
+
+        if (other.CompareTag("ShopInteractionZone"))
+        {
+            HandleShopInteraction(other.gameObject);
+        }
+    }
+
+    private void HandleShopInteraction(GameObject otherGameObject)
+    {
+        Debug.Log("at the shop!");
     }
 
     private void HandleCandyCollision(GameObject otherGameObject)

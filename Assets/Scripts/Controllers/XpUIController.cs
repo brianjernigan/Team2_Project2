@@ -15,10 +15,8 @@ public class XpUIController : MonoBehaviour
 
     private void OnDisable()
     {
-        if (ExperienceManagerSingleton.Instance is not null)
-        {
-            ExperienceManagerSingleton.Instance.OnXpChanged -= UpdateXpText;
-        }
+        if (ExperienceManagerSingleton.Instance is null) return;
+        ExperienceManagerSingleton.Instance.OnXpChanged -= UpdateXpText;
     }
 
     private void Start()
@@ -28,6 +26,6 @@ public class XpUIController : MonoBehaviour
 
     private void UpdateXpText()
     {
-        _xpText.text = $"XP: {ExperienceManagerSingleton.Instance.CurrentXp} / {ExperienceManagerSingleton.Instance.CurrentXpThreshold}";
+        _xpText.text = $"XP: {ExperienceManagerSingleton.Instance.CurrentXp}";
     }
 }

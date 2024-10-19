@@ -24,7 +24,7 @@ public class CandyController : MonoBehaviour
 
     private void Update()
     {
-        Bobbing();
+        BobCandy();
         RotateCandy();
     }
 
@@ -33,7 +33,7 @@ public class CandyController : MonoBehaviour
         transform.Rotate(_rotationAxis, RotationSpeed * Time.deltaTime);
     }
 
-    private void Bobbing()
+    private void BobCandy()
     {
         var newY = _startPosition.y + Mathf.Sin(Time.time * BobSpeed) * BobHeight;
         transform.position = new Vector3(_startPosition.x, newY, _startPosition.z);

@@ -6,16 +6,11 @@ using UnityEngine;
 public class ExperienceManagerSingleton : MonoBehaviour
 {
     public static ExperienceManagerSingleton Instance { get; private set; }
-
-    private const int BaseXpThreshold = 10;
-    private const float XpMultiplier = 1.55f;
     
     public int CurrentXp { get; private set; }
     public int CurrentPlayerLevel { get; private set; }
-    public int CurrentXpThreshold { get; private set; }
 
     public event Action OnXpChanged;
-    public event Action OnPlayerLevelUp;
 
     private void Awake()
     {
@@ -39,7 +34,6 @@ public class ExperienceManagerSingleton : MonoBehaviour
     {
         CurrentPlayerLevel = 1;
         CurrentXp = 0;
-        CurrentXpThreshold = BaseXpThreshold;
         OnXpChanged?.Invoke();
     }
 
@@ -47,17 +41,5 @@ public class ExperienceManagerSingleton : MonoBehaviour
     {
         CurrentXp += amount;
         OnXpChanged?.Invoke();
-
-        if (CurrentXp >= CurrentXpThreshold)
-        {
-            LevelUp();
-        }
-    }
-
-    private void LevelUp()
-    {
-        CurrentPlayerLevel++;
-        CurrentXpThreshold = Mathf.RoundToInt(BaseXpThreshold * Mathf.Pow(XpMultiplier, CurrentPlayerLevel - 1));
-        OnPlayerLevelUp?.Invoke();
     }
 }

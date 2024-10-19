@@ -26,6 +26,9 @@ TagManager:
   - HouseExitTrigger
   - CursedCandy
   - BuffCandy
+  - Shopkeeper
+  - Shop
+  - ShopInteractionZone
   layers:
   - Default
   - TransparentFX
