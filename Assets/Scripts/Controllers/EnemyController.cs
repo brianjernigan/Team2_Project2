@@ -55,7 +55,7 @@ public class EnemyController : MonoBehaviour
     {
         var damageAmount = fireball.GetComponent<FireballController>().Damage;
         Health = Mathf.Max(0, Health - damageAmount);
-        AudioManagerSingleton.Instance.PlayEnemyHitAudio();
+        AudioManager.Instance.PlayEnemyHitAudio();
 
         if (!_particles.isPlaying)
         {

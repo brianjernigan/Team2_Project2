@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManagerSingleton : MonoBehaviour
+public class AudioManager : MonoBehaviour
 {
-    public static AudioManagerSingleton Instance { get; private set; }
+    public static AudioManager Instance { get; private set; }
     
     [SerializeField] private AudioSource _shotAudio;
     [SerializeField] private AudioSource _enemyHitAudio;

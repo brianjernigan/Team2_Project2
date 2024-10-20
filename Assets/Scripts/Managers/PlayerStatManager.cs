@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStatManagerSingleton : MonoBehaviour
+public class PlayerStatManager : MonoBehaviour
 {
-    public static PlayerStatManagerSingleton Instance { get; private set; }
+    public static PlayerStatManager Instance { get; private set; }
 
     private const float BaseMaxHealth = 10f;
     private const float BaseMaxAmmo = 5f;
@@ -25,7 +25,7 @@ public class PlayerStatManagerSingleton : MonoBehaviour
     private bool _isInvulnerable;
 
     public event Action OnHealthChanged;
-    private Animator _animator; //new
+    private Animator _playerAnimator; //new
 
     private void Awake()
     {
@@ -43,10 +43,10 @@ public class PlayerStatManagerSingleton : MonoBehaviour
     private void Start()
     {
         InitializeStats();
-        _animator = GetComponent<Animator>();//new
+        _playerAnimator = GetComponent<Animator>();//new
     }
 
-    public void InitializeStats()
+    private void InitializeStats()
     {
         CurrentMaxHealth = BaseMaxHealth;
         CurrentHealth = CurrentMaxHealth;
@@ -61,19 +61,20 @@ public class PlayerStatManagerSingleton : MonoBehaviour
     {
         CurrentHealth = CurrentMaxHealth;
         CurrentAmmo = CurrentMaxAmmo;
+        _playerAnimator.SetBool("isDead", false);
     }
 
     public void DamagePlayer(float amount)
     {
         if (_isInvulnerable) return;
         
-        AudioManagerSingleton.Instance.PlayPlayerHitAudio();
+        AudioManager.Instance.PlayPlayerHitAudio();
         CurrentHealth = Mathf.Max(0, CurrentHealth - Mathf.Round(amount));
 
         if (CurrentHealth <= 0)
         {
-            GameManagerSingleton.Instance.OnPlayerDeath();
-            _animator.SetBool("isDead", true); //new
+            GameManager.Instance.OnPlayerDeath();
+            _playerAnimator.SetBool("isDead", true); //new
         }
         else
         {

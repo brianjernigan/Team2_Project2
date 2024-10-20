@@ -16,7 +16,7 @@ public class PlayerCollisions : MonoBehaviour
     private void HandleEnemyCollision(GameObject enemy)
     {
         var damageAmount = enemy.GetComponent<EnemyController>().Damage;
-        PlayerStatManagerSingleton.Instance.DamagePlayer(damageAmount);
+        PlayerStatManager.Instance.DamagePlayer(damageAmount);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -40,16 +40,6 @@ public class PlayerCollisions : MonoBehaviour
         {
             HandleCandyCollision(other.gameObject);
         }
-
-        if (other.CompareTag("ShopInteractionZone"))
-        {
-            HandleShopInteraction(other.gameObject);
-        }
-    }
-
-    private void HandleShopInteraction(GameObject otherGameObject)
-    {
-        UpgradeManagerSingleton.Instance.ActivateUpgradePanel();
     }
 
     private void HandleCandyCollision(GameObject otherGameObject)
@@ -60,21 +50,21 @@ public class PlayerCollisions : MonoBehaviour
     private void HandleEnemyBulletCollision(GameObject bullet)
     {
         var damageAmount = bullet.GetComponent<EnemyBulletController>().DamageValue;
-        PlayerStatManagerSingleton.Instance.DamagePlayer(damageAmount);
+        PlayerStatManager.Instance.DamagePlayer(damageAmount);
     }
 
     private void HandleXpCollision(GameObject xp)
     {
         var xpAmount = xp.GetComponent<XpController>().XpValue;
-        ExperienceManagerSingleton.Instance.IncreaseXp(xpAmount);
-        AudioManagerSingleton.Instance.PlayXpAudio();
+        XpManager.Instance.IncreaseXp(xpAmount);
+        AudioManager.Instance.PlayXpAudio();
         Destroy(xp);
     }
 
     private void HandleHouseExit(GameObject trigger)
     {
         Debug.Log("exiting house");
-        LevelManagerSingleton.Instance.RegisterHouseVisited();
+        LevelManager.Instance.RegisterHouseVisited();
         trigger.SetActive(false);
     }
 }

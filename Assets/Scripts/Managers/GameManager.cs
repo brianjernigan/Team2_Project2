@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManagerSingleton : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static GameManagerSingleton Instance { get; private set; }
+    public static GameManager Instance { get; private set; }
 
     private void Awake()
     {
@@ -22,12 +22,12 @@ public class GameManagerSingleton : MonoBehaviour
 
     private void Start()
     {
-        AudioManagerSingleton.Instance.PlayLevelOneMusic();
+        AudioManager.Instance.PlayLevelOneMusic();
     }
 
     public void OnPlayerDeath()
     {
-        PlayerStatManagerSingleton.Instance.ResetStats();
+        PlayerStatManager.Instance.ResetStats();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

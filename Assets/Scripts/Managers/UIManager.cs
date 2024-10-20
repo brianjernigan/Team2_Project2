@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManagerSingleton : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
-    public static UIManagerSingleton Instance { get; private set; }
+    public static UIManager Instance { get; private set; }
 
     private void Awake()
     {

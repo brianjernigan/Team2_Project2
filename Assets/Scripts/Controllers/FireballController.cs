@@ -6,23 +6,23 @@ using UnityEngine;
 
 public class FireballController : MonoBehaviour
 {
-    private const float Lifespan = 1f;
+    private const float FireballLifespan = 1f;
     public float Damage { get; set; }
     
     private void Awake()
     {
-        StartCoroutine(FireballLifespan());
-        Damage = PlayerStatManagerSingleton.Instance.CurrentDamage;
+        StartCoroutine(FireballLifespanRoutine());
+        Damage = PlayerStatManager.Instance.CurrentDamage;
     }
 
-    private IEnumerator FireballLifespan()
+    private IEnumerator FireballLifespanRoutine()
     {
-        yield return new WaitForSeconds(Lifespan);
+        yield return new WaitForSeconds(FireballLifespan);
         Destroy(gameObject);
     }
 
     private void OnDestroy()
     {
-        StopCoroutine(FireballLifespan());
+        StopCoroutine(FireballLifespanRoutine());
     }
 }

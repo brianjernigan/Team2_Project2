@@ -10,13 +10,13 @@ public class XpUIController : MonoBehaviour
 
     private void OnEnable()
     {
-        ExperienceManagerSingleton.Instance.OnXpChanged += UpdateXpText;
+        XpManager.Instance.OnXpChanged += UpdateXpText;
     }
 
     private void OnDisable()
     {
-        if (ExperienceManagerSingleton.Instance is null) return;
-        ExperienceManagerSingleton.Instance.OnXpChanged -= UpdateXpText;
+        if (XpManager.Instance is null) return;
+        XpManager.Instance.OnXpChanged -= UpdateXpText;
     }
 
     private void Start()
@@ -26,6 +26,6 @@ public class XpUIController : MonoBehaviour
 
     private void UpdateXpText()
     {
-        _xpText.text = $"XP: {ExperienceManagerSingleton.Instance.CurrentXp}";
+        _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
     }
 }

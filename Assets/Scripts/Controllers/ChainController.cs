@@ -63,7 +63,7 @@ public class ChainController : MonoBehaviour
 
     private IEnumerator ChainEnemy(GameObject enemy)
     {
-        AudioManagerSingleton.Instance.PlayChainAudio();
+        AudioManager.Instance.PlayChainAudio();
         
         var enemyController = enemy.GetComponent<EnemyController>();
         

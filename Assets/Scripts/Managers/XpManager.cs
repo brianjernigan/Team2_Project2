@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExperienceManagerSingleton : MonoBehaviour
+public class XpManager : MonoBehaviour
 {
-    public static ExperienceManagerSingleton Instance { get; private set; }
+    public static XpManager Instance { get; private set; }
     
     public int CurrentXp { get; private set; }
     public int CurrentPlayerLevel { get; private set; }

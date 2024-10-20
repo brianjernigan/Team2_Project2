@@ -16,7 +16,7 @@ public class DoorbellZoneController : MonoBehaviour
 
     [SerializeField] private Animator _fenceAnim;
     [SerializeField] private HouseSpawner _houseSpawner;
-    [SerializeField] private InteractionTextUIController _interactionTextUIController;
+    [SerializeField] private RingDoorbellUIController _ringDoorbellUIController;
     [SerializeField] private ParticleSystem _particles;
     
     private void OnTriggerEnter(Collider other)
@@ -24,7 +24,7 @@ public class DoorbellZoneController : MonoBehaviour
         if (other.CompareTag("Player") && !_bellIsRung)
         {
             _isInZone = true;
-            _interactionTextUIController.ShowInteractionPanel();
+            _ringDoorbellUIController.ShowDoorbellText();
         }
     }
 
@@ -34,8 +34,8 @@ public class DoorbellZoneController : MonoBehaviour
         {
             _isInZone = false;
             _timeHeldDown = 0f;
-            _interactionTextUIController.HideInteractionPanel();
-            _interactionTextUIController.ResetInteractionText();
+            _ringDoorbellUIController.HideDoorbellText();
+            _ringDoorbellUIController.ResetDoorbellText();
         }
     }
 
@@ -45,7 +45,7 @@ public class DoorbellZoneController : MonoBehaviour
         {
             _timeHeldDown += Time.deltaTime;
             var lerpValue = Mathf.Clamp01(_timeHeldDown / TimeToActivate);
-            _interactionTextUIController.UpdateInteractionText(lerpValue);
+            _ringDoorbellUIController.UpdateDoorbellText(lerpValue);
             
             if (_timeHeldDown >= TimeToActivate)
             {
@@ -56,7 +56,7 @@ public class DoorbellZoneController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.R) && !_bellIsRung)
         {
             _timeHeldDown = 0f;
-            _interactionTextUIController.ResetInteractionText();
+            _ringDoorbellUIController.ResetDoorbellText();
         }
     }
 
@@ -64,8 +64,8 @@ public class DoorbellZoneController : MonoBehaviour
     {
         _bellIsRung = true;
         _particles.Stop();
-        _interactionTextUIController.HideInteractionPanel();
-        AudioManagerSingleton.Instance.PlayDoorbellAudio();
+        _ringDoorbellUIController.HideDoorbellText();
+        AudioManager.Instance.PlayDoorbellAudio();
         _fenceAnim.SetTrigger("raiseFence");
         _houseSpawner?.StartSpawning();
     }

@@ -10,14 +10,14 @@ public class HealthUIController : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerStatManagerSingleton.Instance.OnHealthChanged += UpdateHealthText;
+        PlayerStatManager.Instance.OnHealthChanged += UpdateHealthText;
     }
 
     private void OnDisable()
     {
-        if (PlayerStatManagerSingleton.Instance is not null)
+        if (PlayerStatManager.Instance is not null)
         {
-            PlayerStatManagerSingleton.Instance.OnHealthChanged -= UpdateHealthText;
+            PlayerStatManager.Instance.OnHealthChanged -= UpdateHealthText;
         }
     }
 
@@ -28,6 +28,6 @@ public class HealthUIController : MonoBehaviour
 
     private void UpdateHealthText()
     {
-        _healthText.text = $"Health: {PlayerStatManagerSingleton.Instance.CurrentHealth} / {PlayerStatManagerSingleton.Instance.CurrentMaxHealth}";
+        _healthText.text = $"Health: {PlayerStatManager.Instance.CurrentHealth} / {PlayerStatManager.Instance.CurrentMaxHealth}";
     }
 }

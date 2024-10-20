@@ -18,7 +18,7 @@ public class ShotTypeController : MonoBehaviour
     {
         CurrentShotType = newShot;
         OnShotTypeChanged?.Invoke(CurrentShotType);
-        AudioManagerSingleton.Instance.PlayWeaponChangeAudio();
+        AudioManager.Instance.PlayWeaponChangeAudio();
 
         if (newShot == ShotType.Default) return;
 
@@ -84,7 +84,7 @@ public class ShotTypeController : MonoBehaviour
 
             if (fireballRb is not null)
             {
-                fireballRb.velocity = fireball.transform.forward * PlayerStatManagerSingleton.Instance.CurrentShotSpeed;
+                fireballRb.velocity = fireball.transform.forward * PlayerStatManager.Instance.CurrentShotSpeed;
             }
             
             yield return null;
@@ -131,7 +131,7 @@ public class ShotTypeController : MonoBehaviour
             var angleOffset = (i - (numProjectiles - 1) / 2f) * spreadAngle;
             var direction = Quaternion.Euler(0, angleOffset, 0) * _muzzlePosition.forward;
 
-            fireballRb?.AddForce(direction * PlayerStatManagerSingleton.Instance.CurrentShotSpeed, ForceMode.Impulse);
+            fireballRb?.AddForce(direction * PlayerStatManager.Instance.CurrentShotSpeed, ForceMode.Impulse);
         }
     }
 
@@ -141,7 +141,7 @@ public class ShotTypeController : MonoBehaviour
         var fireballRb = GetFireballRigidbody(fireball);
         fireball.transform.localScale *= 2;
         
-        fireballRb?.AddForce(_muzzlePosition.forward * (PlayerStatManagerSingleton.Instance.CurrentShotSpeed / 2f), ForceMode.Impulse);
+        fireballRb?.AddForce(_muzzlePosition.forward * (PlayerStatManager.Instance.CurrentShotSpeed / 2f), ForceMode.Impulse);
     }
 
     private void ShootFast()
@@ -150,7 +150,7 @@ public class ShotTypeController : MonoBehaviour
         var fireballRb = GetFireballRigidbody(fireball);
         fireball.transform.localScale *= 0.75f;
         
-        fireballRb?.AddForce(_muzzlePosition.forward * (PlayerStatManagerSingleton.Instance.CurrentShotSpeed * 1.5f), ForceMode.Impulse);
+        fireballRb?.AddForce(_muzzlePosition.forward * (PlayerStatManager.Instance.CurrentShotSpeed * 1.5f), ForceMode.Impulse);
     }
 
     private void ShootDefault()
@@ -158,7 +158,7 @@ public class ShotTypeController : MonoBehaviour
         var fireball = InstantiateFireBall();
         var fireballRb = GetFireballRigidbody(fireball);
 
-        fireballRb?.AddForce(_muzzlePosition.forward * PlayerStatManagerSingleton.Instance.CurrentShotSpeed, ForceMode.Impulse);
+        fireballRb?.AddForce(_muzzlePosition.forward * PlayerStatManager.Instance.CurrentShotSpeed, ForceMode.Impulse);
     }
     
     private GameObject InstantiateFireBall()

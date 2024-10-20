@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AmmoManagerSingleton : MonoBehaviour
+public class AmmoManager : MonoBehaviour
 {
-    public static AmmoManagerSingleton Instance { get; private set; }
+    public static AmmoManager Instance { get; private set; }
 
     public bool IsReloading { get; set; }
 
@@ -40,20 +40,20 @@ public class AmmoManagerSingleton : MonoBehaviour
 
     public bool HasAmmo()
     {
-        return PlayerStatManagerSingleton.Instance.CurrentAmmo > 0;
+        return PlayerStatManager.Instance.CurrentAmmo > 0;
     }
 
     public void DecreaseAmmo()
     {
-        if (PlayerStatManagerSingleton.Instance.CurrentAmmo <= 0) return;
+        if (PlayerStatManager.Instance.CurrentAmmo <= 0) return;
 
-        PlayerStatManagerSingleton.Instance.CurrentAmmo--;
+        PlayerStatManager.Instance.CurrentAmmo--;
         OnAmmoChanged?.Invoke();
     }
 
     private void Reload()
     {
-        if (PlayerStatManagerSingleton.Instance.CurrentAmmo >= PlayerStatManagerSingleton.Instance.CurrentMaxAmmo) return;
+        if (PlayerStatManager.Instance.CurrentAmmo >= PlayerStatManager.Instance.CurrentMaxAmmo) return;
 
         StartCoroutine(ReloadRoutine());
     }
@@ -61,12 +61,12 @@ public class AmmoManagerSingleton : MonoBehaviour
     private IEnumerator ReloadRoutine()
     {
         IsReloading = true;
-        AudioManagerSingleton.Instance.PlayReloadAudio();
+        AudioManager.Instance.PlayReloadAudio();
         
         yield return new WaitForSeconds(ReloadDuration);
 
         IsReloading = false;
-        PlayerStatManagerSingleton.Instance.CurrentAmmo = PlayerStatManagerSingleton.Instance.CurrentMaxAmmo;
+        PlayerStatManager.Instance.CurrentAmmo = PlayerStatManager.Instance.CurrentMaxAmmo;
         OnAmmoChanged?.Invoke();
     }
 }

@@ -10,14 +10,14 @@ public class AmmoUIController : MonoBehaviour
 
     private void OnEnable()
     {
-        AmmoManagerSingleton.Instance.OnAmmoChanged += UpdateAmmoText;
+        AmmoManager.Instance.OnAmmoChanged += UpdateAmmoText;
     }
 
     private void OnDisable()
     {
-        if (AmmoManagerSingleton.Instance is not null)
+        if (AmmoManager.Instance is not null)
         {
-            AmmoManagerSingleton.Instance.OnAmmoChanged -= UpdateAmmoText;
+            AmmoManager.Instance.OnAmmoChanged -= UpdateAmmoText;
         }
     }
 
@@ -28,6 +28,6 @@ public class AmmoUIController : MonoBehaviour
 
     private void UpdateAmmoText()
     {
-        _ammoText.text = $"Ammo: {PlayerStatManagerSingleton.Instance.CurrentAmmo} / {PlayerStatManagerSingleton.Instance.CurrentMaxAmmo}";
+        _ammoText.text = $"Ammo: {PlayerStatManager.Instance.CurrentAmmo} / {PlayerStatManager.Instance.CurrentMaxAmmo}";
     }
 }

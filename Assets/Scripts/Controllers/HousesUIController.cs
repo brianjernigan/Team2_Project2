@@ -10,14 +10,14 @@ public class HousesUIController : MonoBehaviour
 
     private void OnEnable()
     {
-        LevelManagerSingleton.Instance.OnHouseVisited += UpdateHousesText;
+        LevelManager.Instance.OnHouseVisited += UpdateHousesText;
     }
     
     private void OnDisable()
     {
-        if (LevelManagerSingleton.Instance is not null)
+        if (LevelManager.Instance is not null)
         {
-            LevelManagerSingleton.Instance.OnHouseVisited -= UpdateHousesText;
+            LevelManager.Instance.OnHouseVisited -= UpdateHousesText;
         }
     }
 
@@ -28,6 +28,6 @@ public class HousesUIController : MonoBehaviour
 
     private void UpdateHousesText()
     {
-        _housesText.text = $"Houses Remaining: {LevelManagerSingleton.Instance.HousesRemaining}";
+        _housesText.text = $"Houses Remaining: {LevelManager.Instance.HousesRemaining}";
     }
 }

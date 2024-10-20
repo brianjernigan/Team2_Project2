@@ -110,7 +110,7 @@ public class HouseSpawner : MonoBehaviour
 
     private void HandleEndOfHouse()
     {
-        AudioManagerSingleton.Instance.PlayDoorCreakAudio();
+        AudioManager.Instance.PlayDoorCreakAudio();
         _gateAnimator.SetTrigger("openGate");
         var candy = Instantiate(_candyPrefab, _candySpawnPoint.position, _candySpawnPoint.rotation);
         _exitTrigger.SetActive(true);

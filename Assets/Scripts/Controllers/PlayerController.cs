@@ -10,11 +10,15 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance { get; private set; }
     
     [SerializeField] private Camera _mainCamera;
-    
-    private const float RotationSpeed = 10f; //prev 720
+    [SerializeField] private Animator _animator;
+    [SerializeField] private ShotTypeController _shotTypeController;
+    [SerializeField] private Rigidbody _rb;
 
-    private Rigidbody _rb;
-    private Animator _animator; //new
+    private const float PlayerRotationSpeed = 720f;
+    private const float FireRate = 0.1f;
+    private float _timeSinceLastShot;
+    private bool _canShoot;
+    
     private Vector3 _moveDirection;
 
     private void Awake()
@@ -28,9 +32,18 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-        _rb = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
+    }
+    
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        _canShoot = true;
+    }
+    
+    private void Update()
+    {
+        _timeSinceLastShot += Time.deltaTime;
+        HandleShooting();
     }
 
     private void FixedUpdate()
@@ -60,41 +73,89 @@ public class PlayerController : MonoBehaviour
             _animator.SetFloat("speed", 1);
 
             //calculate the direction based on input
-            Vector3 direction = new Vector3(_moveDirection.x, 0f, _moveDirection.z).normalized;
+            var direction = new Vector3(_moveDirection.x, 0f, _moveDirection.z).normalized;
 
             //Calculate target angle for rotation
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            var targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
 
             //Smoothly rotate the player toward the direction of movement
-            float angle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, Time.deltaTime * RotationSpeed);
+            var angle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, Time.deltaTime * PlayerRotationSpeed);
             transform.rotation = Quaternion.Euler(0, angle, 0);
 
             //Move the player forward in the direction they are facing
-            transform.Translate(Vector3.forward * PlayerStatManagerSingleton.Instance.CurrentMoveSpeed * Time.deltaTime);
+            transform.Translate(Vector3.forward * (PlayerStatManager.Instance.CurrentMoveSpeed * Time.deltaTime));
 
             //all new
         }
-
-        RotatePlayer();
     }
-
-    private void RotatePlayer()
+    
+    private void HandleShooting()
     {
-        /*
-        var mousePosition = Input.mousePosition;
-        var ray = _mainCamera.ScreenPointToRay(mousePosition);
+        if (AmmoManager.Instance.IsReloading) return;
+        
+        if (!AmmoManager.Instance.HasAmmo() && !AmmoManager.Instance.IsReloading)
+        {
+            HandleEmptyMagazine();
+            return;
+        }
 
-        var groundPlane = new Plane(Vector3.up, Vector3.zero);
+        if (_shotTypeController.CurrentShotType == ShotType.AutomaticShot)
+        {
+            HandleAutoFire();
+        }
+        else
+        {
+            HandleManualFire();
+        }
+    }
+    
+    private void HandleEmptyMagazine()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            AudioManager.Instance.PlayEmptyMagAudio();
+        }
+    }
+    
+    private void HandleManualFire()
+    {
+        if (Input.GetMouseButtonDown(0) && _canShoot)
+        {
+            Shoot();
+        }
+    }
+    
+    private void HandleAutoFire()
+    {
+        if (Input.GetMouseButton(0) && _canShoot && _timeSinceLastShot >= FireRate)
+        {
+            Shoot();
+            _timeSinceLastShot = 0f;
+        }
+    }
+    
+    private void Shoot()
+    {
+        RotateTowardsMouse();//new
+        _shotTypeController.DetermineShot();
+        AudioManager.Instance.PlayShotAudio();
+        AmmoManager.Instance.DecreaseAmmo();
+        _animator.SetTrigger("isFiring"); //new
+    }
+    
+    private void RotateTowardsMouse() //new
+    {
+        //Get mouse posiiton in world space
+        var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
-        if (!groundPlane.Raycast(ray, out var enter)) return;
-        var hitPoint = ray.GetPoint(enter);
+        if (Physics.Raycast(ray, out var hit))
+        {
+            var targetPosition = hit.point;
+            var directionToMouse = (targetPosition - transform.position).normalized;
+            directionToMouse.y = 0;
 
-        var direction = (hitPoint - transform.position).normalized;
-        direction.y = 0;
-
-        var targetRotation = Quaternion.LookRotation(direction);
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
-        */ //put into Shooting controller
+            var lookRotation = Quaternion.LookRotation(directionToMouse);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * PlayerRotationSpeed);
+        }
     }
 }

@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelManagerSingleton : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
-    public static LevelManagerSingleton Instance { get; private set; }
+    public static LevelManager Instance { get; private set; }
 
     private int _totalHouses;
     
@@ -50,6 +50,6 @@ public class LevelManagerSingleton : MonoBehaviour
 
     private void OnLevelComplete()
     {
-        GameManagerSingleton.Instance.LoadNextLevel();
+        GameManager.Instance.LoadNextLevel();
     }
 }
