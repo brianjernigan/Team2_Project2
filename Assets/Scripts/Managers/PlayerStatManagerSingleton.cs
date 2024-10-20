@@ -25,6 +25,7 @@ public class PlayerStatManagerSingleton : MonoBehaviour
     private bool _isInvulnerable;
 
     public event Action OnHealthChanged;
+    private Animator _animator; //new
 
     private void Awake()
     {
@@ -42,7 +43,7 @@ public class PlayerStatManagerSingleton : MonoBehaviour
     private void Start()
     {
         InitializeStats();
-        
+        _animator = GetComponent<Animator>();//new
     }
 
     public void InitializeStats()
@@ -72,6 +73,7 @@ public class PlayerStatManagerSingleton : MonoBehaviour
         if (CurrentHealth <= 0)
         {
             GameManagerSingleton.Instance.OnPlayerDeath();
+            _animator.SetBool("isDead", true); //new
         }
         else
         {

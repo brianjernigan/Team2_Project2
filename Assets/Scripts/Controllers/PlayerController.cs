@@ -11,9 +11,10 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] private Camera _mainCamera;
     
-    private const float RotationSpeed = 720f;
+    private const float RotationSpeed = 10f; //prev 720
 
     private Rigidbody _rb;
+    private Animator _animator; //new
     private Vector3 _moveDirection;
 
     private void Awake()
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
         }
         
         _rb = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -48,10 +50,29 @@ public class PlayerController : MonoBehaviour
         if (!isMoving)
         {
             _rb.velocity = Vector3.zero;
+            _animator.SetBool("isWalking", false); //new
+            _animator.SetFloat("speed", 0); //new
         }
         else
         {
-            _rb.velocity = _moveDirection * PlayerStatManagerSingleton.Instance.CurrentMoveSpeed;
+           // _rb.velocity = _moveDirection * PlayerStatManagerSingleton.Instance.CurrentMoveSpeed;
+            _animator.SetBool("isWalking", true);
+            _animator.SetFloat("speed", 1);
+
+            //calculate the direction based on input
+            Vector3 direction = new Vector3(_moveDirection.x, 0f, _moveDirection.z).normalized;
+
+            //Calculate target angle for rotation
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+
+            //Smoothly rotate the player toward the direction of movement
+            float angle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, Time.deltaTime * RotationSpeed);
+            transform.rotation = Quaternion.Euler(0, angle, 0);
+
+            //Move the player forward in the direction they are facing
+            transform.Translate(Vector3.forward * PlayerStatManagerSingleton.Instance.CurrentMoveSpeed * Time.deltaTime);
+
+            //all new
         }
 
         RotatePlayer();
@@ -59,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
     private void RotatePlayer()
     {
+        /*
         var mousePosition = Input.mousePosition;
         var ray = _mainCamera.ScreenPointToRay(mousePosition);
 
@@ -73,5 +95,6 @@ public class PlayerController : MonoBehaviour
         var targetRotation = Quaternion.LookRotation(direction);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
+        */ //put into Shooting controller
     }
 }
