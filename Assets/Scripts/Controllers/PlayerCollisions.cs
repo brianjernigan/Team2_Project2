@@ -49,7 +49,7 @@ public class PlayerCollisions : MonoBehaviour
 
     private void HandleShopInteraction(GameObject otherGameObject)
     {
-        Debug.Log("at the shop!");
+        UpgradeManagerSingleton.Instance.ActivateUpgradePanel();
     }
 
     private void HandleCandyCollision(GameObject otherGameObject)
