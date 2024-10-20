@@ -81,20 +81,19 @@ public class ShootingController : MonoBehaviour
         AmmoManagerSingleton.Instance.DecreaseAmmo();
         _animator.SetTrigger("isFiring"); //new
     }
-
+    
     private void RotateTowardsMouse() //new
     {
         //Get mouse posiiton in world space
-        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
-        if(Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out var hit))
         {
-            Vector3 targetPosition = hit.point;
-            Vector3 directionToMouse = (targetPosition - transform.position).normalized;
+            var targetPosition = hit.point;
+            var directionToMouse = (targetPosition - transform.position).normalized;
             directionToMouse.y = 0;
 
-            Quaternion lookRotation = Quaternion.LookRotation(directionToMouse);
+            var lookRotation = Quaternion.LookRotation(directionToMouse);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * _rotationSpeed);
         }
     }
