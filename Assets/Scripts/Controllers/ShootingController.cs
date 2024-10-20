@@ -8,6 +8,9 @@ public class ShootingController : MonoBehaviour
     private const float FireRate = 0.1f;
     private float _timeSinceLastShot;
     private bool _canShoot;
+    private float _rotationSpeed = 720f; //new
+    private Animator _animator; //new
+    [SerializeField] private Camera _mainCamera;//new
 
     private ShotTypeController _shotTypeController;
 
@@ -16,6 +19,7 @@ public class ShootingController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         _shotTypeController = GetComponent<ShotTypeController>();
         _canShoot = true;
+        _animator = GetComponent<Animator>(); //new
     }
 
     private void Update()
@@ -71,8 +75,27 @@ public class ShootingController : MonoBehaviour
 
     private void Shoot()
     {
+        RotateTowardsMouse();//new
         _shotTypeController.DetermineShot();
         AudioManagerSingleton.Instance.PlayShotAudio();
         AmmoManagerSingleton.Instance.DecreaseAmmo();
+        _animator.SetTrigger("isFiring"); //new
+    }
+
+    private void RotateTowardsMouse() //new
+    {
+        //Get mouse posiiton in world space
+        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if(Physics.Raycast(ray, out hit))
+        {
+            Vector3 targetPosition = hit.point;
+            Vector3 directionToMouse = (targetPosition - transform.position).normalized;
+            directionToMouse.y = 0;
+
+            Quaternion lookRotation = Quaternion.LookRotation(directionToMouse);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * _rotationSpeed);
+        }
     }
 }
