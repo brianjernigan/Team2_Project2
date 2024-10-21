@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
 
     private GameObject _player;
     private HouseSpawner _houseSpawner;
+    private Animator _animator; //new
 
     private const float AdditionalDamagePerLevel = 2f;
     private const float AdditionalHealthPerLevel = 2f;
@@ -25,6 +26,7 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         _player = GameObject.FindWithTag("Player");
+        _animator = GetComponent<Animator>(); //new
         InitializeEnemy();
     }
 
@@ -81,6 +83,25 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    //all new in 2 functions below
+    public void KillEnemyWithAnimation(GameObject enemy)
+    {
+        StartCoroutine(PlayDeathAnimationAndKill(enemy));
+    }
+
+    // Coroutine to play the death animation and kill the enemy afterward
+    private IEnumerator PlayDeathAnimationAndKill(GameObject enemy)
+    {
+        // Play the death animation 
+        _animator.SetBool("isDead", true);
+
+        // Wait for the animation to finish 
+        yield return new WaitForSeconds(1.0f);
+
+        // Now kill the enemy
+        KillEnemy(enemy);
+    }
+
     private void KillEnemy(GameObject enemy)
     {
         _houseSpawner.KillEnemy(enemy);
@@ -91,5 +112,11 @@ public class EnemyController : MonoBehaviour
         _particles.Play();
         yield return new WaitForSeconds(0.15f);
         _particles.Stop();
+    }
+
+    //new referenced from player collisions(can be changed this was just he easiest way to implement this as collisions are handled from the player not the enemy)
+    public void AttackAnimation()
+    {
+        _animator.SetTrigger("attack");
     }
 }
