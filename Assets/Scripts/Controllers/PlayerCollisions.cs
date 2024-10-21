@@ -10,6 +10,7 @@ public class PlayerCollisions : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             HandleEnemyCollision(other.gameObject);
+            other.gameObject.GetComponent<EnemyController>().AttackAnimation(); //new
         }
     }
     

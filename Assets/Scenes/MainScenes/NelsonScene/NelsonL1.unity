@@ -3663,7 +3663,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd0ce1af193520b4e982afed26be6636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _upgradePanel: {fileID: 319450099}
 --- !u!43 &328608025
 Mesh:
   m_ObjectHideFlags: 0
@@ -6591,7 +6590,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionText: {fileID: 51362606}
-  _interactionPanel: {fileID: 517539965}
 --- !u!43 &535133102
 Mesh:
   m_ObjectHideFlags: 0
