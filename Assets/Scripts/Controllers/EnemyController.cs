@@ -14,6 +14,9 @@ public class EnemyController : MonoBehaviour
 
     private GameObject _player;
     private HouseSpawner _houseSpawner;
+
+    private const float AdditionalDamagePerLevel = 2f;
+    private const float AdditionalHealthPerLevel = 2f;
     
     public int XpValue { get; set; }
     public float Damage { get; set; }
@@ -27,9 +30,11 @@ public class EnemyController : MonoBehaviour
 
     private void InitializeEnemy()
     {
+        var playerLevel = XpManager.Instance.CurrentPlayerLevel;
+        
         XpValue = Random.Range(1, _enemyData.xpValue);
-        Damage = _enemyData.damage;
-        Health = _enemyData.health;
+        Damage = Mathf.Min(_enemyData.damage + (playerLevel - 1) * AdditionalDamagePerLevel, 20);
+        Health = Mathf.Min(_enemyData.health + (playerLevel - 1) * AdditionalHealthPerLevel, 20);
     }
 
     private void Update()

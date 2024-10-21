@@ -8,6 +8,7 @@ public class ShopController : MonoBehaviour
 {
     [SerializeField] private GameObject _shopTextBox;
     [SerializeField] private TMP_Text _shopText;
+    [SerializeField] private ParticleSystem _particles;
 
     private GameObject _player;
     
@@ -15,11 +16,32 @@ public class ShopController : MonoBehaviour
 
     private void Update()
     {
+        HandleParticles();
+        
         if (Input.GetKeyDown(KeyCode.P) && IsAtShop)
         {
             EnterShop();
         } 
     }
+
+    private void HandleParticles()
+    {
+        if (XpManager.Instance.CurrentXp >= 10)
+        {
+            if (!_particles.isPlaying)
+            {
+                _particles.Play();
+            }
+        }
+        else
+        {
+            if (_particles.isPlaying)
+            {
+                _particles.Stop();
+            }
+        }
+    }
+        
 
     private void EnterShop()
     {
