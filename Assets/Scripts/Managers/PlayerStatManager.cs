@@ -106,7 +106,6 @@ public class PlayerStatManager : MonoBehaviour
     {
         CurrentHealth = CurrentMaxHealth;
         CurrentAmmo = CurrentMaxAmmo;
-        _playerAnimator.SetBool("isDead", false);
     }
 
     public void ApplyStatUpgrades(int healthLevel, int ammoLevel, int damageLevel, int moveSpeedLevel,
@@ -137,15 +136,16 @@ public class PlayerStatManager : MonoBehaviour
         // Calls on enemy only, not bullet
         if (enemy.TryGetComponent<EnemyController>(out var enemyController))
         {
-            enemyController.AttackAnimation();
+            enemyController.TriggerAttackAnimation();
         }
         
         CurrentHealth = Mathf.Max(0, CurrentHealth - Mathf.Round(amount));
 
         if (CurrentHealth <= 0)
         {
+            _playerAnimator.SetTrigger("die");
+            // Need coroutine
             GameManager.Instance.OnPlayerDeath();
-            _playerAnimator.SetBool("isDead", true); //new
         }
         else
         {

@@ -10,7 +10,6 @@ public class HouseSpawner : MonoBehaviour
 
     [Header("Fence & Gate")] 
     [SerializeField] private Animator _gateAnimator;
-    [SerializeField] private GameObject _exitTrigger;
 
     [Header("XP")] 
     [SerializeField] private GameObject _xpPrefab;
@@ -130,6 +129,5 @@ public class HouseSpawner : MonoBehaviour
         AudioManager.Instance.PlayDoorCreakAudio();
         _gateAnimator.SetTrigger("openGate");
         var candy = Instantiate(_candyPrefab, _candySpawnPoint.position, _candySpawnPoint.rotation);
-        _exitTrigger.SetActive(true);
     }
 }

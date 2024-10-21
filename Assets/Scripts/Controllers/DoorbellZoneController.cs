@@ -16,8 +16,14 @@ public class DoorbellZoneController : MonoBehaviour
 
     [SerializeField] private Animator _fenceAnim;
     [SerializeField] private HouseSpawner _houseSpawner;
-    [SerializeField] private RingDoorbellUIController _ringDoorbellUIController;
     [SerializeField] private ParticleSystem _particles;
+    
+    private RingDoorbellUIController _ringDoorbellUIController;
+
+    private void Awake()
+    {
+        _ringDoorbellUIController = GameObject.FindWithTag("RingPanel").GetComponent<RingDoorbellUIController>();
+    }
     
     private void OnTriggerEnter(Collider other)
     {

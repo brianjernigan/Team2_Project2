@@ -31,20 +31,17 @@ public class PlayerCollisions : MonoBehaviour
             HandleXpCollision(other.gameObject);
         }
 
-        if (other.CompareTag("HouseExitTrigger"))
-        {
-            HandleHouseExit(other.gameObject);
-        }
-
-        if (other.CompareTag("BuffCandy"))
+        if (other.CompareTag("BuffCandy") || other.CompareTag("CursedCandy") || other.CompareTag("Candy"))
         {
             HandleCandyCollision(other.gameObject);
         }
     }
 
-    private void HandleCandyCollision(GameObject otherGameObject)
+    private void HandleCandyCollision(GameObject candy)
     {
-        Debug.Log("yummy");
+        AudioManager.Instance.PlayCandyCollectAudio();
+        LevelManager.Instance.RegisterHouseVisited();
+        Destroy(candy);
     }
 
     private void HandleEnemyBulletCollision(GameObject bullet)
@@ -56,16 +53,9 @@ public class PlayerCollisions : MonoBehaviour
     private void HandleXpCollision(GameObject xp)
     {
         var xpAmount = xp.GetComponent<XpController>().XpValue;
-        XpManager.Instance.XpCollected++;
+        XpManager.Instance.XpCollected += xpAmount;
         XpManager.Instance.IncreaseXp(xpAmount);
         AudioManager.Instance.PlayXpAudio();
         Destroy(xp);
-    }
-
-    private void HandleHouseExit(GameObject trigger)
-    {
-        Debug.Log("exiting house");
-        LevelManager.Instance.RegisterHouseVisited();
-        trigger.SetActive(false);
     }
 }

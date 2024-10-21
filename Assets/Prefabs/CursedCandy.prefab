@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 62ed22cbc5972694ea313e0c1121d913, type: 3}
       propertyPath: m_TagString
-      value: CursedCandy
+      value: Candy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

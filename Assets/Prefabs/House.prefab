@@ -884,59 +884,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8140117135153526157}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1324536591596963983
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8123017407684185611}
-  - component: {fileID: 7976669377537642336}
-  m_Layer: 0
-  m_Name: HouseExitTrigger
-  m_TagString: HouseExitTrigger
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &8123017407684185611
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324536591596963983}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.9, y: 0, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 636984965911915639}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7976669377537642336
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324536591596963983}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.154331, y: 0.5671178, z: 3.3843606}
-  m_Center: {x: 12.93955, y: 0.21644163, z: 0.6104735}
 --- !u!1 &1809127245412128702
 GameObject:
   m_ObjectHideFlags: 0
@@ -4119,7 +4066,6 @@ Transform:
   - {fileID: 1687500271747454044}
   - {fileID: 1358972712157418697}
   - {fileID: 8140117135153526157}
-  - {fileID: 8123017407684185611}
   - {fileID: 5268188579786524725}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
@@ -4162,9 +4108,9 @@ MonoBehaviour:
   - {fileID: 12269542312006659}
   - {fileID: 6448836564770115991}
   _gateAnimator: {fileID: 4285833043938483011}
-  _exitTrigger: {fileID: 1324536591596963983}
+  _exitTrigger: {fileID: 0}
   _xpPrefab: {fileID: 5337641785984595677, guid: 7c94be4b26cfe3b469632c014198edcb, type: 3}
-  _candyPrefab: {fileID: 2237135511158642126, guid: 6a80122e5515abd42a3b9cfe51ef8d4d, type: 3}
+  _candyPrefab: {fileID: 2237135511158642126, guid: b9de31beff725a54eb68b3527e5fe250, type: 3}
   _candySpawnPoint: {fileID: 5268188579786524725}
 --- !u!1 &5646861875009768420
 GameObject:
@@ -10065,7 +10011,7 @@ Transform:
   m_GameObject: {fileID: 8552396964630151263}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 6.5, y: 1.25, z: 0.6}
+  m_LocalPosition: {x: 11.35, y: 1.25, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

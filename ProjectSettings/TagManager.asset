@@ -29,6 +29,10 @@ TagManager:
   - Shopkeeper
   - Shop
   - ShopInteractionZone
+  - Candy
+  - SpawnPoint
+  - RingText
+  - RingPanel
   layers:
   - Default
   - TransparentFX

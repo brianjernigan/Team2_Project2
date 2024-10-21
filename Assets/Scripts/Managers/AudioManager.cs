@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _levelOneMusic;
     [SerializeField] private AudioSource _trickOrTreatAudio;
     [SerializeField] private AudioSource _doorCreakAudio;
+    [SerializeField] private AudioSource _candyCollectAudio;
 
     private void Awake()
     {
@@ -162,5 +163,11 @@ public class AudioManager : MonoBehaviour
     {
         _doorCreakAudio.time = 1.9f;
         _doorCreakAudio.Play();
+    }
+
+    public void PlayCandyCollectAudio()
+    {
+        _candyCollectAudio.time = 0.018f;
+        _candyCollectAudio.Play();
     }
 }

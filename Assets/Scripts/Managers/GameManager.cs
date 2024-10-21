@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,18 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene sceneName, LoadSceneMode mode)
+    {
+        PlayerController.Instance.SetSpawnPoint();
     }
 
     private void Start()
@@ -28,22 +41,34 @@ public class GameManager : MonoBehaviour
     public void OnPlayerDeath()
     {
         PlayerStatManager.Instance.ResetStats();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        ReloadLevel();
     }
 
-    public void LoadNextLevel()
+    private void ReloadLevel()
     {
-        if (SceneManager.GetActiveScene().name == "L1")
+        var currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
+    }
+
+    public void OnPlayerVictory()
+    {
+        LoadNextLevel();
+    }
+
+    private void LoadNextLevel()
+    {
+        var sceneName = SceneManager.GetActiveScene().name;
+        switch (sceneName)
         {
-            SceneManager.LoadScene("L2");
-        } 
-        else if (SceneManager.GetActiveScene().name == "L2")
-        {
-            SceneManager.LoadScene("L3");
-        }
-        else
-        {
-            SceneManager.LoadScene("EndGameCredits");
+            case "L1":
+                SceneManager.LoadScene("L2");
+                break;
+            case "L2":
+                SceneManager.LoadScene("L3");
+                break;
+            default:
+                SceneManager.LoadScene("EndGameCredits");
+                break;
         }
     }
 }

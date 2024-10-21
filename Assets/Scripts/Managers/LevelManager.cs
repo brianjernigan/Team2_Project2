@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -44,12 +45,7 @@ public class LevelManager : MonoBehaviour
         
         if (HousesVisited >= _totalHouses)
         {
-            OnLevelComplete();
+            GameManager.Instance.OnPlayerVictory();
         }
-    }
-
-    private void OnLevelComplete()
-    {
-        GameManager.Instance.LoadNextLevel();
     }
 }

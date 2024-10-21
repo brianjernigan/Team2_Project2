@@ -158,4 +158,13 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * PlayerRotationSpeed);
         }
     }
+
+    public void SetSpawnPoint()
+    {
+        var spawnPoint = GameObject.FindWithTag("SpawnPoint");
+        if (spawnPoint is not null)
+        {
+            _rb.MovePosition(spawnPoint.transform.position);
+        }
+    }
 }
