@@ -166,4 +166,10 @@ public class PlayerStatManager : MonoBehaviour
         CurrentHealth = Mathf.Min(CurrentMaxHealth, CurrentHealth + amount);
         OnHealthChanged?.Invoke();
     }
+
+    public void RefillHealth()
+    {
+        CurrentHealth = CurrentMaxHealth;
+        OnHealthChanged?.Invoke();
+    }
 }

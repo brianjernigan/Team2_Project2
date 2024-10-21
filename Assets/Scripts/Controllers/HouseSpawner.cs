@@ -18,7 +18,7 @@ public class HouseSpawner : MonoBehaviour
     [SerializeField] private Transform _candySpawnPoint;
 
     private const float BaseSpawnInterval = 0.75f;
-    private const int BaseEnemiesPerWave = 3;
+    private const int BaseEnemiesPerWave = 4;
     private const int BaseTotalWaves = 1;
     private const float BaseTimeBetweenWaves = 3f;
     private const int AdditionalEnemiesPerLevel = 2;

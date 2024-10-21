@@ -69,11 +69,19 @@ public class UpgradeManager : MonoBehaviour
     public void UpgradeHealth()
     {
         if (!IsAbleToSpend()) return;
+
+        var wasAtFullHealth = PlayerStatManager.Instance.CurrentHealth >= PlayerStatManager.Instance.CurrentMaxHealth;
+        
         _healthLevelText.text = $"{++_healthPoints}";
         XpManager.Instance.DecreaseXp(1);
         _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
         
         ApplyUpgrades();
+
+        if (wasAtFullHealth)
+        {
+            PlayerStatManager.Instance.RefillHealth();
+        }
     }
 
     public void DowngradeHealth()
