@@ -117,6 +117,6 @@ public class EnemyController : MonoBehaviour
     //new referenced from player collisions(can be changed this was just he easiest way to implement this as collisions are handled from the player not the enemy)
     public void AttackAnimation()
     {
-        _animator.SetTrigger("attack");
+        _animator?.SetTrigger("attack");
     }
 }
