@@ -56,6 +56,7 @@ public class PlayerCollisions : MonoBehaviour
     private void HandleXpCollision(GameObject xp)
     {
         var xpAmount = xp.GetComponent<XpController>().XpValue;
+        XpManager.Instance.XpCollected++;
         XpManager.Instance.IncreaseXp(xpAmount);
         AudioManager.Instance.PlayXpAudio();
         Destroy(xp);

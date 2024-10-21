@@ -1,14 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class XpManager : MonoBehaviour
 {
     public static XpManager Instance { get; private set; }
+
+    private const int XpPerLevel = 10;
     
+    public int XpCollected { get; set; }
     public int CurrentXp { get; set; }
-    public int CurrentPlayerLevel { get; private set; }
+    public int CurrentPlayerLevel => (int)MathF.Max(1, (int)Math.Ceiling((double)XpCollected / XpPerLevel));
 
     public event Action OnXpChanged;
 
@@ -30,9 +34,13 @@ public class XpManager : MonoBehaviour
         InitializeXp();
     }
 
+    private void Update()
+    {
+        Debug.Log(CurrentPlayerLevel);
+    }
+
     public void InitializeXp()
     {
-        CurrentPlayerLevel = 1;
         CurrentXp = 0;
         OnXpChanged?.Invoke();
     }

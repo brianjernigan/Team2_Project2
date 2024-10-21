@@ -17,11 +17,17 @@ public class HouseSpawner : MonoBehaviour
     [SerializeField] private GameObject _candyPrefab;
     [SerializeField] private Transform _candySpawnPoint;
 
-    private const float SpawnInterval = 0.75f;
+    private const float BaseSpawnInterval = 0.75f;
+    private const int BaseEnemiesPerWave = 3;
+    private const int BaseTotalWaves = 1;
+    private const float BaseTimeBetweenWaves = 3f;
+    private const int AdditionalEnemiesPerLevel = 2;
+    private const int AdditionalWavesPerXLevels = 3;
     
-    public int EnemiesPerWave { get; set; } = 5;
-    public int TotalWaves { get; set; } = 2;
-    public float TimeBetweenWaves { get; set; } = 3f;
+    public int CurrentEnemiesPerWave { get; set; }
+    public int CurrentTotalWaves { get; set; }
+    public float CurrentTimeBetweenWaves { get; set; }
+    public float CurrentSpawnInterval { get; set; }
 
     private int _currentWave;
     private int _enemiesRemaining;
@@ -30,14 +36,25 @@ public class HouseSpawner : MonoBehaviour
     private int _previousEnemyIndex = -1;
     private int _previousSpawnPointIndex = -1;
 
+    private void InitializeHouseStats()
+    {
+        var playerLevel = XpManager.Instance.CurrentPlayerLevel;
+
+        CurrentEnemiesPerWave = Mathf.Min(BaseEnemiesPerWave + ((playerLevel - 1) * AdditionalEnemiesPerLevel), 20);
+        CurrentTotalWaves = Mathf.Min(BaseTotalWaves + playerLevel / AdditionalWavesPerXLevels, 5);
+        CurrentTimeBetweenWaves = BaseTimeBetweenWaves;
+        CurrentSpawnInterval = BaseSpawnInterval;
+    }
+    
     public void StartSpawning()
     {
+        InitializeHouseStats();
         StartCoroutine(SpawnNextWave());
     }
 
     private IEnumerator SpawnNextWave()
     {
-        if (_currentWave >= TotalWaves)
+        if (_currentWave >= CurrentTotalWaves)
         {
             HandleEndOfHouse();
             yield break;
@@ -45,15 +62,15 @@ public class HouseSpawner : MonoBehaviour
         
         if (_currentWave > 0)
         {
-            yield return new WaitForSeconds(TimeBetweenWaves);
+            yield return new WaitForSeconds(CurrentTimeBetweenWaves);
         }
 
-        _enemiesRemaining = EnemiesPerWave;
+        _enemiesRemaining = CurrentEnemiesPerWave;
 
-        for (var i = 0; i < EnemiesPerWave; i++)
+        for (var i = 0; i < CurrentEnemiesPerWave; i++)
         {
             SpawnEnemy();
-            yield return new WaitForSeconds(SpawnInterval);
+            yield return new WaitForSeconds(BaseSpawnInterval);
         }
     }
 
