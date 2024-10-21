@@ -10,7 +10,9 @@ public class XpManager : MonoBehaviour
 
     private const int XpPerLevel = 10;
     
+    // Based on xp physically collided with
     public int XpCollected { get; set; }
+    // Based on xps value
     public int CurrentXp { get; set; }
     public int CurrentPlayerLevel => (int)MathF.Max(1, (int)Math.Ceiling((double)XpCollected / XpPerLevel));
 
@@ -34,14 +36,10 @@ public class XpManager : MonoBehaviour
         InitializeXp();
     }
 
-    private void Update()
-    {
-        Debug.Log(CurrentPlayerLevel);
-    }
-
     public void InitializeXp()
     {
         CurrentXp = 0;
+        XpCollected = 0;
         OnXpChanged?.Invoke();
     }
 

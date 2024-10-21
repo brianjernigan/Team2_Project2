@@ -68,8 +68,7 @@ public class PlayerStatManager : MonoBehaviour
 
     public void DecreaseAmmo()
     {
-        CurrentAmmo--;
-        CurrentAmmo = Mathf.Max(0, CurrentAmmo);
+        CurrentAmmo = Mathf.Max(0, CurrentAmmo - 1);
         OnAmmoChanged?.Invoke();
     }
     
