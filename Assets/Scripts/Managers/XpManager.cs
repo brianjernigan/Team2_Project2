@@ -42,4 +42,10 @@ public class XpManager : MonoBehaviour
         CurrentXp += amount;
         OnXpChanged?.Invoke();
     }
+
+    public void DecreaseXp(int amount)
+    {
+        CurrentXp = Mathf.Max(0, CurrentXp - amount);
+        OnXpChanged?.Invoke();
+    }
 }

@@ -91,9 +91,9 @@ public class PlayerController : MonoBehaviour
     
     private void HandleShooting()
     {
-        if (AmmoManager.Instance.IsReloading) return;
+        if (PlayerStatManager.Instance.IsReloading) return;
         
-        if (!AmmoManager.Instance.HasAmmo() && !AmmoManager.Instance.IsReloading)
+        if (!PlayerStatManager.Instance.HasAmmo() && !PlayerStatManager.Instance.IsReloading)
         {
             HandleEmptyMagazine();
             return;
@@ -136,16 +136,16 @@ public class PlayerController : MonoBehaviour
     
     private void Shoot()
     {
-        RotateTowardsMouse();//new
+        RotateTowardsMouse();
         _shotTypeController.DetermineShot();
         AudioManager.Instance.PlayShotAudio();
-        AmmoManager.Instance.DecreaseAmmo();
-        _animator.SetTrigger("isFiring"); //new
+        PlayerStatManager.Instance.DecreaseAmmo();
+        _animator.SetTrigger("isFiring");
     }
     
-    private void RotateTowardsMouse() //new
+    private void RotateTowardsMouse()
     {
-        //Get mouse posiiton in world space
+        //Get mouse position in world space
         var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out var hit))

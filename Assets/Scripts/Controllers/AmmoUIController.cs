@@ -10,14 +10,14 @@ public class AmmoUIController : MonoBehaviour
 
     private void OnEnable()
     {
-        AmmoManager.Instance.OnAmmoChanged += UpdateAmmoText;
+        PlayerStatManager.Instance.OnAmmoChanged += UpdateAmmoText;
     }
 
     private void OnDisable()
     {
-        if (AmmoManager.Instance is not null)
+        if (PlayerStatManager.Instance is not null)
         {
-            AmmoManager.Instance.OnAmmoChanged -= UpdateAmmoText;
+            PlayerStatManager.Instance.OnAmmoChanged -= UpdateAmmoText;
         }
     }
 

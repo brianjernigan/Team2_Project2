@@ -24,8 +24,13 @@ public class PlayerStatManager : MonoBehaviour
     private const float InvincibilityDuration = 0.5f;
     private bool _isInvulnerable;
 
+    public bool IsReloading { get; set; }
+    private const float ReloadDuration = 1.75f;
+    
+    public event Action OnAmmoChanged;
     public event Action OnHealthChanged;
-    private Animator _playerAnimator; //new
+    
+    private Animator _playerAnimator; 
 
     private void Awake()
     {
@@ -43,7 +48,48 @@ public class PlayerStatManager : MonoBehaviour
     private void Start()
     {
         InitializeStats();
-        _playerAnimator = GetComponent<Animator>();//new
+        OnAmmoChanged?.Invoke();
+        OnHealthChanged?.Invoke();
+        _playerAnimator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !IsReloading)
+        {
+            Reload();
+        }
+    }
+
+    public bool HasAmmo()
+    {
+        return CurrentAmmo > 0;
+    }
+
+    public void DecreaseAmmo()
+    {
+        CurrentAmmo--;
+        CurrentAmmo = Mathf.Max(0, CurrentAmmo);
+        OnAmmoChanged?.Invoke();
+    }
+    
+    private void Reload()
+    {
+        if (CurrentAmmo >= CurrentMaxAmmo) return;
+
+        StartCoroutine(ReloadRoutine());
+    }
+    
+    private IEnumerator ReloadRoutine()
+    {
+        IsReloading = true;
+        AudioManager.Instance.PlayReloadAudio();
+        
+        yield return new WaitForSeconds(ReloadDuration);
+
+        IsReloading = false;
+        CurrentAmmo = CurrentMaxAmmo;
+        OnAmmoChanged?.Invoke();
     }
 
     private void InitializeStats()
@@ -62,6 +108,25 @@ public class PlayerStatManager : MonoBehaviour
         CurrentHealth = CurrentMaxHealth;
         CurrentAmmo = CurrentMaxAmmo;
         _playerAnimator.SetBool("isDead", false);
+    }
+
+    public void ApplyStatUpgrades(int healthLevel, int ammoLevel, int damageLevel, int moveSpeedLevel,
+        int shotSpeedLevel)
+    {
+        const float levelMultiplier = 0.1f;
+        const int ammoPerLevel = 2;
+        
+        CurrentMaxHealth = BaseMaxHealth * (1 + healthLevel * levelMultiplier);
+        CurrentDamage = BaseDamage * (1 + damageLevel * levelMultiplier);
+        CurrentMoveSpeed = BaseMoveSpeed * (1 + moveSpeedLevel * levelMultiplier);
+        CurrentShotSpeed = BaseShotSpeed * (1 + shotSpeedLevel * levelMultiplier);
+        CurrentMaxAmmo = BaseMaxAmmo + (ammoLevel * ammoPerLevel);
+
+        CurrentHealth = Mathf.Min(CurrentHealth, CurrentMaxHealth);
+        CurrentAmmo = Mathf.Min(CurrentAmmo, CurrentMaxAmmo);
+        
+        OnHealthChanged?.Invoke();
+        OnAmmoChanged?.Invoke();
     }
 
     public void DamagePlayer(float amount)

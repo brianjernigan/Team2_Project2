@@ -44,6 +44,12 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
+    private void ApplyUpgrades()
+    {
+        PlayerStatManager.Instance.ApplyStatUpgrades(HealthLevel, AmmoLevel, DamageLevel, MoveSpeedLevel,
+            ShotSpeedLevel);
+    }
+
     public void ActivateUpgradePanel()
     {
         _upgradePanel.SetActive(true);
@@ -64,69 +70,99 @@ public class UpgradeManager : MonoBehaviour
     {
         if (!IsAbleToSpend()) return;
         _healthLevelText.text = $"{++_healthPoints}";
-        _xpText.text = $"XP: {--XpManager.Instance.CurrentXp}";
+        XpManager.Instance.DecreaseXp(1);
+        _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
+        
+        ApplyUpgrades();
     }
 
     public void DowngradeHealth()
     {
         if (_healthPoints <= 0) return;
         _healthLevelText.text = $"{--_healthPoints}";
-        _xpText.text = $"XP: {++XpManager.Instance.CurrentXp}";
+        XpManager.Instance.IncreaseXp(1);
+        _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
+        
+        ApplyUpgrades();
     }
 
     public void UpgradeAmmo()
     {
         if (!IsAbleToSpend()) return;
         _ammoLevelText.text = $"{++_ammoPoints}";
-        _xpText.text = $"XP: {--XpManager.Instance.CurrentXp}";
+        XpManager.Instance.DecreaseXp(1);
+        _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
+        
+        ApplyUpgrades();
     }
 
     public void DowngradeAmmo()
     {
         if (_ammoPoints <= 0) return;
         _ammoLevelText.text = $"{--_ammoPoints}";
-        _xpText.text = $"XP: {++XpManager.Instance.CurrentXp}";
+        XpManager.Instance.IncreaseXp(1);
+        _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
+        
+        ApplyUpgrades();
     }
 
     public void UpgradeDamage()
     {
         if (!IsAbleToSpend()) return;
         _damageLevelText.text = $"{++_damagePoints}";
-        _xpText.text = $"XP: {--XpManager.Instance.CurrentXp}";
+        XpManager.Instance.DecreaseXp(1);
+        _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
+        
+        ApplyUpgrades();
     }
 
     public void DowngradeDamage()
     {
         if (_damagePoints <= 0) return;
         _damageLevelText.text = $"{--_damagePoints}";
-        _xpText.text = $"XP: {++XpManager.Instance.CurrentXp}";
+        XpManager.Instance.IncreaseXp(1);
+        _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
+        
+        ApplyUpgrades();
     }
 
     public void UpgradeMoveSpeed()
     {
         if (!IsAbleToSpend()) return;
         _moveSpeedLevelText.text = $"{++_moveSpeedPoints}";
-        _xpText.text = $"XP: {--XpManager.Instance.CurrentXp}";
+        XpManager.Instance.DecreaseXp(1);
+        _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
+        
+        ApplyUpgrades();
     }
 
     public void DowngradeMoveSpeed()
     {
         if (_moveSpeedPoints <= 0) return;
         _moveSpeedLevelText.text = $"{--_moveSpeedPoints}";
-        _xpText.text = $"XP: {++XpManager.Instance.CurrentXp}";
+        XpManager.Instance.IncreaseXp(1);
+        _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
+        
+        ApplyUpgrades();
     }
 
     public void UpgradeShotSpeed()
     {
         if (!IsAbleToSpend()) return;
         _shotSpeedLevelText.text = $"{++_shotSpeedPoints}";
-        _xpText.text = $"XP: {--XpManager.Instance.CurrentXp}";
+        XpManager.Instance.DecreaseXp(1);
+        _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
+        
+        ApplyUpgrades();
     }
 
     public void DowngradeShotSpeed()
     {
         if (_shotSpeedPoints <= 0) return;
         _shotSpeedLevelText.text = $"{--_shotSpeedPoints}";
-        _xpText.text = $"XP: {++XpManager.Instance.CurrentXp}";
+        XpManager.Instance.IncreaseXp(1);
+        _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
+        
+        ApplyUpgrades();
     }
 }
