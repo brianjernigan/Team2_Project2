@@ -15,6 +15,22 @@ public class FireballController : MonoBehaviour
         Damage = PlayerStatManager.Instance.CurrentDamage;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Shop") || other.CompareTag("Shopkeeper"))
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Shop") || other.gameObject.CompareTag("Shopkeeper"))
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private IEnumerator FireballLifespanRoutine()
     {
         yield return new WaitForSeconds(FireballLifespan);

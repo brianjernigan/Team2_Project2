@@ -7,7 +7,7 @@ public class XpManager : MonoBehaviour
 {
     public static XpManager Instance { get; private set; }
     
-    public int CurrentXp { get; private set; }
+    public int CurrentXp { get; set; }
     public int CurrentPlayerLevel { get; private set; }
 
     public event Action OnXpChanged;

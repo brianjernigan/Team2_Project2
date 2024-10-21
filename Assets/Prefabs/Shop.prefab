@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1255782463334300711}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Shop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 7698663868648913623}
   m_Layer: 0
   m_Name: ShopFront
-  m_TagString: Untagged
+  m_TagString: Shop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -432,6 +432,7 @@ GameObject:
   - component: {fileID: 7331557620970649355}
   - component: {fileID: 8851372330568311030}
   - component: {fileID: 2761246601736243482}
+  - component: {fileID: 4303686941067688754}
   m_Layer: 0
   m_Name: ShopInteractionZone
   m_TagString: ShopInteractionZone
@@ -5272,6 +5273,20 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &4303686941067688754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7779979431476727708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3c6497081290f448b87ddd165e3f064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shopTextBox: {fileID: 0}
+  _shopText: {fileID: 0}
 --- !u!1 &8433120215250413138
 GameObject:
   m_ObjectHideFlags: 0
@@ -5288,7 +5303,7 @@ GameObject:
   - component: {fileID: 8974888178448646744}
   m_Layer: 0
   m_Name: Arch
-  m_TagString: Untagged
+  m_TagString: Shop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -6147,6 +6162,10 @@ PrefabInstance:
       value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1446182368808746951, guid: 5f85e48c444e4e04c8d490d078e9cf48, type: 3}
+      propertyPath: m_TagString
+      value: Shopkeeper
+      objectReference: {fileID: 0}
+    - target: {fileID: 1446182368808746951, guid: 5f85e48c444e4e04c8d490d078e9cf48, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -6305,6 +6324,10 @@ PrefabInstance:
     - target: {fileID: 4362922550838289344, guid: 5f85e48c444e4e04c8d490d078e9cf48, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374911587419217515, guid: 5f85e48c444e4e04c8d490d078e9cf48, type: 3}
+      propertyPath: m_TagString
+      value: Shopkeeper
       objectReference: {fileID: 0}
     - target: {fileID: 4374911587419217515, guid: 5f85e48c444e4e04c8d490d078e9cf48, type: 3}
       propertyPath: m_StaticEditorFlags
