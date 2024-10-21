@@ -5,19 +5,18 @@ using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 { 
-    private void OnCollisionStay(Collision other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
             HandleEnemyCollision(other.gameObject);
-            other.gameObject.GetComponent<EnemyController>().AttackAnimation(); //new
         }
     }
-    
+
     private void HandleEnemyCollision(GameObject enemy)
     {
         var damageAmount = enemy.GetComponent<EnemyController>().Damage;
-        PlayerStatManager.Instance.DamagePlayer(damageAmount);
+        PlayerStatManager.Instance.DamagePlayer(damageAmount, enemy);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -51,7 +50,7 @@ public class PlayerCollisions : MonoBehaviour
     private void HandleEnemyBulletCollision(GameObject bullet)
     {
         var damageAmount = bullet.GetComponent<EnemyBulletController>().DamageValue;
-        PlayerStatManager.Instance.DamagePlayer(damageAmount);
+        PlayerStatManager.Instance.DamagePlayer(damageAmount, bullet);
     }
 
     private void HandleXpCollision(GameObject xp)

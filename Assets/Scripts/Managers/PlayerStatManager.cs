@@ -128,11 +128,18 @@ public class PlayerStatManager : MonoBehaviour
         OnAmmoChanged?.Invoke();
     }
 
-    public void DamagePlayer(float amount)
+    public void DamagePlayer(float amount, GameObject enemy)
     {
         if (_isInvulnerable) return;
         
         AudioManager.Instance.PlayPlayerHitAudio();
+        
+        // Calls on enemy only, not bullet
+        if (enemy.TryGetComponent<EnemyController>(out var enemyController))
+        {
+            enemyController.AttackAnimation();
+        }
+        
         CurrentHealth = Mathf.Max(0, CurrentHealth - Mathf.Round(amount));
 
         if (CurrentHealth <= 0)
