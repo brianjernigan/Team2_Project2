@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene sceneName, LoadSceneMode mode)
     {
         PlayerController.Instance.SetSpawnPoint();
-        LevelManager.Instance.InitializeTotalHouses();
     }
 
     public void OnPlayerDeath()

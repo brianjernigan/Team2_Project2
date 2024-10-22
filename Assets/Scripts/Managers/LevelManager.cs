@@ -26,6 +26,22 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        HousesVisited = 0;
+        InitializeTotalHouses();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
     }
 
     private void Start()
@@ -33,7 +49,7 @@ public class LevelManager : MonoBehaviour
         InitializeTotalHouses();
     }
 
-    public void InitializeTotalHouses()
+    private void InitializeTotalHouses()
     {
         var houses = GameObject.FindGameObjectsWithTag("House");
         _totalHouses = houses.Length;

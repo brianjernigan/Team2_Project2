@@ -18,4 +18,9 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void OnClickQuitButton()
+    {
+        Application.Quit();
+    }
 }
