@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
         LoadNextLevel();
     }
 
-    private void LoadNextLevel()
+    public void LoadNextLevel()
     {
         var sceneName = SceneManager.GetActiveScene().name;
         switch (sceneName)

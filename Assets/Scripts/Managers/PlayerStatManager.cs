@@ -162,14 +162,19 @@ public class PlayerStatManager : MonoBehaviour
     private IEnumerator PlayerDeathRoutine()
     {
         AudioManager.Instance.PlayDeathAudio();
+        DestroyAllEnemies();
+        _playerAnimator.SetTrigger("die");
+        yield return new WaitForSeconds(2.25f);
+        GameManager.Instance.OnPlayerDeath();
+    }
+
+    private void DestroyAllEnemies()
+    {
         var enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (var enemy in enemies)
         {
             Destroy(enemy);
         }
-        _playerAnimator.SetTrigger("die");
-        yield return new WaitForSeconds(1.5f);
-        GameManager.Instance.OnPlayerDeath();
     }
 
     private IEnumerator InvincibilityRoutine()

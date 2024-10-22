@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -45,6 +46,11 @@ public class PlayerController : MonoBehaviour
         if (PlayerStatManager.Instance.IsDead) return;
         _timeSinceLastShot += Time.deltaTime;
         HandleShooting();
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            GameManager.Instance.LoadNextLevel();
+        }
     }
 
     private void FixedUpdate()
@@ -167,6 +173,7 @@ public class PlayerController : MonoBehaviour
         if (spawnPoint is not null)
         {
             _rb.MovePosition(spawnPoint.transform.position);
+            _rb.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
     }
 }
