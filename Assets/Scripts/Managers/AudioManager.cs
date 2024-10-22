@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _trickOrTreatAudio;
     [SerializeField] private AudioSource _doorCreakAudio;
     [SerializeField] private AudioSource _candyCollectAudio;
+    [SerializeField] private AudioSource _deathAudio;
 
     private void Awake()
     {
@@ -33,8 +35,15 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        SceneManager.sceneLoaded += PlayLevelOneMusic;
     }
-    
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= PlayLevelOneMusic;
+    }
+
     public void PlayShotAudio()
     {
         if (_shotAudio.isPlaying)
@@ -148,7 +157,7 @@ public class AudioManager : MonoBehaviour
         _doorbellAudio.Stop();
     }
 
-    public void PlayLevelOneMusic()
+    public void PlayLevelOneMusic(Scene sceneName, LoadSceneMode mode)
     {
         _levelOneMusic.volume = 0.1f;
         _levelOneMusic.Play();
@@ -169,5 +178,15 @@ public class AudioManager : MonoBehaviour
     {
         _candyCollectAudio.time = 0.018f;
         _candyCollectAudio.Play();
+    }
+
+    public void PlayDeathAudio()
+    {
+        if (_levelOneMusic.isPlaying)
+        {
+            _levelOneMusic.Stop();
+        }
+
+        _deathAudio.Play();
     }
 }

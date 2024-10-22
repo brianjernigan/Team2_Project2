@@ -31,23 +31,13 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene sceneName, LoadSceneMode mode)
     {
         PlayerController.Instance.SetSpawnPoint();
-    }
-
-    private void Start()
-    {
-        AudioManager.Instance.PlayLevelOneMusic();
+        LevelManager.Instance.InitializeTotalHouses();
     }
 
     public void OnPlayerDeath()
     {
         PlayerStatManager.Instance.ResetStats();
-        ReloadLevel();
-    }
-
-    private void ReloadLevel()
-    {
-        var currentSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(currentSceneName);
+        SceneManager.LoadScene("L1");
     }
 
     public void OnPlayerVictory()

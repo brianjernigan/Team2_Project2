@@ -42,12 +42,14 @@ public class PlayerController : MonoBehaviour
     
     private void Update()
     {
+        if (PlayerStatManager.Instance.IsDead) return;
         _timeSinceLastShot += Time.deltaTime;
         HandleShooting();
     }
 
     private void FixedUpdate()
     {
+        if (PlayerStatManager.Instance.IsDead) return;
         MovePlayer();
     }
 

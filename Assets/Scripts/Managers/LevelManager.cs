@@ -20,6 +20,7 @@ public class LevelManager : MonoBehaviour
         if (Instance is null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -32,10 +33,11 @@ public class LevelManager : MonoBehaviour
         InitializeTotalHouses();
     }
 
-    private void InitializeTotalHouses()
+    public void InitializeTotalHouses()
     {
         var houses = GameObject.FindGameObjectsWithTag("House");
         _totalHouses = houses.Length;
+        OnHouseVisited?.Invoke();
     }
 
     public void RegisterHouseVisited()

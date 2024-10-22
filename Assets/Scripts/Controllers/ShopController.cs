@@ -6,12 +6,19 @@ using UnityEngine;
 
 public class ShopController : MonoBehaviour
 {
-    [SerializeField] private GameObject _shopTextBox;
-    [SerializeField] private TMP_Text _shopText;
+    private GameObject _shopTextBox;
+    private TMP_Text _shopText;
+    
     [SerializeField] private ParticleSystem _particles;
     
     public bool IsAtShop { get; set; }
 
+    private void Awake()
+    {
+        _shopTextBox = transform.parent.Find("ShopCanvas/ShopPanel/ShopTextBox").gameObject;
+        _shopText = transform.parent.Find("ShopCanvas/ShopPanel/ShopTextBox/ShopText").GetComponent<TMP_Text>();
+    }
+    
     private void Update()
     {
         HandleParticles();

@@ -33,6 +33,7 @@ public class PlayerCollisions : MonoBehaviour
     
     private void HandleEnemyCollision(GameObject enemy)
     {
+        if (PlayerStatManager.Instance.IsDead) return;
         var damageAmount = enemy.GetComponent<EnemyController>().Damage;
         PlayerStatManager.Instance.DamagePlayer(damageAmount, enemy);
     }

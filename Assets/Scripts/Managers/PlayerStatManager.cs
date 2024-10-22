@@ -25,6 +25,8 @@ public class PlayerStatManager : MonoBehaviour
     private bool _isInvulnerable;
 
     public bool IsReloading { get; set; }
+    public bool IsDead => CurrentHealth <= 0;
+    
     private const float ReloadDuration = 1.75f;
 
     private const float HealthMultiplier = 0.3f;
@@ -133,6 +135,7 @@ public class PlayerStatManager : MonoBehaviour
     public void DamagePlayer(float amount, GameObject enemy)
     {
         if (_isInvulnerable) return;
+        if (IsDead) return;
         
         AudioManager.Instance.PlayPlayerHitAudio();
         
@@ -147,14 +150,26 @@ public class PlayerStatManager : MonoBehaviour
         if (CurrentHealth <= 0)
         {
             _playerAnimator.SetTrigger("die");
-            // Need coroutine
-            GameManager.Instance.OnPlayerDeath();
+            StartCoroutine(PlayerDeathRoutine());
         }
         else
         {
             OnHealthChanged?.Invoke();
             StartCoroutine(InvincibilityRoutine());
         }
+    }
+
+    private IEnumerator PlayerDeathRoutine()
+    {
+        AudioManager.Instance.PlayDeathAudio();
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+        _playerAnimator.SetTrigger("die");
+        yield return new WaitForSeconds(2f);
+        GameManager.Instance.OnPlayerDeath();
     }
 
     private IEnumerator InvincibilityRoutine()
