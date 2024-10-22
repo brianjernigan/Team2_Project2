@@ -29,8 +29,20 @@ public class PlayerCollisions : MonoBehaviour
         {
             HandleCandyCollision(other.gameObject);
         }
+
+        if (other.CompareTag("Chocolate"))
+        {
+            HandleChocolateCollision(other.gameObject);
+        }
     }
-    
+
+    private void HandleChocolateCollision(GameObject chocolate)
+    {
+        AudioManager.Instance.PlayCandyCollectAudio();
+        PlayerStatManager.Instance.RefillHealth();
+        Destroy(chocolate);
+    }
+
     private void HandleEnemyCollision(GameObject enemy)
     {
         if (PlayerStatManager.Instance.IsDead) return;

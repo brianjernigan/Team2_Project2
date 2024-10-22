@@ -168,7 +168,7 @@ public class PlayerStatManager : MonoBehaviour
             Destroy(enemy);
         }
         _playerAnimator.SetTrigger("die");
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
         GameManager.Instance.OnPlayerDeath();
     }
 

@@ -34,6 +34,7 @@ TagManager:
   - RingText
   - RingPanel
   - ShopTextBox
+  - Chocolate
   layers:
   - Default
   - TransparentFX

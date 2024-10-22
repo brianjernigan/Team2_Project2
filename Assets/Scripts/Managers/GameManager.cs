@@ -56,8 +56,13 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadScene("L3");
                 break;
             default:
-                SceneManager.LoadScene("EndGameCredits");
+                TransitionToEndCredits();
                 break;
         }
+    }
+
+    private void TransitionToEndCredits()
+    {
+        SceneManager.LoadScene("EndGameCredits");
     }
 }
