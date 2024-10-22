@@ -22,7 +22,8 @@ public class DoorbellZoneController : MonoBehaviour
 
     private void Awake()
     {
-        _ringDoorbellUIController = GameObject.FindWithTag("RingPanel").GetComponent<RingDoorbellUIController>();
+        _ringDoorbellUIController =
+            transform.parent.Find("HouseCanvas/RingPanel").GetComponent<RingDoorbellUIController>();
     }
     
     private void OnTriggerEnter(Collider other)

@@ -9,8 +9,6 @@ public class ShopController : MonoBehaviour
     [SerializeField] private GameObject _shopTextBox;
     [SerializeField] private TMP_Text _shopText;
     [SerializeField] private ParticleSystem _particles;
-
-    private GameObject _player;
     
     public bool IsAtShop { get; set; }
 
@@ -20,7 +18,7 @@ public class ShopController : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.P) && IsAtShop)
         {
-            EnterShop();
+            UpgradeManager.Instance.EnterShop();
         } 
     }
 
@@ -41,23 +39,6 @@ public class ShopController : MonoBehaviour
             }
         }
     }
-        
-
-    private void EnterShop()
-    {
-        var playerController = _player.GetComponent<PlayerController>();
-        playerController.enabled = false;
-
-        UpgradeManager.Instance.ActivateUpgradePanel();
-    }
-
-    private void ExitShop()
-    {
-        var playerController = _player.GetComponent<PlayerController>();
-        playerController.enabled = true;
-
-        UpgradeManager.Instance.DeactivateUpgradePanel();
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -66,7 +47,6 @@ public class ShopController : MonoBehaviour
             IsAtShop = true;
             _shopTextBox.SetActive(true);
             _shopText.text = "Press P to enter the shop!";
-            _player = other.gameObject;
         }
     }
 
@@ -76,12 +56,6 @@ public class ShopController : MonoBehaviour
         {
             IsAtShop = false;
             _shopTextBox.SetActive(false);
-            _player = null;
         }
-    }
-
-    public void OnClickConfirmButton()
-    {
-        ExitShop();
     }
 }

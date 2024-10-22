@@ -33,6 +33,7 @@ TagManager:
   - SpawnPoint
   - RingText
   - RingPanel
+  - ShopTextBox
   layers:
   - Default
   - TransparentFX

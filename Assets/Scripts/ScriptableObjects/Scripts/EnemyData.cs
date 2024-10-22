@@ -10,7 +10,4 @@ public class EnemyData : ScriptableObject
     public float health;
     public float damage;
     public float speed;
-    public float angularSpeed;
-    public float acceleration;
-    public float stoppingDistance;
 }

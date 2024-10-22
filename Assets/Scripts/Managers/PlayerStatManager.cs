@@ -26,6 +26,12 @@ public class PlayerStatManager : MonoBehaviour
 
     public bool IsReloading { get; set; }
     private const float ReloadDuration = 1.75f;
+
+    private const float HealthMultiplier = 0.3f;
+    private const float DamageMultiplier = 0.25f;
+    private const int AmmoPerLevel = 2;
+    private const float MoveSpeedMultiplier = 0.1f;
+    private const float ShotSpeedMultiplier = 0.1f;
     
     public event Action OnAmmoChanged;
     public event Action OnHealthChanged;
@@ -104,21 +110,18 @@ public class PlayerStatManager : MonoBehaviour
 
     public void ResetStats()
     {
-        CurrentHealth = CurrentMaxHealth;
-        CurrentAmmo = CurrentMaxAmmo;
+        RefillHealth();
+        RefillAmmo();
     }
 
     public void ApplyStatUpgrades(int healthLevel, int ammoLevel, int damageLevel, int moveSpeedLevel,
         int shotSpeedLevel)
     {
-        const float levelMultiplier = 0.1f;
-        const int ammoPerLevel = 2;
-        
-        CurrentMaxHealth = BaseMaxHealth * (1 + healthLevel * levelMultiplier);
-        CurrentDamage = BaseDamage * (1 + damageLevel * levelMultiplier);
-        CurrentMoveSpeed = BaseMoveSpeed * (1 + moveSpeedLevel * levelMultiplier);
-        CurrentShotSpeed = BaseShotSpeed * (1 + shotSpeedLevel * levelMultiplier);
-        CurrentMaxAmmo = BaseMaxAmmo + (ammoLevel * ammoPerLevel);
+        CurrentMaxHealth = BaseMaxHealth * (1 + healthLevel * HealthMultiplier);
+        CurrentDamage = BaseDamage * (1 + damageLevel * DamageMultiplier);
+        CurrentMoveSpeed = BaseMoveSpeed * (1 + moveSpeedLevel * MoveSpeedMultiplier);
+        CurrentShotSpeed = BaseShotSpeed * (1 + shotSpeedLevel * ShotSpeedMultiplier);
+        CurrentMaxAmmo = BaseMaxAmmo + (ammoLevel * AmmoPerLevel);
 
         CurrentHealth = Mathf.Min(CurrentHealth, CurrentMaxHealth);
         CurrentAmmo = Mathf.Min(CurrentAmmo, CurrentMaxAmmo);
@@ -171,5 +174,11 @@ public class PlayerStatManager : MonoBehaviour
     {
         CurrentHealth = CurrentMaxHealth;
         OnHealthChanged?.Invoke();
+    }
+    
+    private void RefillAmmo()
+    {
+        CurrentAmmo = CurrentMaxAmmo;
+        OnAmmoChanged?.Invoke();
     }
 }

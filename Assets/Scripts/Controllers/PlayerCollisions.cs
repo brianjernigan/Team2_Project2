@@ -13,12 +13,6 @@ public class PlayerCollisions : MonoBehaviour
         }
     }
 
-    private void HandleEnemyCollision(GameObject enemy)
-    {
-        var damageAmount = enemy.GetComponent<EnemyController>().Damage;
-        PlayerStatManager.Instance.DamagePlayer(damageAmount, enemy);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("EnemyBullet"))
@@ -35,6 +29,12 @@ public class PlayerCollisions : MonoBehaviour
         {
             HandleCandyCollision(other.gameObject);
         }
+    }
+    
+    private void HandleEnemyCollision(GameObject enemy)
+    {
+        var damageAmount = enemy.GetComponent<EnemyController>().Damage;
+        PlayerStatManager.Instance.DamagePlayer(damageAmount, enemy);
     }
 
     private void HandleCandyCollision(GameObject candy)
@@ -53,7 +53,6 @@ public class PlayerCollisions : MonoBehaviour
     private void HandleXpCollision(GameObject xp)
     {
         var xpAmount = xp.GetComponent<XpController>().XpValue;
-        XpManager.Instance.XpCollected += xpAmount;
         XpManager.Instance.IncreaseXp(xpAmount);
         AudioManager.Instance.PlayXpAudio();
         Destroy(xp);

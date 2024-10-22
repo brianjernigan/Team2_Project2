@@ -1050,7 +1050,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 101d02075cfcca14a9b242549938acb7, type: 3}
       propertyPath: m_Name
-      value: Mummy_Normal
+      value: NormalMummyu
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 101d02075cfcca14a9b242549938acb7, type: 3}
       propertyPath: m_Layer
@@ -1599,7 +1599,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 101d02075cfcca14a9b242549938acb7, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 0dba89a1a20fbc24faaf8b3675d718bb, type: 2}
+      objectReference: {fileID: 9100000, guid: a013d6fd5d367ad40b926420f543d65f, type: 2}
     - target: {fileID: 5871163764253708840, guid: 101d02075cfcca14a9b242549938acb7, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -2043,7 +2043,7 @@ NavMeshAgent:
   m_Speed: 4
   m_Acceleration: 6
   avoidancePriority: 50
-  m_AngularSpeed: 360
+  m_AngularSpeed: 720
   m_StoppingDistance: 1.75
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1

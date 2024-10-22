@@ -16,6 +16,7 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private TMP_Text _shotSpeedLevelText;
 
     [SerializeField] private GameObject _upgradePanel;
+    [SerializeField] private GameObject _player;
 
     private int _healthPoints;
     private int _ammoPoints;
@@ -28,6 +29,8 @@ public class UpgradeManager : MonoBehaviour
     public int DamageLevel => _damagePoints / PointsPerLevel;
     public int MoveSpeedLevel => _moveSpeedPoints / PointsPerLevel;
     public int ShotSpeedLevel => _shotSpeedPoints / PointsPerLevel;
+    
+    public int PointsAllocated { get; set; }
 
     private const int PointsPerLevel = 10;
 
@@ -44,21 +47,27 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
-    private void ApplyUpgrades()
+    public void EnterShop()
     {
-        PlayerStatManager.Instance.ApplyStatUpgrades(HealthLevel, AmmoLevel, DamageLevel, MoveSpeedLevel,
-            ShotSpeedLevel);
-    }
+        var playerController = _player.GetComponent<PlayerController>();
+        playerController.enabled = false;
 
-    public void ActivateUpgradePanel()
-    {
         _upgradePanel.SetActive(true);
         _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
     }
 
-    public void DeactivateUpgradePanel()
+    public void ExitShop()
     {
+        var playerController = _player.GetComponent<PlayerController>();
+        playerController.enabled = true;
+
         _upgradePanel.SetActive(false);
+    }
+
+    private void ApplyUpgrades()
+    {
+        PlayerStatManager.Instance.ApplyStatUpgrades(HealthLevel, AmmoLevel, DamageLevel, MoveSpeedLevel,
+            ShotSpeedLevel);
     }
 
     private bool IsAbleToSpend()
@@ -73,6 +82,7 @@ public class UpgradeManager : MonoBehaviour
         var wasAtFullHealth = PlayerStatManager.Instance.CurrentHealth >= PlayerStatManager.Instance.CurrentMaxHealth;
         
         _healthLevelText.text = $"{++_healthPoints}";
+        PointsAllocated++;
         XpManager.Instance.DecreaseXp(1);
         _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
         
@@ -88,6 +98,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (_healthPoints <= 0) return;
         _healthLevelText.text = $"{--_healthPoints}";
+        PointsAllocated--;
         XpManager.Instance.IncreaseXp(1);
         _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
         
@@ -98,6 +109,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (!IsAbleToSpend()) return;
         _ammoLevelText.text = $"{++_ammoPoints}";
+        PointsAllocated++;
         XpManager.Instance.DecreaseXp(1);
         _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
         
@@ -108,6 +120,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (_ammoPoints <= 0) return;
         _ammoLevelText.text = $"{--_ammoPoints}";
+        PointsAllocated--;
         XpManager.Instance.IncreaseXp(1);
         _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
         
@@ -118,6 +131,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (!IsAbleToSpend()) return;
         _damageLevelText.text = $"{++_damagePoints}";
+        PointsAllocated++;
         XpManager.Instance.DecreaseXp(1);
         _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
         
@@ -128,6 +142,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (_damagePoints <= 0) return;
         _damageLevelText.text = $"{--_damagePoints}";
+        PointsAllocated--;
         XpManager.Instance.IncreaseXp(1);
         _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
         
@@ -138,6 +153,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (!IsAbleToSpend()) return;
         _moveSpeedLevelText.text = $"{++_moveSpeedPoints}";
+        PointsAllocated++;
         XpManager.Instance.DecreaseXp(1);
         _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
         
@@ -148,6 +164,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (_moveSpeedPoints <= 0) return;
         _moveSpeedLevelText.text = $"{--_moveSpeedPoints}";
+        PointsAllocated--;
         XpManager.Instance.IncreaseXp(1);
         _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
         
@@ -158,6 +175,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (!IsAbleToSpend()) return;
         _shotSpeedLevelText.text = $"{++_shotSpeedPoints}";
+        PointsAllocated++;
         XpManager.Instance.DecreaseXp(1);
         _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
         
@@ -168,9 +186,15 @@ public class UpgradeManager : MonoBehaviour
     {
         if (_shotSpeedPoints <= 0) return;
         _shotSpeedLevelText.text = $"{--_shotSpeedPoints}";
+        PointsAllocated--;
         XpManager.Instance.IncreaseXp(1);
         _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
         
         ApplyUpgrades();
+    }
+
+    public void OnClickConfirmButton()
+    {
+        ExitShop();
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Xml.Schema;
 using UnityEngine;
 
 public class XpManager : MonoBehaviour
@@ -10,13 +11,12 @@ public class XpManager : MonoBehaviour
 
     private const int XpPerLevel = 10;
     
-    // Based on xp physically collided with
-    public int XpCollected { get; set; }
-    // Based on xps value
     public int CurrentXp { get; set; }
-    public int CurrentPlayerLevel => (int)MathF.Max(1, (int)Math.Ceiling((double)XpCollected / XpPerLevel));
-
+    public int CurrentPlayerLevel => UpgradeManager.Instance.PointsAllocated / XpPerLevel;
+    private int _currentPlayerLevel;
+    
     public event Action OnXpChanged;
+    public event Action OnPlayerLevelChanged;
 
     private void Awake()
     {
@@ -39,7 +39,8 @@ public class XpManager : MonoBehaviour
     public void InitializeXp()
     {
         CurrentXp = 0;
-        XpCollected = 0;
+        _currentPlayerLevel = CurrentPlayerLevel;
+        OnPlayerLevelChanged?.Invoke();
         OnXpChanged?.Invoke();
     }
 
@@ -47,11 +48,24 @@ public class XpManager : MonoBehaviour
     {
         CurrentXp += amount;
         OnXpChanged?.Invoke();
+        
+        CheckPlayerLevelChange();
     }
 
     public void DecreaseXp(int amount)
     {
         CurrentXp = Mathf.Max(0, CurrentXp - amount);
         OnXpChanged?.Invoke();
+        
+        CheckPlayerLevelChange();
+    }
+    
+    private void CheckPlayerLevelChange()
+    {
+        var newLevel = CurrentPlayerLevel;
+
+        if (newLevel == _currentPlayerLevel) return;
+        _currentPlayerLevel = newLevel;
+        OnPlayerLevelChanged?.Invoke();
     }
 }

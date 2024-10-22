@@ -39,7 +39,7 @@ public class HouseSpawner : MonoBehaviour
     {
         var playerLevel = XpManager.Instance.CurrentPlayerLevel;
 
-        CurrentEnemiesPerWave = Mathf.Min(BaseEnemiesPerWave + ((playerLevel - 1) * AdditionalEnemiesPerLevel), 20);
+        CurrentEnemiesPerWave = Mathf.Min(BaseEnemiesPerWave + playerLevel * AdditionalEnemiesPerLevel, 20);
         CurrentTotalWaves = Mathf.Min(BaseTotalWaves + playerLevel / AdditionalWavesPerXLevels, 5);
         CurrentTimeBetweenWaves = BaseTimeBetweenWaves;
         CurrentSpawnInterval = BaseSpawnInterval;
