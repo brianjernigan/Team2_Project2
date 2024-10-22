@@ -13,10 +13,7 @@ MonoBehaviour:
   m_Name: HeavyEnemy
   m_EditorClassIdentifier: 
   type: 1
-  xpValue: 8
+  xpValue: 5
   health: 6
   damage: 3
   speed: 2
-  angularSpeed: 450
-  acceleration: 4
-  stoppingDistance: 1

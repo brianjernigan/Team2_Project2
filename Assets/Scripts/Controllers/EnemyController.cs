@@ -33,7 +33,7 @@ public class EnemyController : MonoBehaviour
     {
         var playerLevel = XpManager.Instance.CurrentPlayerLevel;
 
-        XpValue = Random.Range(1, _enemyData.xpValue);
+        XpValue = _enemyData.xpValue;
 
         Damage = _enemyData.damage * (1 + playerLevel * DamageScaling);
         Damage = Mathf.Min(Damage, 10);

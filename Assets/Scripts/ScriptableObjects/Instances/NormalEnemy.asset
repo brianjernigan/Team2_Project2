@@ -13,10 +13,7 @@ MonoBehaviour:
   m_Name: NormalEnemy
   m_EditorClassIdentifier: 
   type: 0
-  xpValue: 5
+  xpValue: 3
   health: 4
   damage: 2
   speed: 4
-  angularSpeed: 540
-  acceleration: 6
-  stoppingDistance: 1

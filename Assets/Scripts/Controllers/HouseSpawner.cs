@@ -23,7 +23,7 @@ public class HouseSpawner : MonoBehaviour
     private const int BaseTotalWaves = 2;
     private const float BaseTimeBetweenWaves = 3f;
     private const int AdditionalEnemiesPerLevel = 1;
-    private const int AdditionalWavesPerXLevels = 2;
+    private const int AdditionalWavesPerXLevels = 3;
     
     public int CurrentEnemiesPerWave { get; set; }
     public int CurrentTotalWaves { get; set; }

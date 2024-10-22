@@ -13,10 +13,7 @@ MonoBehaviour:
   m_Name: FastEnemy
   m_EditorClassIdentifier: 
   type: 3
-  xpValue: 3
+  xpValue: 2
   health: 2
   damage: 1
   speed: 6
-  angularSpeed: 720
-  acceleration: 8
-  stoppingDistance: 1
