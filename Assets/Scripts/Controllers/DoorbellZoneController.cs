@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class DoorbellZoneController : MonoBehaviour
 {
-    private const float TimeToActivate = 1.5f;
+    private const float TimeToActivate = 1f;
 
     private float _timeHeldDown;
     private bool _isInZone;
@@ -56,7 +56,7 @@ public class DoorbellZoneController : MonoBehaviour
             
             if (_timeHeldDown >= TimeToActivate)
             {
-                RingDoorBell();
+                StartCoroutine(RingDoorBellRoutine());
             }
         }
 
@@ -67,13 +67,17 @@ public class DoorbellZoneController : MonoBehaviour
         }
     }
 
-    private void RingDoorBell()
+    private IEnumerator RingDoorBellRoutine()
     {
         _bellIsRung = true;
         _particles.Stop();
         _ringDoorbellUIController.HideDoorbellText();
         AudioManager.Instance.PlayDoorbellAudio();
         _fenceAnim.SetTrigger("raiseFence");
+        yield return new WaitForSeconds(1f);
+        _ringDoorbellUIController.ShowWaveText("GO!");
+        yield return new WaitForSeconds(.5f);
+        _ringDoorbellUIController.HideWaveText();
         _houseSpawner?.StartSpawning();
     }
 }

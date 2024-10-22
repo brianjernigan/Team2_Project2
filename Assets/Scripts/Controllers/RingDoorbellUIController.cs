@@ -9,6 +9,7 @@ public class RingDoorbellUIController : MonoBehaviour
     private readonly Color _endColor = Color.green;
 
     [SerializeField] private TMP_Text _ringText;
+    [SerializeField] private TMP_Text _waveText;
 
     private const float OriginalFontSize = 36f;
     private const float ScaledFontSize = 52f;
@@ -35,5 +36,17 @@ public class RingDoorbellUIController : MonoBehaviour
     {
         _ringText.color = _startColor;
         _ringText.fontSize = OriginalFontSize;
+    }
+
+    public void ShowWaveText(string message)
+    {
+        _waveText.gameObject.SetActive(true);
+        _waveText.text = message;
+    }
+
+    public void HideWaveText()
+    {
+        _waveText.gameObject.SetActive(false);
+        _waveText.text = "";
     }
 }

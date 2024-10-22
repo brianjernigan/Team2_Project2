@@ -16,12 +16,14 @@ public class HouseSpawner : MonoBehaviour
     [SerializeField] private GameObject _candyPrefab;
     [SerializeField] private Transform _candySpawnPoint;
 
+    [SerializeField] private RingDoorbellUIController _ringDoorbellUIController;
+
     private const float BaseSpawnInterval = 0.75f;
-    private const int BaseEnemiesPerWave = 3;
-    private const int BaseTotalWaves = 1;
+    private const int BaseEnemiesPerWave = 2;
+    private const int BaseTotalWaves = 2;
     private const float BaseTimeBetweenWaves = 3f;
-    private const int AdditionalEnemiesPerLevel = 2;
-    private const int AdditionalWavesPerXLevels = 5;
+    private const int AdditionalEnemiesPerLevel = 1;
+    private const int AdditionalWavesPerXLevels = 2;
     
     public int CurrentEnemiesPerWave { get; set; }
     public int CurrentTotalWaves { get; set; }
@@ -61,7 +63,9 @@ public class HouseSpawner : MonoBehaviour
         
         if (_currentWave > 0)
         {
+            StartCoroutine(NextWaveRoutine());
             yield return new WaitForSeconds(CurrentTimeBetweenWaves);
+            _ringDoorbellUIController.HideWaveText();
         }
 
         _enemiesRemaining = CurrentEnemiesPerWave;
@@ -71,6 +75,13 @@ public class HouseSpawner : MonoBehaviour
             SpawnEnemy();
             yield return new WaitForSeconds(BaseSpawnInterval);
         }
+    }
+
+    private IEnumerator NextWaveRoutine()
+    {
+        _ringDoorbellUIController.ShowWaveText("Wave Complete!");
+        yield return new WaitForSeconds(1f);
+        _ringDoorbellUIController.ShowWaveText($"Next round in {CurrentTimeBetweenWaves} seconds");
     }
 
     private void SpawnEnemy()
