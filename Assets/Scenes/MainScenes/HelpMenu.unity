@@ -669,7 +669,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c36637579407746b8891a18ac3ca92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _themeMusic: {fileID: 329027470}
 --- !u!82 &329027470
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1229,7 +1228,7 @@ MonoBehaviour:
     WASD to
     move
 
-    DEVCHEAT: Press L to advance level (notice enemies die and stats remain)'
+    DEVCHEAT: Press M to advance level'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
