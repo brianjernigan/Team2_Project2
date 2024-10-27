@@ -9,7 +9,8 @@ public class CameraController : MonoBehaviour
     
     [SerializeField] private GameObject _player;
 
-    private readonly Vector3 _cameraOffset = new(0f, 25f, -10f);
+    private readonly Vector3 _cameraOffset = new(0f, 10f, -6.5f);
+    private readonly Quaternion _cameraRotation = Quaternion.Euler(50f, 0f, 0f);
 
     private void Awake()
     {
@@ -39,6 +40,6 @@ public class CameraController : MonoBehaviour
         var targetPosition = _player.transform.position + _cameraOffset;
 
         transform.position = targetPosition;
-        transform.LookAt(_player.transform);
+        transform.rotation = _cameraRotation;
     }
 }
