@@ -9,8 +9,8 @@ public class CameraController : MonoBehaviour
     
     [SerializeField] private GameObject _player;
 
-    private readonly Vector3 _cameraOffset = new(0f, 10f, -6.5f);
-    private readonly Quaternion _cameraRotation = Quaternion.Euler(50f, 0f, 0f);
+    private readonly Vector3 _cameraOffset = new(0f, 17.5f, -5f);
+    private readonly Quaternion _cameraRotation = Quaternion.Euler(70f, 0f, 0f);
 
     private void Awake()
     {

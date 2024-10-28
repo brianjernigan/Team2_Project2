@@ -72,7 +72,7 @@ public class HouseSpawner : MonoBehaviour
 
         for (var i = 0; i < CurrentEnemiesPerWave; i++)
         {
-            SpawnEnemy();
+            yield return StartCoroutine(SpawnEnemy());
             yield return new WaitForSeconds(BaseSpawnInterval);
         }
     }
@@ -84,10 +84,17 @@ public class HouseSpawner : MonoBehaviour
         _ringDoorbellUIController.ShowWaveText($"Next round in {CurrentTimeBetweenWaves} seconds");
     }
 
-    private void SpawnEnemy()
+    private IEnumerator SpawnEnemy()
     {
         var enemyIndex = GetUniqueEnemyIndex();
         var spawnPointIndex = GetUniqueSpawnPointIndex();
+
+        var spawnPoint = _spawnPoints[spawnPointIndex];
+        var particles = spawnPoint.GetComponent<ParticleSystem>();
+
+        particles?.Play();
+        yield return new WaitForSeconds(1.0f);
+        particles?.Stop();
 
         var enemy = Instantiate(_enemyPrefabs[enemyIndex], _spawnPoints[spawnPointIndex].position,
             _spawnPoints[spawnPointIndex].rotation);
@@ -124,8 +131,8 @@ public class HouseSpawner : MonoBehaviour
     public void KillEnemy(GameObject enemy)
     {
         _enemiesRemaining--;
-        
-        var xp = Instantiate(_xpPrefab, enemy.transform.position, enemy.transform.rotation);
+            
+        var xp = Instantiate(_xpPrefab, enemy.transform.position + Vector3.up, enemy.transform.rotation);
         // Set Xp Value in XpController
         xp.GetComponent<XpController>().XpValue = enemy.GetComponent<EnemyController>().XpValue;
         Destroy(enemy);
