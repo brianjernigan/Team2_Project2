@@ -37,19 +37,6 @@ public class HouseSpawner : MonoBehaviour
     private int _previousEnemyIndex = -1;
     private int _previousSpawnPointIndex = -1;
 
-    private void OnEnable()
-    {
-        XpManager.Instance.OnXpChanged += UpdateHouseStats;
-    }
-
-    private void OnDisable()
-    {
-        if (XpManager.Instance is not null)
-        {
-            XpManager.Instance.OnXpChanged -= UpdateHouseStats;
-        }
-    }
-
     private void InitializeHouseStats()
     {
         UpdateHouseStats();
@@ -61,8 +48,8 @@ public class HouseSpawner : MonoBehaviour
     {
         var xpCollected = XpManager.Instance.XpCollected;
 
-        CurrentEnemiesPerWave = BaseEnemiesPerWave + (xpCollected / 5);
-        CurrentTotalWaves = BaseTotalWaves + (xpCollected / 10);
+        CurrentEnemiesPerWave = BaseEnemiesPerWave + (xpCollected / 10);
+        CurrentTotalWaves = BaseTotalWaves + (xpCollected / 20);
     }
 
     public void StartSpawning()
