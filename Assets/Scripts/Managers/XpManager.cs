@@ -11,6 +11,7 @@ public class XpManager : MonoBehaviour
 
     private const int XpPerLevel = 10;
     
+    public int XpCollected { get; set; }
     public int CurrentXp { get; set; }
     public int CurrentPlayerLevel => UpgradeManager.Instance.PointsAllocated / XpPerLevel;
     private int _currentPlayerLevel;

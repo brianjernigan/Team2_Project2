@@ -15,9 +15,9 @@ public class EnemyController : MonoBehaviour
     private GameObject _player;
     private HouseSpawner _houseSpawner;
 
-    private const float DamageScaling = 0.1f;
-    private const float HealthScaling = 0.15f;
-    private const float SpeedScaling = 0.2f;
+    private const float DamageScaling = 0.05f;
+    private const float HealthScaling = 0.1f;
+    private const float SpeedScaling = 0.075f;
     
     public int XpValue { get; set; }
     public float Damage { get; set; }

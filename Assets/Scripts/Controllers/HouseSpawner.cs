@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class HouseSpawner : MonoBehaviour
 {
@@ -22,8 +24,6 @@ public class HouseSpawner : MonoBehaviour
     private const int BaseEnemiesPerWave = 2;
     private const int BaseTotalWaves = 2;
     private const float BaseTimeBetweenWaves = 3f;
-    private const int AdditionalEnemiesPerLevel = 1;
-    private const int AdditionalWavesPerXLevels = 3;
     
     public int CurrentEnemiesPerWave { get; set; }
     public int CurrentTotalWaves { get; set; }
@@ -37,16 +37,34 @@ public class HouseSpawner : MonoBehaviour
     private int _previousEnemyIndex = -1;
     private int _previousSpawnPointIndex = -1;
 
+    private void OnEnable()
+    {
+        XpManager.Instance.OnXpChanged += UpdateHouseStats;
+    }
+
+    private void OnDisable()
+    {
+        if (XpManager.Instance is not null)
+        {
+            XpManager.Instance.OnXpChanged -= UpdateHouseStats;
+        }
+    }
+
     private void InitializeHouseStats()
     {
-        var playerLevel = XpManager.Instance.CurrentPlayerLevel;
-
-        CurrentEnemiesPerWave = Mathf.Min(BaseEnemiesPerWave + playerLevel * AdditionalEnemiesPerLevel, 20);
-        CurrentTotalWaves = Mathf.Min(BaseTotalWaves + playerLevel / AdditionalWavesPerXLevels, 5);
+        UpdateHouseStats();
         CurrentTimeBetweenWaves = BaseTimeBetweenWaves;
         CurrentSpawnInterval = BaseSpawnInterval;
     }
-    
+
+    private void UpdateHouseStats()
+    {
+        var xpCollected = XpManager.Instance.XpCollected;
+
+        CurrentEnemiesPerWave = BaseEnemiesPerWave + (xpCollected / 5);
+        CurrentTotalWaves = BaseTotalWaves + (xpCollected / 10);
+    }
+
     public void StartSpawning()
     {
         InitializeHouseStats();
