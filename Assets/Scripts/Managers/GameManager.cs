@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    [SerializeField] private GameObject _gamePanel;
 
     private void Awake()
     {
@@ -63,6 +64,8 @@ public class GameManager : MonoBehaviour
 
     private void TransitionToEndCredits()
     {
+        _gamePanel.SetActive(false);
+        AudioManager.Instance.StopLevelOneMusic();
         SceneManager.LoadScene("EndGameCredits");
     }
 }

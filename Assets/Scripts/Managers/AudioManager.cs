@@ -159,8 +159,14 @@ public class AudioManager : MonoBehaviour
 
     public void PlayLevelOneMusic(Scene sceneName, LoadSceneMode mode)
     {
+        if (SceneManager.GetActiveScene().name == "EndGameCredits") return;
         _levelOneMusic.volume = 0.1f;
         _levelOneMusic.Play();
+    }
+
+    public void StopLevelOneMusic()
+    {
+        _levelOneMusic.Stop();
     }
 
     public void PlayTrickOrTreatAudio()
