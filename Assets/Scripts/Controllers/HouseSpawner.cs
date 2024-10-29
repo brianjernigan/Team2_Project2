@@ -48,8 +48,8 @@ public class HouseSpawner : MonoBehaviour
     {
         var xpCollected = XpManager.Instance.XpCollected;
 
-        CurrentEnemiesPerWave = BaseEnemiesPerWave + (xpCollected / 10);
-        CurrentTotalWaves = BaseTotalWaves + (xpCollected / 20);
+        CurrentEnemiesPerWave = BaseEnemiesPerWave + (xpCollected / 25);
+        CurrentTotalWaves = BaseTotalWaves + (xpCollected / 50);
     }
 
     public void StartSpawning()

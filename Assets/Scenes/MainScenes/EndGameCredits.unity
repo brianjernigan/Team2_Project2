@@ -568,7 +568,7 @@ GameObject:
   - component: {fileID: 329027469}
   - component: {fileID: 329027470}
   m_Layer: 5
-  m_Name: MainMenuCanvas
+  m_Name: EndCreditsCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
