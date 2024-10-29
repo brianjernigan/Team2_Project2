@@ -46,8 +46,9 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        if (_player is null || _navMeshAgent is null) return;
+        if (_player is null || _navMeshAgent is null ) return;
         _navMeshAgent.SetDestination(_player.transform.position);
+
     }
     
     public void SetSpawner(HouseSpawner houseSpawner)
@@ -130,4 +131,5 @@ public class EnemyController : MonoBehaviour
         TryGetComponent<Animator>(out var animator);
         animator?.SetBool("isDead", true);
     }
+
 }

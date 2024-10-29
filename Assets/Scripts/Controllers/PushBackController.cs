@@ -1,21 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class PushBackController : MonoBehaviour
 {
-    private const float KnockbackRadius = 5f; // Radius for knockback
-    private const float MaxRaycastDistance = 10f; // Max distance enemies will be pushed
-    private const float KnockbackDuration = .5f; // Time over which the knockback force will be applied
-    private const float KnockbackCooldown = 1f; // Cooldown duration for knockback
+    private const float KnockbackRadius = 7.5f; // Radius for knockback
+    private const float KnockbackDuration = .75f; // Time over which the knockback force will be applied
+    private const float KnockbackCooldown = 6f; // Cooldown duration for knockback
 
+    public AudioClip shockWaveSound;
+    public Image cooldownBar; // UI image for cooldown bar
+
+    private AudioSource _audioSource;
     private bool _canKnockback; // Control cooldown
     private float _knockbackCooldownTimer;
 
     private void Start()
     {
         _canKnockback = true;
+        _knockbackCooldownTimer = 0f;
+
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        if (shockWaveSound != null)
+        {
+            _audioSource.clip = shockWaveSound;
+        }
+
+        if (cooldownBar != null)
+        {
+            cooldownBar.fillAmount = 1; // Full bar at start
+        }
     }
 
     private void Update()
@@ -24,14 +39,25 @@ public class PushBackController : MonoBehaviour
         if (!_canKnockback)
         {
             _knockbackCooldownTimer -= Time.deltaTime;
+
+            // Update UI bar if assigned
+            if (cooldownBar != null)
+            {
+                cooldownBar.fillAmount = 1 - (_knockbackCooldownTimer / KnockbackCooldown);
+            }
+
             if (_knockbackCooldownTimer <= 0f)
             {
                 _canKnockback = true;
+                if (cooldownBar != null)
+                {
+                    cooldownBar.fillAmount = 1; // Reset cooldown bar
+                }
             }
         }
 
-        // If Q is pressed and knockback is not on cooldown
-        if (Input.GetKeyDown(KeyCode.Q) && _canKnockback)
+        // If Space is pressed and knockback is not on cooldown
+        if (Input.GetKeyDown(KeyCode.Space) && _canKnockback)
         {
             PerformKnockback();
             _canKnockback = false;
@@ -41,7 +67,14 @@ public class PushBackController : MonoBehaviour
 
     private void PerformKnockback()
     {
-        Debug.Log("Knockbacktriggered");
+        Debug.Log("Knockback triggered");
+
+        // Play shockwave sound
+        if (_audioSource != null && shockWaveSound != null)
+        {
+            _audioSource.Play();
+        }
+
         // Find all enemies in knockback radius
         var hitColliders = Physics.OverlapSphere(transform.position, KnockbackRadius);
 
@@ -50,62 +83,36 @@ public class PushBackController : MonoBehaviour
             // Check if the object is an enemy
             if (hitCollider.CompareTag("Enemy"))
             {
-                // Disable the NavMeshAgent (if available) to stop enemy movement
-                var agent = hitCollider.GetComponent<NavMeshAgent>();
-                if (agent is not null)
+                // Get the Rigidbody component
+                var rb = hitCollider.GetComponent<Rigidbody>();
+                if (rb != null)
                 {
-                    agent.enabled = false;
+                    var direction = (hitCollider.transform.position - transform.position).normalized;
+                    // Calculate the target position based on knockback distance
+                    var targetPosition = transform.position + direction * KnockbackRadius;
+
+                    StartCoroutine(MoveEnemyWithRigidbody(rb, targetPosition));
                 }
-
-                var direction = (hitCollider.transform.position - transform.position).normalized;
-
-                // Calculate the target position at max raycast distance in the direction (only for X and Z)
-                var targetPosition = new Vector3(
-                    transform.position.x + direction.x * MaxRaycastDistance,
-                    hitCollider.transform.position.y, // Keep the original Y position
-                    transform.position.z + direction.z * MaxRaycastDistance
-                );
-
-                // Start a coroutine to apply knockback with an impulse-like effect
-                StartCoroutine(MoveEnemyWithImpulse(hitCollider.transform, targetPosition, agent));
             }
         }
     }
 
-    private IEnumerator MoveEnemyWithImpulse(Transform enemyTransform, Vector3 targetPosition,
-        NavMeshAgent agent)
+    private IEnumerator MoveEnemyWithRigidbody(Rigidbody enemyRigidbody, Vector3 targetPosition)
     {
         var elapsedTime = 0f;
-        var startPosition = enemyTransform.position;
+
+        // Start position of the enemy
+        var startPosition = enemyRigidbody.position;
 
         while (elapsedTime < KnockbackDuration)
         {
-            // Calculate the remaining knockback time and the proportion of distance covered
-            var t = elapsedTime / KnockbackDuration;
-
-            // Gradually slow down the movement over time (starts fast and slows down)
-            var newPosition = Vector3.Lerp(startPosition, targetPosition, t);
-            enemyTransform.position = new Vector3(newPosition.x, startPosition.y, newPosition.z); // Preserve Y axis
-
+            // Move the enemy towards the target position
+            enemyRigidbody.MovePosition(Vector3.Lerp(startPosition, targetPosition, elapsedTime / KnockbackDuration));
             elapsedTime += Time.deltaTime;
-
             yield return null; // Wait for the next frame
         }
 
         // Ensure the enemy reaches the final position
-        enemyTransform.position = new Vector3(targetPosition.x, startPosition.y, targetPosition.z);
-
-        // Once the enemy reaches max range, re-enable the NavMeshAgent
-        if (agent is not null)
-        {
-            agent.enabled = true;
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        // Visualize the knockback radius in the editor
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, KnockbackRadius);
+        enemyRigidbody.MovePosition(targetPosition);
     }
 }
