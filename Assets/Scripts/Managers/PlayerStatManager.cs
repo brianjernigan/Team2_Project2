@@ -2,11 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStatManager : MonoBehaviour
 {
     public static PlayerStatManager Instance { get; private set; }
 
+    [SerializeField] private GameObject _fadePanel;
+
+    private const float FadeDuration = 2.25f;
+    
     private const float BaseMaxHealth = 10f;
     private const float BaseMaxAmmo = 5f;
     private const float BaseMoveSpeed = 7.5f;
@@ -164,8 +169,31 @@ public class PlayerStatManager : MonoBehaviour
         AudioManager.Instance.PlayDeathAudio();
         DestroyAllEnemies();
         _playerAnimator.SetTrigger("die");
-        yield return new WaitForSeconds(2.25f);
+        
+        yield return StartCoroutine(FadeOutRoutine());
+    }
+
+    private IEnumerator FadeOutRoutine()
+    {
+        _fadePanel.SetActive(true);
+        
+        var elapsedTime = 0f;
+        var originalColor = _fadePanel.GetComponent<Image>().color;
+
+        while (elapsedTime < FadeDuration)
+        {
+            var newAlpha = Mathf.Lerp(0, 1, elapsedTime / FadeDuration);
+            _fadePanel.GetComponent<Image>().color =
+                new Color(originalColor.r, originalColor.g, originalColor.b, newAlpha);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
         GameManager.Instance.OnPlayerDeath();
+
+        yield return new WaitForSeconds(0.1f);
+        
+        _fadePanel.SetActive(false);
     }
 
     private void DestroyAllEnemies()

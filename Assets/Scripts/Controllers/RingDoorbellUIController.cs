@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RingDoorbellUIController : MonoBehaviour
 {
-    private readonly Color _startColor = Color.white;
+    private readonly Color _startColor = Color.black;
     private readonly Color _endColor = Color.green;
 
     [SerializeField] private TMP_Text _ringText;
