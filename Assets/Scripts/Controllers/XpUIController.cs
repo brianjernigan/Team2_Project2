@@ -26,6 +26,6 @@ public class XpUIController : MonoBehaviour
 
     private void UpdateXpText()
     {
-        _xpText.text = $"XP: {XpManager.Instance.CurrentXp}";
+        _xpText.text = $"{XpManager.Instance.CurrentXp}";
     }
 }

@@ -3,31 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthUIController : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _healthText;
+    [SerializeField] private Image _healthBarFill;
 
     private void OnEnable()
     {
-        PlayerStatManager.Instance.OnHealthChanged += UpdateHealthText;
+        PlayerStatManager.Instance.OnHealthChanged += UpdateHealthBar;
     }
 
     private void OnDisable()
     {
         if (PlayerStatManager.Instance is not null)
         {
-            PlayerStatManager.Instance.OnHealthChanged -= UpdateHealthText;
+            PlayerStatManager.Instance.OnHealthChanged -= UpdateHealthBar;
         }
     }
 
     private void Start()
     {
-        UpdateHealthText();
+        UpdateHealthBar();
     }
 
-    private void UpdateHealthText()
+    private void UpdateHealthBar()
     {
-        _healthText.text = $"Health: {PlayerStatManager.Instance.CurrentHealth} / {PlayerStatManager.Instance.CurrentMaxHealth}";
+        _healthBarFill.fillAmount =
+            Mathf.Clamp01(PlayerStatManager.Instance.CurrentHealth / PlayerStatManager.Instance.CurrentMaxHealth);
     }
 }

@@ -28,6 +28,6 @@ public class AmmoUIController : MonoBehaviour
 
     private void UpdateAmmoText()
     {
-        _ammoText.text = $"Ammo: {PlayerStatManager.Instance.CurrentAmmo} / {PlayerStatManager.Instance.CurrentMaxAmmo}";
+        _ammoText.text = $"{PlayerStatManager.Instance.CurrentAmmo}/{PlayerStatManager.Instance.CurrentMaxAmmo}";
     }
 }

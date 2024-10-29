@@ -28,6 +28,6 @@ public class HousesUIController : MonoBehaviour
 
     private void UpdateHousesText()
     {
-        _housesText.text = $"Houses Remaining: {LevelManager.Instance.HousesRemaining}";
+        _housesText.text = $"{LevelManager.Instance.HousesRemaining}";
     }
 }
