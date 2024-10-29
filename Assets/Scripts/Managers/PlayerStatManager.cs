@@ -146,7 +146,8 @@ public class PlayerStatManager : MonoBehaviour
         }
         
         CurrentHealth = Mathf.Max(0, CurrentHealth - Mathf.Round(amount));
-
+        OnHealthChanged?.Invoke();
+        
         if (CurrentHealth <= 0)
         {
             _playerAnimator.SetTrigger("die");
@@ -154,7 +155,6 @@ public class PlayerStatManager : MonoBehaviour
         }
         else
         {
-            OnHealthChanged?.Invoke();
             StartCoroutine(InvincibilityRoutine());
         }
     }
